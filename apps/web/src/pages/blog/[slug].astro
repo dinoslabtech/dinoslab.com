@@ -1,0 +1,99 @@
+---
+import { getCollection } from "astro:content";
+import { Badge } from "@/components/ui/badge";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import "@/styles/global.css";
+
+export async function getStaticPaths() {
+  const blogPosts = await getCollection("blog");
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{post.data.title} - Dinoslab</title>
+    <meta name="description" content={post.data.description} />
+  </head>
+  <body>
+    <Header client:load />
+
+    <article class="container mx-auto px-4 py-16">
+      <div class="max-w-3xl mx-auto">
+        {/* Header */}
+        <header class="mb-12">
+          <div class="flex flex-wrap gap-2 mb-4">
+            {
+              post.data.tags.map((tag: string) => (
+                <Badge client:load>{tag}</Badge>
+              ))
+            }
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl font-bold tracking-tight mb-4">
+            {post.data.title}
+          </h1>
+
+          <p class="text-xl text-[hsl(var(--color-muted-foreground))] mb-6">
+            {post.data.description}
+          </p>
+
+          <div
+            class="flex items-center gap-4 text-sm text-[hsl(var(--color-muted-foreground))]"
+          >
+            <span class="font-medium">{post.data.author}</span>
+            <span>•</span>
+            <time datetime={post.data.pubDate.toISOString()}>
+              {
+                post.data.pubDate.toLocaleDateString("it-IT", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })
+              }
+            </time>
+          </div>
+        </header>
+
+        {/* Content */}
+        <div
+          class="prose prose-lg max-w-none
+          prose-headings:font-bold prose-headings:tracking-tight
+          prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
+          prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+          prose-p:text-[hsl(var(--color-foreground))] prose-p:leading-relaxed
+          prose-a:text-[hsl(var(--color-primary))] prose-a:no-underline hover:prose-a:underline
+          prose-strong:text-[hsl(var(--color-foreground))] prose-strong:font-semibold
+          prose-code:text-[hsl(var(--color-primary))] prose-code:bg-[hsl(var(--color-muted))] prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+          prose-pre:bg-[hsl(var(--color-muted))] prose-pre:border prose-pre:border-[hsl(var(--color-border))]
+          prose-ul:text-[hsl(var(--color-foreground))]
+          prose-ol:text-[hsl(var(--color-foreground))]
+          prose-li:text-[hsl(var(--color-foreground))]"
+        >
+          <Content />
+        </div>
+
+        {/* Back to blog */}
+        <div class="mt-12 pt-8 border-t border-[hsl(var(--color-border))]">
+          <a
+            href="/blog"
+            class="text-[hsl(var(--color-primary))] hover:underline font-medium"
+          >
+            ← Torna al blog
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <Footer />
+  </body>
+</html>

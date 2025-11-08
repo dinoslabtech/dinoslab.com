@@ -1,0 +1,70 @@
+---
+import { getCollection } from "astro:content";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer.astro";
+import "@/styles/global.css";
+import { defineCollection } from "astro:content";
+import type { ACTION_ERROR_CODES } from "astro:actions";
+import { z } from "astro:content";
+
+const blogPosts = await getCollection("blog");
+const sortedPosts = blogPosts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<main class="container mx-auto px-4 py-16">
+  <div class="max-w-4xl mx-auto">
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl font-bold tracking-tight mb-4">Blog</h1>
+      <p class="text-xl text-[hsl(var(--color-muted-foreground))]">
+        Approfondimenti, guide e novità dal mondo dello sviluppo
+      </p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2">
+      {
+        sortedPosts.map((post) => (
+          <a href={`/blog/${post.slug}`} class="group">
+            <Card client:load>
+              <CardHeader>
+                <div class="flex flex-wrap gap-2 mb-2">
+                  {post.data.tags.map((tag: string) => (
+                    <Badge client:load variant="secondary">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                <CardTitle className="group-hover:text-[hsl(var(--color-primary))] transition-colors">
+                  {post.data.title}
+                </CardTitle>
+                <CardDescription>{post.data.description}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div class="flex items-center gap-4 text-sm text-[hsl(var(--color-muted-foreground))]">
+                  <span>{post.data.author}</span>
+                  <span>•</span>
+                  <time datetime={post.data.pubDate.toISOString()}>
+                    {post.data.pubDate.toLocaleDateString("it-IT", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </time>
+                </div>
+              </CardContent>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</main>
