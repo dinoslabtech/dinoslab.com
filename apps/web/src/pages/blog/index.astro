@@ -51,7 +51,7 @@ const sortedPosts = blogPosts.sort(
               <CardContent>
                 <div class="flex items-center gap-4 text-sm text-[hsl(var(--color-muted-foreground))]">
                   <span>{post.data.author}</span>
-                  <span>•</span>
+                  {/* <span>•</span> */}
                   <time datetime={post.data.pubDate.toISOString()}>
                     {post.data.pubDate.toLocaleDateString("it-IT", {
                       year: "numeric",

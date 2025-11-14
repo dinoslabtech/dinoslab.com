@@ -16,19 +16,25 @@ import {
 import { Badge } from "@/components/ui/badge";
 import "@/styles/global.css";
 
+import { getLocale } from "astro-i18n-aut";
+import { getTranslation } from "@/i18n";
+
+const locale = getLocale(Astro.url);
+const t = getTranslation(locale);
+
 const blogPosts = await getCollection("blog");
 const sortedPosts = blogPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 ---
 
-<html lang="it">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Dinoslab - Innovazione Digitale</title>
+    <title>{t.site.name}</title>
     <meta
       name="description"
       content="Trasformiamo le tue idee in soluzioni digitali innovative con tecnologie all'avanguardia."

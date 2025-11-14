@@ -9,8 +9,18 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { Menu, X, Code, Smartphone, Palette, Users, BookOpen, Mail } from "lucide-react";
-import { cn } from "@/lib/utils";
+import {
+  Menu,
+  X,
+  Code,
+  Smartphone,
+  Palette,
+  Users,
+  BookOpen,
+  Mail,
+} from "lucide-react";
+import LanguagePicker from "@/components/LanguagePicker";
+import { useTranslatedPath, getLangFromUrl } from "@/i18n/utils";
 
 const services = [
   {
@@ -63,7 +73,7 @@ export default function Header() {
         {/* Logo */}
         <a href="/" className="flex items-center space-x-2">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[hsl(var(--color-primary))] to-[hsl(var(--color-accent))] text-[hsl(var(--color-primary-foreground))] font-bold text-xl">
-            D
+            Dino's Lab
           </div>
           <span className="text-xl font-bold">Dinoslab</span>
         </a>
@@ -74,7 +84,7 @@ export default function Header() {
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuLink
-                  href="#"
+                  href=
                   className={navigationMenuTriggerStyle()}
                 >
                   Home
@@ -145,12 +155,13 @@ export default function Header() {
 
               <NavigationMenuItem>
                 <NavigationMenuLink
-                  href="/blog"
+                  href="/blog/"
                   className={navigationMenuTriggerStyle()}
                 >
                   Blog
                 </NavigationMenuLink>
               </NavigationMenuItem>
+              <LanguagePicker />
             </NavigationMenuList>
           </NavigationMenu>
 

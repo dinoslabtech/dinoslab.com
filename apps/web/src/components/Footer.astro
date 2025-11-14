@@ -1,5 +1,9 @@
 ---
-// Footer component - Astro native (no React needed)
+import { getLocale } from "astro-i18n-aut";
+const locale = getLocale(Astro.url);
+
+import { getTranslation } from "@/i18n";
+const t = getTranslation(locale);
 ---
 
 <footer
@@ -9,9 +13,9 @@
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
       {/* Company Info */}
       <div>
-        <h3 class="mb-4 text-lg font-semibold">Dinoslab</h3>
+        <h3 class="mb-4 text-lg font-semibold">{t.site.name}</h3>
         <p class="text-sm text-[hsl(var(--color-muted-foreground))]">
-          Creiamo esperienze digitali innovative per il tuo business.
+          {t.site.title}
         </p>
       </div>
 
@@ -26,28 +30,20 @@
               href="#"
               class="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
             >
-              Chi siamo
+              Who are we
             </a>
           </li>
           <li>
             <a
-              href="#"
+              href="/services"
               class="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
             >
-              Servizi
+              Services
             </a>
           </li>
           <li>
             <a
-              href="#"
-              class="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
-            >
-              Portfolio
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
+              href="/blog"
               class="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
             >
               Blog
@@ -67,31 +63,7 @@
               href="#"
               class="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
             >
-              Sviluppo Web
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              class="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
-            >
-              App Mobile
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              class="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
-            >
-              UI/UX Design
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              class="text-[hsl(var(--color-muted-foreground))] hover:text-[hsl(var(--color-foreground))] transition-colors"
-            >
-              Consulenza
+              Consulting
             </a>
           </li>
         </ul>
