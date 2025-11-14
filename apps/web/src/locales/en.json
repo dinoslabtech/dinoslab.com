@@ -1,0 +1,11 @@
+{
+  "site": {
+    "name": "Dino's Lab",
+    "title": "Welcome to Dino's Lab",
+    "subtitle": "Electronics & software engineering"
+  },
+  "buttons": {
+    "contact": "Contact",
+    "about": "About us"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "site": {
+    "name": "Dino's Lab",
+    "title": "Benvenuto in Dino's Lab",
+    "subtitle": "Ingegneria elettronica e software"
+  },
+  "buttons": {
+    "contact": "Contatti",
+    "about": "Chi siamo"
+  }
+}
