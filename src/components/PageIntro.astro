@@ -1,0 +1,17 @@
+---
+interface Props {
+  kicker: string;
+  title: string;
+  class?: string;
+}
+
+const { kicker, title, class: className } = Astro.props;
+---
+
+<header class:list={["max-w-2xl", className]}>
+  <p class="eyebrow">{kicker}</p>
+  <h1 class="display mt-3">{title}</h1>
+  <p class="lead mt-5">
+    <slot />
+  </p>
+</header>

@@ -33,35 +33,23 @@ const isInterest = variant === "interest";
     </label>
   </p>
 
-  {heading && <p class="text-sm font-medium text-ink">{heading}</p>}
+  {heading && <p class="text-sm font-medium">{heading}</p>}
 
-  <label class="grid gap-1 text-sm">
+  <label class="grid gap-1.5 text-[13px]">
     <span class="font-medium">Name</span>
-    <input
-      type="text"
-      name="name"
-      required
-      autocomplete="name"
-      class="rounded-md border border-line bg-white px-3 py-2"
-    />
+    <input type="text" name="name" required autocomplete="name" class="field" />
   </label>
 
-  <label class="grid gap-1 text-sm">
+  <label class="grid gap-1.5 text-[13px]">
     <span class="font-medium">Email</span>
-    <input
-      type="email"
-      name="email"
-      required
-      autocomplete="email"
-      class="rounded-md border border-line bg-white px-3 py-2"
-    />
+    <input type="email" name="email" required autocomplete="email" class="field" />
   </label>
 
   {
     isInterest && (
-      <label class="grid gap-1 text-sm">
+      <label class="grid gap-1.5 text-[13px]">
         <span class="font-medium">How many boards?</span>
-        <select name="quantity" class="rounded-md border border-line bg-white px-3 py-2">
+        <select name="quantity" class="field">
           <option value="just-trying">Just trying it / not sure</option>
           <option value="1-5">1–5</option>
           <option value="6-20">6–20</option>
@@ -72,20 +60,12 @@ const isInterest = variant === "interest";
     )
   }
 
-  <label class="grid gap-1 text-sm">
+  <label class="grid gap-1.5 text-[13px]">
     <span class="font-medium">{isInterest ? "Anything we should know" : "Message"}</span>
-    <textarea
-      name="message"
-      rows="5"
-      required={!isInterest}
-      class="rounded-md border border-line bg-white px-3 py-2"
-    />
+    <textarea name="message" rows="5" required={!isInterest} class="field min-h-[8rem] resize-y" />
   </label>
 
-  <button
-    type="submit"
-    class="mt-1 inline-flex items-center justify-center rounded-full bg-lab px-5 py-2.5 text-sm font-medium text-white hover:bg-lab-bright"
-  >
-    {isInterest ? "Register interest" : "Send"}
+  <button type="submit" class="btn-primary mt-1 justify-self-start">
+    {isInterest ? "Register interest" : "Send message"}
   </button>
 </form>

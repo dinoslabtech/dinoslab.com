@@ -42,9 +42,15 @@ const canonical = new URL(Astro.url.pathname, site.url).toString();
     <meta name="twitter:card" content="summary" />
     {noindex && <meta name="robots" content="noindex" />}
   </head>
-  <body class="min-h-screen flex flex-col">
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-white focus:px-3 focus:py-2"
+    >
+      Skip to content
+    </a>
     <Header />
-    <main class="flex-1">
+    <main id="content" class="flex-1">
       <slot />
     </main>
     <Footer />

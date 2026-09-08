@@ -1,22 +1,30 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import PageIntro from "@/components/PageIntro.astro";
 ---
 
 <Layout
   title="Docs"
   description="Hardware and firmware documentation for Dino’s Lab modules. Nothing public yet."
 >
-  <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-    <p class="text-sm font-medium uppercase tracking-wider text-lab">Docs</p>
-    <h1 class="mt-2 text-4xl font-semibold tracking-tight">Documentation</h1>
-    <p class="mt-6 text-lg leading-relaxed text-muted">
+  <div class="shell py-16 lg:py-20">
+    <PageIntro kicker="Docs" title="Documentation">
       Datasheets, pinouts, and bring-up notes will live here once the first
       module is real enough to document. Nothing to publish yet.
-    </p>
-    <p class="mt-6 text-muted">
-      If you are waiting on the N6 module,{" "}
-      <a class="text-lab underline underline-offset-2" href="/products">register interest</a>
-      {" "}and we will send notes when they exist.
-    </p>
+    </PageIntro>
+
+    <div class="panel mt-12">
+      <div class="flex items-center justify-between border-b border-line px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
+        <span>Library</span>
+        <span>0 documents</span>
+      </div>
+      <div class="px-5 py-16 text-center">
+        <p class="text-sm text-muted">
+          If you are waiting on the N6 module,{" "}
+          <a class="text-lab underline underline-offset-2" href="/products">register interest</a>
+          {" "}and we will send notes when they exist.
+        </p>
+      </div>
+    </div>
   </div>
 </Layout>
