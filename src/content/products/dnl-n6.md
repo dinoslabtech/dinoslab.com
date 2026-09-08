@@ -2,15 +2,15 @@
 title: DNL-N6
 shortName: DNL-N6
 status: coming_soon
-summary: "A small edge-AI module on ST’s STM32N6. Drop it on a carrier and run vision at the edge — closer to a RoadRunner SOM than to a Linux box."
+summary: "Edge-AI module based on ST’s STM32N6, for vision and related applications at the board edge."
 chip: STM32N6 · Cortex-M55 · Neural-ART
 category: AI module
 ---
 
-This is the first module we’re designing. It isn’t finished, and this isn’t a datasheet.
+The DNL-N6 is the first Dino’s Lab module. The design is in progress; this page is not a datasheet.
 
-The chip is the **STM32N6**: Cortex-M55 up to 800 MHz, ST Neural-ART (up to 600 GOPS), 4.2 MB of SRAM, MIPI CSI-2, H.264 encoder. Around that we want a compact module you sit on a carrier, for cameras and other jobs that don’t need a full Linux MPU.
+The processor is the **STM32N6**: Cortex-M55 up to 800 MHz, ST Neural-ART accelerator (up to 600 GOPS), 4.2 MB SRAM, MIPI CSI-2 camera interface, and H.264 encoder. The module is intended as a carrier-mounted unit for cameras and other edge-AI workloads that do not require a Linux MPU.
 
-When the design is stable we’ll put pinout, mechanics, power, and bring-up notes here.
+Pinout, mechanics, power, and bring-up documentation will be published when the design is released.
 
-Until then: tell us how many boards you might want, or that you’d like to try one. No payment.
+Until then, interest can be registered with an indicative quantity. No payment is taken.

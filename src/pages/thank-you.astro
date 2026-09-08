@@ -3,12 +3,12 @@ import Layout from "@/layouts/Layout.astro";
 import { site } from "@/data/site";
 ---
 
-<Layout title="Sent" description="Thanks — we have the message." noindex>
+<Layout title="Sent" description="Message received." noindex>
   <div class="shell max-w-xl py-24">
     <p class="eyebrow">Sent</p>
-    <h1 class="display mt-3">Thanks.</h1>
+    <h1 class="display mt-3">Received.</h1>
     <p class="lead mt-5">
-      We’ll reply from {site.email}, or on Telegram if that’s easier.
+      Reply will come from {site.email} or Telegram.
     </p>
     <a href="/" class="btn-secondary mt-10">Home</a>
   </div>

@@ -1,36 +1,66 @@
 ---
-title: "Guida Completa a systemctl: Gestione dei Servizi su Linux"
-description: "Tutorial professionale per padroneggiare systemctl su Debian, Ubuntu e Fedora con esempi pratici e casi d'uso reali"
+
+title: "Complete Guide to systemctl: Managing Services on Linux"
+
+description: "A practical guide to mastering systemctl on Linux, with examples for Debian, Ubuntu, and Fedora"
+
 pubDate: 2025-11-11
+
 author: "Michele Forese"
-tags: ["linux", "systemctl", "systemd", "amministrazione", "debian", "ubuntu", "fedora"]
+
+tags: ["linux", "systemctl", "systemd", "administration", "debian", "ubuntu", "fedora"]
+
 ---
 
-# Guida Completa a systemctl: Gestione dei Servizi su Linux
+# Complete Guide to systemctl: Managing Services on Linux
 
-systemctl è lo strumento fondamentale per la gestione dei servizi su sistemi Linux che utilizzano systemd. In questa guida approfondita, esploreremo tutte le funzionalità di systemctl con esempi pratici per Debian, Ubuntu e Fedora.
+`systemctl` is the primary command-line tool for managing services on Linux systems that use **systemd**. It allows you to start, stop, restart, inspect, configure, and troubleshoot services, as well as manage other systemd units such as targets, mount points, and timers.
 
-## Introduzione a systemd e systemctl
+This guide provides a practical overview of `systemctl`, from basic service management to advanced troubleshooting and system administration tasks.
 
-systemd è il sistema di init e gestione dei servizi adottato dalla maggior parte delle distribuzioni Linux moderne. systemctl è il comando principale per interagire con systemd, permettendo di controllare servizi, target, mount point e altre unità di sistema.
+## Introduction to systemd and systemctl
 
-**Compatibilità**: Le istruzioni in questa guida sono valide per:
-- Debian 10+ (Buster e successive)
-- Ubuntu 18.04+ (Bionic Beaver e successive)
-- Fedora 30+ (tutte le versioni moderne)
+**systemd** is the init system and service manager used by most modern Linux distributions. It is responsible for initializing the system during boot and managing services and other system resources throughout the system's lifetime.
 
-## Comandi Base per la Gestione dei Servizi
+`systemctl` is the primary interface for interacting with systemd from the command line.
 
-### Avviare un Servizio
+Although this guide focuses on services, systemd can manage many different types of units, including:
 
-Per avviare un servizio immediatamente:
+* Services (`.service`)
+* Sockets (`.socket`)
+* Timers (`.timer`)
+* Mount points (`.mount`)
+* Automount points (`.automount`)
+* Targets (`.target`)
+* Devices (`.device`)
+* Paths (`.path`)
+* Slices (`.slice`)
+* Scopes (`.scope`)
+
+### Compatibility
+
+The commands and concepts covered in this guide are applicable to modern releases of:
+
+* Debian 10+ (Buster and later)
+* Ubuntu 18.04+ (Bionic Beaver and later)
+* Fedora 30+ and later
+
+The exact service names and package-management commands may differ between distributions.
+
+---
+
+# Basic Service Management
+
+## Starting a Service
+
+To start a service immediately:
 
 ```bash
 # Debian/Ubuntu/Fedora
-sudo systemctl start nome-servizio
+sudo systemctl start service-name
 ```
 
-Esempio pratico con Apache:
+For example, to start Apache:
 
 ```bash
 # Debian/Ubuntu
@@ -40,589 +70,1146 @@ sudo systemctl start apache2
 sudo systemctl start httpd
 ```
 
-### Fermare un Servizio
+Starting a service does **not** automatically configure it to start at boot. If you also want it to start automatically after reboot, use:
 
-Per arrestare un servizio in esecuzione:
+```bash
+sudo systemctl enable service-name
+```
+
+Or combine both operations:
+
+```bash
+sudo systemctl enable --now service-name
+```
+
+---
+
+## Stopping a Service
+
+To stop a running service:
 
 ```bash
 # Debian/Ubuntu/Fedora
-sudo systemctl stop nome-servizio
+sudo systemctl stop service-name
 ```
 
-Esempi:
+Examples:
 
 ```bash
-# Debian/Ubuntu - fermare Apache
+# Debian/Ubuntu
 sudo systemctl stop apache2
 
-# Fedora - fermare Apache
+# Fedora
 sudo systemctl stop httpd
 
-# Tutte le distribuzioni - fermare SSH
+# SSH service
 sudo systemctl stop ssh
 ```
 
-### Riavviare un Servizio
-
-Il riavvio ferma completamente il servizio e lo riavvia:
+On Fedora, the SSH service is commonly named `sshd`:
 
 ```bash
-# Debian/Ubuntu/Fedora
-sudo systemctl restart nome-servizio
+sudo systemctl stop sshd
 ```
 
-Esempio con database:
+Be careful when stopping services remotely. Stopping an SSH service on a remote server can disconnect you from the machine.
+
+---
+
+## Restarting a Service
+
+Restarting a service stops it and starts it again:
 
 ```bash
-# Debian/Ubuntu/Fedora - riavviare PostgreSQL
+sudo systemctl restart service-name
+```
+
+Examples:
+
+```bash
+# Restart PostgreSQL
 sudo systemctl restart postgresql
 
-# Debian/Ubuntu/Fedora - riavviare MySQL/MariaDB
-sudo systemctl restart mysql  # Debian/Ubuntu
-sudo systemctl restart mariadb  # Fedora
+# Debian/Ubuntu
+sudo systemctl restart mysql
+
+# Fedora, when using MariaDB
+sudo systemctl restart mariadb
 ```
 
-### Ricaricare la Configurazione
+A restart is useful when a service has entered an unexpected state or when a configuration change requires a full restart.
 
-Per ricaricare la configurazione senza interrompere il servizio:
+---
+
+## Reloading a Service Configuration
+
+Some services can reload their configuration without completely stopping. This is generally preferable for production services because existing connections may remain active.
 
 ```bash
-# Debian/Ubuntu/Fedora
-sudo systemctl reload nome-servizio
+sudo systemctl reload service-name
 ```
 
-Esempio con Nginx:
+For example:
 
 ```bash
-# Debian/Ubuntu/Fedora
 sudo systemctl reload nginx
 ```
 
-### Riavvio Intelligente (reload-or-restart)
+Whether `reload` is supported depends on the service's systemd unit.
 
-Prova a ricaricare, se non supportato riavvia:
+---
+
+## Reload or Restart
+
+If you want to reload the configuration when possible, but restart the service when reloading is not supported:
 
 ```bash
-# Debian/Ubuntu/Fedora
-sudo systemctl reload-or-restart nome-servizio
+sudo systemctl reload-or-restart service-name
 ```
 
-## Gestione dell'Avvio Automatico
+This is useful when you want the least disruptive operation that will still apply the new configuration.
 
-### Abilitare un Servizio all'Avvio
+---
 
-Per far partire automaticamente un servizio al boot:
+# Managing Services at Boot
+
+## Enabling a Service
+
+To configure a service to start automatically during boot:
 
 ```bash
-# Debian/Ubuntu/Fedora
-sudo systemctl enable nome-servizio
+sudo systemctl enable service-name
 ```
 
-Esempi comuni:
+Examples:
 
 ```bash
-# Abilitare Docker
+# Enable Docker
 sudo systemctl enable docker
 
-# Abilitare PostgreSQL
+# Enable PostgreSQL
 sudo systemctl enable postgresql
-
-# Abilitare e avviare contemporaneamente
-sudo systemctl enable --now nome-servizio
 ```
 
-### Disabilitare un Servizio all'Avvio
-
-Per impedire l'avvio automatico:
+To enable and start the service immediately:
 
 ```bash
-# Debian/Ubuntu/Fedora
-sudo systemctl disable nome-servizio
+sudo systemctl enable --now service-name
 ```
 
-Esempio:
+This is one of the most commonly useful forms of `systemctl enable`.
+
+---
+
+## Disabling a Service
+
+To prevent a service from starting automatically during boot:
 
 ```bash
-# Disabilitare Apache
-sudo systemctl disable apache2  # Debian/Ubuntu
-sudo systemctl disable httpd    # Fedora
-
-# Disabilitare e fermare contemporaneamente
-sudo systemctl disable --now nome-servizio
+sudo systemctl disable service-name
 ```
 
-### Verificare lo Stato di Abilitazione
+Examples:
 
 ```bash
-# Debian/Ubuntu/Fedora
-systemctl is-enabled nome-servizio
+# Debian/Ubuntu
+sudo systemctl disable apache2
+
+# Fedora
+sudo systemctl disable httpd
 ```
 
-Il comando restituisce:
-- `enabled`: servizio abilitato
-- `disabled`: servizio disabilitato
-- `static`: non può essere abilitato/disabilitato direttamente
-- `masked`: servizio mascherato (completamente disabilitato)
-
-## Monitoraggio e Diagnostica
-
-### Verificare lo Stato di un Servizio
+To disable the service and stop it immediately:
 
 ```bash
-# Debian/Ubuntu/Fedora
-systemctl status nome-servizio
+sudo systemctl disable --now service-name
 ```
 
-Output dettagliato con informazioni su:
-- Stato attuale (running, stopped, failed)
-- PID del processo principale
-- Utilizzo memoria
-- Ultime righe di log
+This is useful when you no longer want a service running at all.
 
-Esempio:
+---
+
+## Checking Whether a Service Is Enabled
+
+Use:
 
 ```bash
-# Verificare stato SSH
-systemctl status ssh  # Debian/Ubuntu
-systemctl status sshd # Fedora
+systemctl is-enabled service-name
 ```
 
-### Verificare se un Servizio è Attivo
+Typical results include:
+
+| Result     | Meaning                                                                       |
+| ---------- | ----------------------------------------------------------------------------- |
+| `enabled`  | The unit is configured to start automatically                                 |
+| `disabled` | The unit is not configured to start automatically                             |
+| `static`   | The unit cannot be enabled directly and is normally activated as a dependency |
+| `masked`   | The unit has been completely prevented from starting                          |
+
+---
+
+# Monitoring and Troubleshooting
+
+## Checking the Status of a Service
+
+The most useful command when troubleshooting a service is:
 
 ```bash
-# Debian/Ubuntu/Fedora
-systemctl is-active nome-servizio
+systemctl status service-name
 ```
 
-Ritorna `active` o `inactive` e può essere usato negli script:
+For example:
 
 ```bash
-if systemctl is-active --quiet servizio; then
-    echo "Il servizio è in esecuzione"
+# Debian/Ubuntu
+systemctl status ssh
+
+# Fedora
+systemctl status sshd
+```
+
+The output typically contains information such as:
+
+* Whether the service is running
+* Whether it has failed
+* The main process PID
+* How long the service has been running
+* Recent log messages
+* The service's startup command
+* The location of its unit file
+
+For a more compact status check, you can use:
+
+```bash
+systemctl is-active service-name
+```
+
+---
+
+## Checking Whether a Service Is Active
+
+```bash
+systemctl is-active service-name
+```
+
+The command normally returns `active` or `inactive`.
+
+It is particularly useful in scripts because it can be used as a condition:
+
+```bash
+if systemctl is-active --quiet service-name; then
+    echo "The service is running"
 fi
 ```
 
-### Visualizzare i Log di un Servizio
+---
 
-Utilizzare journalctl per i log dettagliati:
+## Viewing Service Logs
+
+Systemd uses the **journald** logging system. The `journalctl` command is used to inspect these logs.
+
+To view all available logs for a service:
 
 ```bash
-# Debian/Ubuntu/Fedora - log completi
-sudo journalctl -u nome-servizio
-
-# Ultimi 50 log
-sudo journalctl -u nome-servizio -n 50
-
-# Log in tempo reale
-sudo journalctl -u nome-servizio -f
-
-# Log da oggi
-sudo journalctl -u nome-servizio --since today
-
-# Log nell'ultima ora
-sudo journalctl -u nome-servizio --since "1 hour ago"
-
-# Log tra date specifiche
-sudo journalctl -u nome-servizio --since "2025-11-01" --until "2025-11-11"
+sudo journalctl -u service-name
 ```
 
-### Verificare Errori di Avvio
-
-Per servizi che falliscono all'avvio:
+### Show the Last 50 Entries
 
 ```bash
-# Debian/Ubuntu/Fedora
-systemctl status nome-servizio
+sudo journalctl -u service-name -n 50
+```
+
+### Follow Logs in Real Time
+
+```bash
+sudo journalctl -u service-name -f
+```
+
+This is particularly useful while restarting or testing a service.
+
+### Show Logs from Today
+
+```bash
+sudo journalctl -u service-name --since today
+```
+
+### Show Logs from the Last Hour
+
+```bash
+sudo journalctl -u service-name --since "1 hour ago"
+```
+
+### Show Logs Between Two Dates
+
+```bash
+sudo journalctl -u service-name \
+    --since "2025-11-01" \
+    --until "2025-11-11"
+```
+
+You can also combine `journalctl` options. For example:
+
+```bash
+sudo journalctl -u nginx --since "30 minutes ago" -n 100
+```
+
+---
+
+## Troubleshooting a Failed Service
+
+When a service fails to start, a useful first step is to inspect both its status and its logs:
+
+```bash
+systemctl status service-name
+```
+
+Then inspect the service-specific journal:
+
+```bash
+sudo journalctl -u service-name --since "5 minutes ago"
+```
+
+For a broader view of system errors:
+
+```bash
 sudo journalctl -xe
-sudo journalctl -u nome-servizio --since "5 minutes ago"
 ```
 
-## Comandi Avanzati
+When possible, start with the service-specific logs because they usually contain more relevant information.
 
-### Mascherare un Servizio
+---
 
-Impedisce completamente l'avvio di un servizio:
+# Advanced systemctl Commands
+
+## Masking a Service
+
+Masking a service is stronger than disabling it. A masked service cannot normally be started manually, automatically, or as a dependency.
+
+To mask a service:
 
 ```bash
-# Debian/Ubuntu/Fedora
-sudo systemctl mask nome-servizio
+sudo systemctl mask service-name
 ```
 
-Per smascherare:
+To undo the mask:
 
 ```bash
-sudo systemctl unmask nome-servizio
+sudo systemctl unmask service-name
 ```
 
-Esempio pratico - disabilitare completamente un servizio non necessario:
+For example, if a system does not use printing and you want to prevent CUPS from being started:
 
 ```bash
-# Mascherare cups (se non serve la stampa)
 sudo systemctl mask cups
 ```
 
-### Listare Tutti i Servizi
+Be careful with `mask`: because it completely prevents the unit from starting, it should generally only be used when you intentionally want to block a service.
+
+---
+
+## Listing Services
+
+To list currently loaded service units:
 
 ```bash
-# Tutti i servizi
 systemctl list-units --type=service
+```
 
-# Solo servizi attivi
+Only active services:
+
+```bash
 systemctl list-units --type=service --state=active
+```
 
-# Solo servizi falliti
+Only failed services:
+
+```bash
 systemctl list-units --type=service --state=failed
+```
 
-# Tutti i servizi (anche inattivi)
+All loaded services, including inactive ones:
+
+```bash
 systemctl list-units --type=service --all
 ```
 
-### Listare Servizi Abilitati
+A particularly useful command for troubleshooting is:
 
 ```bash
-# Debian/Ubuntu/Fedora
+systemctl --failed
+```
+
+This provides a quick overview of failed units.
+
+---
+
+## Listing Enabled Services
+
+To list service unit files that are configured to start automatically:
+
+```bash
 systemctl list-unit-files --type=service --state=enabled
 ```
 
-### Visualizzare le Dipendenze
+This is different from `list-units`: it shows the installed unit files and their enablement state rather than only currently loaded units.
+
+---
+
+## Inspecting Dependencies
+
+To view the dependencies of a service:
 
 ```bash
-# Debian/Ubuntu/Fedora
-systemctl list-dependencies nome-servizio
+systemctl list-dependencies service-name
 ```
 
-Per visualizzare tutte le dipendenze in modo inverso (cosa dipende da questo servizio):
+For example:
 
 ```bash
-systemctl list-dependencies --reverse nome-servizio
+systemctl list-dependencies nginx
 ```
 
-### Ricaricare i File di Configurazione di systemd
-
-Dopo aver modificato file `.service`:
+To see which units depend on the specified service:
 
 ```bash
-# Debian/Ubuntu/Fedora
+systemctl list-dependencies --reverse service-name
+```
+
+This can be very useful when troubleshooting why a service starts, stops, or gets pulled in automatically.
+
+---
+
+## Inspecting a Unit File
+
+To display the systemd unit file associated with a service:
+
+```bash
+systemctl cat service-name
+```
+
+For example:
+
+```bash
+systemctl cat nginx
+```
+
+This shows the unit file as well as any drop-in configuration files.
+
+You can also inspect a unit's properties with:
+
+```bash
+systemctl show service-name
+```
+
+Unlike `systemctl status`, `systemctl show` presents the unit's properties in a machine-readable `key=value` format, which is useful for scripting.
+
+---
+
+## Reloading systemd Configuration
+
+If you create or modify a `.service` unit file, systemd needs to reload its unit-file configuration before it can see the changes:
+
+```bash
 sudo systemctl daemon-reload
 ```
 
-### Modalità Rescue e Emergency
-
-Per avviare il sistema in modalità di recupero:
+For example:
 
 ```bash
-# Passare a modalità rescue
-sudo systemctl rescue
+sudo systemctl daemon-reload
+sudo systemctl restart my-service
+```
 
-# Passare a modalità emergency
+`daemon-reload` does **not** restart services. It only tells systemd to re-read its unit files.
+
+---
+
+# Rescue and Emergency Modes
+
+systemd provides special targets for recovering a system.
+
+To enter rescue mode:
+
+```bash
+sudo systemctl rescue
+```
+
+To enter emergency mode:
+
+```bash
 sudo systemctl emergency
 ```
 
-## Gestione dei Target
+### Rescue Mode
 
-I target sono gruppi di unità che rappresentano stati del sistema.
+Rescue mode provides a minimal environment intended for system maintenance and troubleshooting.
 
-### Visualizzare il Target Attuale
+### Emergency Mode
+
+Emergency mode is even more minimal and is intended for situations where normal system initialization cannot continue.
+
+These commands can interrupt running services and users, so they should be used carefully, especially on remote systems.
+
+---
+
+# Managing systemd Targets
+
+A **target** is a systemd unit used to group other units and represent a particular system state.
+
+Targets are conceptually similar to traditional runlevels, although systemd's dependency model is more flexible.
+
+## Checking the Default Target
+
+To see the target used by default during boot:
 
 ```bash
-# Debian/Ubuntu/Fedora
 systemctl get-default
 ```
 
-### Cambiare Target Predefinito
+Typical results include:
+
+```text
+graphical.target
+```
+
+or:
+
+```text
+multi-user.target
+```
+
+---
+
+## Changing the Default Target
+
+To configure the system to boot into a text-based multi-user environment:
 
 ```bash
-# Passare a modalità multi-user (senza GUI)
 sudo systemctl set-default multi-user.target
+```
 
-# Passare a modalità grafica
+To boot into the graphical environment by default:
+
+```bash
 sudo systemctl set-default graphical.target
 ```
 
-### Cambiare Target Temporaneamente
+Changing the default target affects future boots.
+
+---
+
+## Changing the Target Immediately
+
+To switch to a multi-user environment immediately:
 
 ```bash
-# Passare a modalità multi-user ora
 sudo systemctl isolate multi-user.target
+```
 
-# Passare a modalità grafica ora
+To switch to the graphical target:
+
+```bash
 sudo systemctl isolate graphical.target
 ```
 
-### Target Comuni
+`isolate` can stop units that are not part of the new target, so use it carefully.
 
-- `poweroff.target`: spegnimento
-- `rescue.target`: modalità single-user
-- `multi-user.target`: modalità multi-user senza GUI
-- `graphical.target`: modalità grafica completa
-- `reboot.target`: riavvio
+---
 
-## Operazioni di Sistema
+## Common Targets
 
-### Riavvio del Sistema
+| Target              | Purpose                                       |
+| ------------------- | --------------------------------------------- |
+| `poweroff.target`   | System shutdown                               |
+| `rescue.target`     | Minimal recovery environment                  |
+| `multi-user.target` | Multi-user system without a graphical desktop |
+| `graphical.target`  | Multi-user system with graphical environment  |
+| `reboot.target`     | System reboot                                 |
+
+---
+
+# System Operations
+
+systemd can also be used to perform several system-level operations.
+
+## Rebooting the System
 
 ```bash
-# Debian/Ubuntu/Fedora
 sudo systemctl reboot
 ```
 
-### Spegnimento del Sistema
+## Shutting Down the System
 
 ```bash
-# Debian/Ubuntu/Fedora
 sudo systemctl poweroff
 ```
 
-### Ibernazione e Sospensione
+## Suspending the System
 
 ```bash
-# Sospensione (sleep)
 sudo systemctl suspend
+```
 
-# Ibernazione (hibernate)
+## Hibernating the System
+
+```bash
 sudo systemctl hibernate
+```
 
-# Hybrid sleep
+## Hybrid Sleep
+
+```bash
 sudo systemctl hybrid-sleep
 ```
 
-## Casi d'Uso Pratici
+Whether hibernation or hybrid sleep works correctly depends on the system's hardware, kernel configuration, swap configuration, and desktop environment.
 
-### Configurare un Web Server (Apache)
+---
 
-**Su Debian/Ubuntu:**
+# Practical Use Cases
+
+## Setting Up a Web Server with Apache
+
+### Debian/Ubuntu
+
+Install Apache:
 
 ```bash
-# Installare Apache
 sudo apt update
 sudo apt install apache2
+```
 
-# Abilitare e avviare
+Enable and start it:
+
+```bash
 sudo systemctl enable --now apache2
+```
 
-# Verificare stato
+Check its status:
+
+```bash
 systemctl status apache2
+```
 
-# Riavviare dopo modifiche configurazione
+After changing its configuration, test the configuration before applying it:
+
+```bash
+sudo apache2ctl configtest
+```
+
+Then reload Apache:
+
+```bash
 sudo systemctl reload apache2
 ```
 
-**Su Fedora:**
+---
+
+### Fedora
+
+Install Apache:
 
 ```bash
-# Installare Apache
 sudo dnf install httpd
+```
 
-# Abilitare e avviare
+Enable and start it:
+
+```bash
 sudo systemctl enable --now httpd
+```
 
-# Verificare stato
+Check its status:
+
+```bash
 systemctl status httpd
+```
 
-# Configurare firewall
+If the firewall is enabled, allow HTTP traffic:
+
+```bash
 sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --reload
 ```
 
-### Configurare un Database (PostgreSQL)
+---
 
-**Su Debian/Ubuntu:**
+# Setting Up PostgreSQL
+
+## Debian/Ubuntu
+
+Install PostgreSQL:
 
 ```bash
-# Installare PostgreSQL
 sudo apt update
 sudo apt install postgresql postgresql-contrib
+```
 
-# Il servizio parte automaticamente
+Check the service:
+
+```bash
 systemctl status postgresql
+```
 
-# Riavviare se necessario
+Restart it when necessary:
+
+```bash
 sudo systemctl restart postgresql
+```
 
-# Visualizzare log
+View recent logs:
+
+```bash
 sudo journalctl -u postgresql -n 50
 ```
 
-**Su Fedora:**
+---
+
+## Fedora
+
+Install PostgreSQL:
 
 ```bash
-# Installare PostgreSQL
 sudo dnf install postgresql-server postgresql-contrib
+```
 
-# Inizializzare database
+Initialize the database:
+
+```bash
 sudo postgresql-setup --initdb
+```
 
-# Abilitare e avviare
+Enable and start the service:
+
+```bash
 sudo systemctl enable --now postgresql
+```
 
-# Verificare stato
+Check its status:
+
+```bash
 systemctl status postgresql
 ```
 
-### Troubleshooting di un Servizio Fallito
-
-```bash
-# 1. Verificare stato e errore
-systemctl status nome-servizio
-
-# 2. Visualizzare log dettagliati
-sudo journalctl -u nome-servizio -n 100 --no-pager
-
-# 3. Verificare configurazione
-systemctl cat nome-servizio
-
-# 4. Ricaricare daemon se modificato file .service
-sudo systemctl daemon-reload
-
-# 5. Tentare restart con log in tempo reale
-sudo journalctl -u nome-servizio -f &
-sudo systemctl restart nome-servizio
-```
-
-### Creare un Timer per Operazioni Pianificate
-
-I timer di systemd sostituiscono cron in molti casi:
-
-```bash
-# Visualizzare tutti i timer attivi
-systemctl list-timers
-
-# Visualizzare timer specifico
-systemctl status nome.timer
-
-# Abilitare un timer
-sudo systemctl enable --now nome.timer
-```
-
-## Analisi delle Performance
-
-### Tempo di Avvio del Sistema
-
-```bash
-# Debian/Ubuntu/Fedora
-systemd-analyze
-```
-
-### Tempo di Avvio per Servizio
-
-```bash
-# Debian/Ubuntu/Fedora
-systemd-analyze blame
-```
-
-### Grafico delle Dipendenze di Avvio
-
-```bash
-# Debian/Ubuntu/Fedora
-systemd-analyze plot > boot.svg
-```
-
-### Catena Critica di Avvio
-
-```bash
-# Debian/Ubuntu/Fedora
-systemd-analyze critical-chain
-```
-
-## Best Practices e Suggerimenti
-
-### Verificare Prima di Riavviare
-
-Prima di riavviare servizi in produzione:
-
-```bash
-# Verificare sintassi configurazione
-sudo nginx -t  # per Nginx
-sudo apache2ctl configtest  # per Apache su Debian/Ubuntu
-sudo httpd -t  # per Apache su Fedora
-
-# Poi ricaricare invece di riavviare quando possibile
-sudo systemctl reload servizio
-```
-
-### Monitoraggio Continuativo
-
-Per monitorare servizi critici:
-
-```bash
-# Terminal 1 - log in tempo reale
-sudo journalctl -u servizio -f
-
-# Terminal 2 - eseguire operazione
-sudo systemctl restart servizio
-```
-
-### Script di Automazione
-
-Esempio di script per verificare e riavviare servizio se non attivo:
-
-```bash
-#!/bin/bash
-SERVICE="nginx"
-
-if ! systemctl is-active --quiet $SERVICE; then
-    echo "$(date): $SERVICE non attivo, riavvio in corso"
-    sudo systemctl start $SERVICE
-    sudo journalctl -u $SERVICE -n 20
-fi
-```
-
-### Differenze tra Distribuzioni
-
-Ricordare che alcuni servizi hanno nomi diversi:
-
-| Servizio | Debian/Ubuntu | Fedora |
-|----------|---------------|--------|
-| Apache | apache2 | httpd |
-| SSH | ssh | sshd |
-| Network | networking | NetworkManager |
-| Firewall | ufw | firewalld |
-
-## Comandi Rapidi di Riferimento
-
-```bash
-# Gestione servizi
-sudo systemctl start servizio      # Avvia
-sudo systemctl stop servizio       # Ferma
-sudo systemctl restart servizio    # Riavvia
-sudo systemctl reload servizio     # Ricarica config
-sudo systemctl status servizio     # Stato
-
-# Avvio automatico
-sudo systemctl enable servizio     # Abilita all'avvio
-sudo systemctl disable servizio    # Disabilita all'avvio
-sudo systemctl enable --now serv   # Abilita e avvia
-systemctl is-enabled servizio      # Verifica se abilitato
-
-# Monitoraggio
-systemctl status servizio          # Stato dettagliato
-systemctl is-active servizio       # Verifica se attivo
-sudo journalctl -u servizio        # Log completi
-sudo journalctl -u servizio -f     # Log in tempo reale
-systemctl list-units --type=service --state=failed  # Servizi falliti
-
-# Sistema
-sudo systemctl daemon-reload       # Ricarica configurazioni
-sudo systemctl reboot              # Riavvia sistema
-sudo systemctl poweroff            # Spegni sistema
-
-# Analisi
-systemd-analyze                    # Tempo boot
-systemd-analyze blame              # Tempo per servizio
-systemctl list-dependencies serv   # Dipendenze
-```
-
-## Conclusione
-
-systemctl è uno strumento potente ed essenziale per l'amministrazione moderna di sistemi Linux. La sua sintassi uniforme su Debian, Ubuntu e Fedora rende la gestione dei servizi più semplice e coerente. Con questa guida, dovresti essere in grado di gestire qualsiasi servizio sul tuo sistema e diagnosticare eventuali problemi in modo efficiente.
-
-## Risorse Aggiuntive
-
-- Documentazione ufficiale: `man systemctl`
-- Documentazione systemd: `man systemd`
-- Log journald: `man journalctl`
-- [Documentazione Arch Wiki su systemd](https://wiki.archlinux.org/title/systemd) (eccellente risorsa generale)
+The exact initialization command can vary between Fedora releases and PostgreSQL packaging, so consult the package's documentation if `postgresql-setup` is unavailable.
 
 ---
 
-*Ultima revisione: 11 Novembre 2025*
+# Troubleshooting a Failed Service
+
+A systematic troubleshooting process is usually much more effective than repeatedly restarting the service.
+
+## 1. Check the Service Status
+
+```bash
+systemctl status service-name
+```
+
+Look for:
+
+* `failed`
+* Exit codes
+* Recent error messages
+* Failed dependencies
+* Configuration errors
+
+## 2. Inspect the Logs
+
+```bash
+sudo journalctl -u service-name -n 100 --no-pager
+```
+
+For live troubleshooting:
+
+```bash
+sudo journalctl -u service-name -f
+```
+
+## 3. Inspect the Unit Configuration
+
+```bash
+systemctl cat service-name
+```
+
+You can also inspect all unit properties:
+
+```bash
+systemctl show service-name
+```
+
+## 4. Reload systemd if the Unit File Was Modified
+
+```bash
+sudo systemctl daemon-reload
+```
+
+## 5. Restart the Service
+
+```bash
+sudo systemctl restart service-name
+```
+
+Then immediately inspect its status and logs again:
+
+```bash
+systemctl status service-name
+sudo journalctl -u service-name -n 100 --no-pager
+```
+
+---
+
+# Creating a Timer for Scheduled Tasks
+
+systemd timers provide a modern alternative to cron for many scheduled tasks.
+
+To list active timers:
+
+```bash
+systemctl list-timers
+```
+
+To include inactive timers:
+
+```bash
+systemctl list-timers --all
+```
+
+To inspect a specific timer:
+
+```bash
+systemctl status service.timer
+```
+
+To enable and start a timer:
+
+```bash
+sudo systemctl enable --now service.timer
+```
+
+A timer normally activates a corresponding `.service` unit.
+
+For example:
+
+```text
+backup.service
+backup.timer
+```
+
+The timer determines **when** the task runs, while the service defines **what** actually runs.
+
+---
+
+# Boot Performance Analysis
+
+systemd includes several tools for analyzing system startup.
+
+## Overall Boot Time
+
+```bash
+systemd-analyze
+```
+
+This provides a high-level summary of how long the system took to boot.
+
+---
+
+## Time Spent by Individual Services
+
+```bash
+systemd-analyze blame
+```
+
+This lists units according to the time they took during startup.
+
+Keep in mind that `blame` shows startup time for individual units and should not automatically be interpreted as proof that a unit is the sole cause of slow boot times.
+
+---
+
+## Boot Process Graph
+
+You can generate an SVG representation of the boot process:
+
+```bash
+systemd-analyze plot > boot.svg
+```
+
+Open the resulting file in a web browser to inspect the boot sequence visually.
+
+---
+
+## Critical Boot Chain
+
+To inspect the chain of units that contributed to the critical path during startup:
+
+```bash
+systemd-analyze critical-chain
+```
+
+You can also inspect the critical chain for a specific target or unit:
+
+```bash
+systemd-analyze critical-chain graphical.target
+```
+
+This is often more useful than `systemd-analyze blame` when investigating why boot takes longer than expected.
+
+---
+
+# Best Practices
+
+## Validate Configuration Before Restarting
+
+Whenever possible, test a service's configuration before reloading or restarting it.
+
+For Nginx:
+
+```bash
+sudo nginx -t
+```
+
+For Apache on Debian/Ubuntu:
+
+```bash
+sudo apache2ctl configtest
+```
+
+For Apache on Fedora:
+
+```bash
+sudo httpd -t
+```
+
+If the configuration is valid, prefer a reload when possible:
+
+```bash
+sudo systemctl reload service-name
+```
+
+This minimizes downtime and avoids unnecessarily terminating active processes.
+
+---
+
+## Monitor Logs During Changes
+
+When troubleshooting a service, it is often useful to monitor its logs in one terminal while performing operations in another.
+
+### Terminal 1
+
+```bash
+sudo journalctl -u service-name -f
+```
+
+### Terminal 2
+
+```bash
+sudo systemctl restart service-name
+```
+
+This lets you immediately see errors generated during startup.
+
+---
+
+## Use `--no-pager` in Scripts and Diagnostics
+
+When you want command output to be consumed directly or copied into a bug report:
+
+```bash
+systemctl status service-name --no-pager
+```
+
+Similarly:
+
+```bash
+sudo journalctl -u service-name -n 100 --no-pager
+```
+
+This prevents commands from opening an interactive pager.
+
+---
+
+# Automating Service Recovery
+
+A simple Bash script can check whether a service is running and start it if necessary:
+
+```bash
+#!/bin/bash
+
+SERVICE="nginx"
+
+if ! systemctl is-active --quiet "$SERVICE"; then
+    echo "$(date): $SERVICE is not active, starting it..."
+    sudo systemctl start "$SERVICE"
+    sudo journalctl -u "$SERVICE" -n 20 --no-pager
+fi
+```
+
+For production systems, however, it is usually better to use systemd's own restart and recovery mechanisms instead of writing an external monitoring script.
+
+For example, a service unit can use directives such as:
+
+```ini
+[Service]
+Restart=on-failure
+RestartSec=5
+```
+
+This allows systemd itself to automatically restart the service after failures.
+
+---
+
+# Distribution Differences
+
+The systemd commands themselves are largely consistent across distributions, but service names and surrounding tools can differ.
+
+| Service/Component | Debian/Ubuntu                                               | Fedora         |
+| ----------------- | ----------------------------------------------------------- | -------------- |
+| Apache            | `apache2`                                                   | `httpd`        |
+| SSH               | `ssh`                                                       | `sshd`         |
+| Networking        | `systemd-networkd` / NetworkManager / distribution-specific | NetworkManager |
+| Firewall          | UFW                                                         | firewalld      |
+
+The important distinction is that `systemctl` manages the systemd unit name, which is not necessarily the same as the package or application name.
+
+When unsure about the exact service name, you can search the installed unit files:
+
+```bash
+systemctl list-unit-files --type=service
+```
+
+You can also use:
+
+```bash
+systemctl list-units --type=service --all
+```
+
+---
+
+# Quick Reference
+
+## Service Management
+
+```bash
+sudo systemctl start service       # Start
+sudo systemctl stop service        # Stop
+sudo systemctl restart service     # Restart
+sudo systemctl reload service      # Reload configuration
+sudo systemctl status service      # Show status
+```
+
+## Boot Configuration
+
+```bash
+sudo systemctl enable service      # Enable at boot
+sudo systemctl disable service     # Disable at boot
+sudo systemctl enable --now service
+                                    # Enable and start
+sudo systemctl disable --now service
+                                    # Disable and stop
+
+systemctl is-enabled service       # Check enablement
+```
+
+## Monitoring
+
+```bash
+systemctl status service
+systemctl is-active service
+sudo journalctl -u service
+sudo journalctl -u service -f
+systemctl --failed
+```
+
+## Unit Management
+
+```bash
+systemctl cat service              # Show unit file
+systemctl show service             # Show unit properties
+systemctl list-dependencies service
+systemctl list-dependencies --reverse service
+
+sudo systemctl daemon-reload       # Reload unit files
+```
+
+## System Operations
+
+```bash
+sudo systemctl reboot
+sudo systemctl poweroff
+sudo systemctl suspend
+sudo systemctl hibernate
+```
+
+## Targets
+
+```bash
+systemctl get-default
+sudo systemctl set-default graphical.target
+sudo systemctl set-default multi-user.target
+
+sudo systemctl isolate graphical.target
+sudo systemctl isolate multi-user.target
+```
+
+## Performance Analysis
+
+```bash
+systemd-analyze
+systemd-analyze blame
+systemd-analyze critical-chain
+systemd-analyze plot > boot.svg
+```
+
+---
+
+# Conclusion
+
+`systemctl` is one of the most important tools for administering modern Linux systems that use systemd. Its consistent interface makes it possible to manage services, inspect their state, troubleshoot failures, configure startup behavior, and control system targets.
+
+The most important commands to remember are:
+
+```bash
+systemctl status service
+sudo systemctl start service
+sudo systemctl stop service
+sudo systemctl restart service
+sudo systemctl enable --now service
+sudo systemctl disable --now service
+sudo journalctl -u service
+```
+
+Once these commands become familiar, more advanced functionality such as dependencies, timers, targets, unit files, and boot analysis becomes significantly easier to understand.
+
+A good troubleshooting workflow is generally:
+
+1. Check `systemctl status`.
+2. Inspect the service's `journalctl` logs.
+3. Inspect the unit configuration with `systemctl cat` or `systemctl show`.
+4. Validate the application's configuration if applicable.
+5. Run `daemon-reload` if the unit file was changed.
+6. Restart or reload the service.
+7. Monitor the logs while testing the service again.
+
+Understanding this workflow is more valuable than memorizing individual commands because it provides a repeatable method for diagnosing most systemd service problems.
+
+---
+
+# Additional Resources
+
+For detailed information directly from your system:
+
+```bash
+man systemctl
+man systemd
+man journalctl
+man systemd.service
+man systemd.timer
+```
+
+The Arch Linux Wiki also provides an excellent general reference for systemd:
+
+[Arch Wiki — systemd](https://wiki.archlinux.org/title/systemd)
+
+---
+
+**Last revised: September 8, 2026**

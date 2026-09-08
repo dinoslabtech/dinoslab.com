@@ -1,6 +1,6 @@
 # Dino's Lab
 
-Website for [dinoslab.com](https://dinoslab.com). Independent hardware studio in Ladispoli / Rome.
+Website for [dinoslab.com](https://dinoslab.com). Electronic design studio in Ladispoli (Rome), Italy.
 
 ## Stack
 

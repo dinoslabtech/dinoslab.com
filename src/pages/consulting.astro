@@ -8,43 +8,42 @@ import { site } from "@/data/site";
 const steps = [
   {
     title: "Schematic",
-    body: "We go through what the board has to do, pick the parts, and draw something that can actually be built.",
+    body: "Requirements, architecture, and component selection. The schematic is drawn for manufacture, not only for the bench.",
   },
   {
     title: "Layout",
-    body: "RF, power, dense BGAs — we lay out the stack the job needs.",
+    body: "PCB layout including RF, power distribution, and fine-pitch BGAs where the design requires it.",
   },
   {
     title: "Firmware and software",
-    body: "Bring-up, drivers, and whatever sits on top: a Linux image, a small UI, a service.",
+    body: "Bring-up, drivers, and application software — a Linux image, a service, or a user interface as needed.",
   },
   {
     title: "Prototype",
-    body: "A first batch you can hold. We change what doesn’t work.",
+    body: "A first assembled lot for bring-up and revision.",
   },
   {
-    title: "Production",
-    body: "Assembly at Acme Systems in Ladispoli. Tens of boards, or tens of thousands a month.",
+    title: "Series production",
+    body: "Assembly through Acme Systems. Prototype quantities through tens of thousands per month.",
   },
 ];
 ---
 
 <Layout
   title="Consulting"
-  description="Custom PCB design, firmware, and assembly in Italy — from the first prototype through production."
+  description="Schematic, PCB layout, firmware, and board assembly from prototype to series production."
 >
   <div class="shell py-16 lg:py-20">
-    <PageIntro kicker="Consulting" title="Custom boards">
-      From the first schematic through assembled hardware. Firmware and
-      software if you need them. We’re in Ladispoli; the work can come from
-      anywhere.
+    <PageIntro kicker="Consulting" title="Design services">
+      Schematic, PCB layout, firmware, and software, through to assembled
+      boards. Prototype lots and series production.
     </PageIntro>
   </div>
 
   <section class="border-y border-line bg-panel">
     <div class="shell py-16 lg:py-20">
-      <p class="eyebrow">Process</p>
-      <h2 class="mt-3 text-3xl font-medium tracking-tight">How a project runs</h2>
+      <p class="eyebrow">Scope</p>
+      <h2 class="mt-3 text-3xl font-medium tracking-tight">From schematic to assembled board</h2>
       <ol class="mt-10 divide-y divide-line border-y border-line">
         {
           steps.map((step, i) => (
@@ -64,17 +63,16 @@ const steps = [
   <section class="border-b border-line">
     <div class="shell grid gap-10 py-16 lg:grid-cols-12 lg:py-20">
       <div class="lg:col-span-4">
-        <p class="eyebrow">Production</p>
-        <h2 class="mt-3 text-3xl font-medium tracking-tight">Built in Ladispoli</h2>
+        <p class="eyebrow">Manufacturing</p>
+        <h2 class="mt-3 text-3xl font-medium tracking-tight">Assembly</h2>
       </div>
       <p class="max-w-2xl text-[17px] leading-relaxed text-muted lg:col-span-8">
-        Dino’s Lab is independent.{" "}
+        Boards are assembled under a production agreement with{" "}
         <a class="text-ink underline decoration-line underline-offset-2 hover:text-lab" href={site.acme.url}>
           {site.acme.name}
         </a>
-        {" "}lets us use their line in Ladispoli: pick-and-place, vapour-phase
-        reflow, through-hole, test. Same machines they use for their own Linux
-        modules. You get assembled boards, not just files.
+        . SMT pick-and-place, vapour-phase reflow, through-hole, and test.
+        Quantities from first prototypes to tens of thousands per month.
       </p>
     </div>
   </section>
@@ -82,11 +80,11 @@ const steps = [
   <section>
     <div class="shell grid gap-12 py-16 lg:grid-cols-12 lg:py-20">
       <div class="lg:col-span-5">
-        <p class="eyebrow">Quote</p>
-        <h2 class="mt-3 text-3xl font-medium tracking-tight">Ask for a quote</h2>
+        <p class="eyebrow">Enquiry</p>
+        <h2 class="mt-3 text-3xl font-medium tracking-tight">Request a quote</h2>
         <p class="mt-4 text-sm leading-relaxed text-muted">
-          What the board has to do, roughly how many, and when you need it.
-          We’ll answer by email, phone, or Telegram.
+          Function, estimated quantity, and target date. Reply by email, phone,
+          or Telegram.
         </p>
         <div class="mt-8">
           <ContactLinks />
