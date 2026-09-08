@@ -9,7 +9,7 @@ Website for [dinoslab.com](https://dinoslab.com). Electronic design studio in La
 - [MDX](https://mdxjs.com) for the blog
 - Hosted on [Netlify](https://www.netlify.com)
 
-No React, no i18n, no monorepo. Forms go to Netlify Forms.
+No React, no i18n, no monorepo. Forms post to [FormSubmit](https://formsubmit.co) and land in `info@dinoslab.com`. The first submission sends a confirmation link to that inbox — open it once, or later mail is dropped.
 
 ## Local
 

@@ -1,4 +1,6 @@
 ---
+import { site } from "@/data/site";
+
 interface Props {
   name?: string;
   heading?: string;
@@ -14,22 +16,34 @@ const {
 } = Astro.props;
 
 const isInterest = variant === "interest";
+
+const subjects: Record<string, string> = {
+  contact: `${site.name} — contact`,
+  quote: `${site.name} — quote request`,
+  interest: `${site.name} — module interest`,
+};
+
+const action = `https://formsubmit.co/${site.email}`;
+const nextUrl = new URL("/thank-you", site.url).href;
 ---
 
 <form
   name={name}
   method="POST"
-  action="/thank-you"
-  data-netlify="true"
-  netlify-honeypot="bot-field"
-  class="grid gap-4"
+  action={action}
+  class="js-mail-form grid gap-4"
 >
-  <input type="hidden" name="form-name" value={name} />
+  <input type="hidden" name="_subject" value={subjects[name] ?? subjects.contact} />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_next" value={nextUrl} />
+  <input type="hidden" name="form" value={name} />
   {product && <input type="hidden" name="product" value={product} />}
-  <p class="hidden">
+
+  <p class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
     <label>
-      Don’t fill this out
-      <input name="bot-field" />
+      Leave empty
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
     </label>
   </p>
 
@@ -69,3 +83,10 @@ const isInterest = variant === "interest";
     Send
   </button>
 </form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("form.js-mail-form").forEach((form) => {
+    const next = form.querySelector<HTMLInputElement>("input[name='_next']");
+    if (next) next.value = `${window.location.origin}/thank-you`;
+  });
+</script>
