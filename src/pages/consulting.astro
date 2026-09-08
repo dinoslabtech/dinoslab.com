@@ -40,14 +40,14 @@ const steps = [
     </PageIntro>
   </div>
 
-  <section class="border-y border-line bg-white">
+  <section class="border-y border-line bg-panel">
     <div class="shell py-16 lg:py-20">
       <p class="eyebrow">Process</p>
       <h2 class="mt-3 text-3xl font-medium tracking-tight">What a project looks like</h2>
       <ol class="mt-10 divide-y divide-line border-y border-line">
         {
           steps.map((step, i) => (
-            <li class="grid gap-4 py-6 sm:grid-cols-[5rem_1fr] sm:gap-10">
+            <li class="grid gap-2 py-6 md:grid-cols-[5rem_1fr] md:gap-10">
               <span class="font-mono text-sm text-lab">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <h3 class="font-medium tracking-tight">{step.title}</h3>

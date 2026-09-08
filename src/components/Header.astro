@@ -9,32 +9,32 @@ function current(href: string) {
 }
 ---
 
-<header class="sticky top-0 z-50 border-b border-line bg-paper/95 backdrop-blur-md">
-  <div class="shell flex h-[3.75rem] items-center justify-between">
-    <a href="/" class="flex items-center gap-2.5" aria-current={path === "/" ? "page" : undefined}>
+<header class="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-md">
+  <div class="shell flex h-14 items-center justify-between sm:h-[3.75rem]">
+    <a href="/" class="flex min-h-11 items-center gap-2.5" aria-current={path === "/" ? "page" : undefined}>
       <img src="/logo-mark.svg" alt="" width="28" height="28" class="h-7 w-7" />
       <span class="text-[15px] font-medium tracking-tight">{site.name}</span>
     </a>
 
-    <nav class="hidden items-center gap-7 lg:flex" aria-label="Primary">
+    <nav class="hidden items-center gap-6 xl:flex 2xl:gap-7" aria-label="Primary">
       {
         nav.map((item) => (
           <a
             href={item.href}
-            class="nav-link"
+            class="nav-link min-h-11 inline-flex items-center"
             aria-current={current(item.href) ? "page" : undefined}
           >
             {item.label}
           </a>
         ))
       }
-      <a href="/contact" class="btn-primary ml-2">Contact</a>
+      <a href="/contact" class="btn-primary ml-1">Contact</a>
     </nav>
 
     <button
       id="nav-toggle"
       type="button"
-      class="inline-flex h-10 w-10 items-center justify-center lg:hidden"
+      class="inline-flex h-11 w-11 items-center justify-center xl:hidden"
       aria-expanded="false"
       aria-controls="mobile-nav"
       aria-label="Open menu"
@@ -52,13 +52,17 @@ function current(href: string) {
     </button>
   </div>
 
-  <nav id="mobile-nav" class="hidden border-t border-line bg-paper lg:hidden" aria-label="Mobile">
-    <div class="shell flex flex-col py-3">
+  <nav
+    id="mobile-nav"
+    class="hidden max-h-[min(80vh,32rem)] overflow-y-auto border-t border-line bg-paper xl:hidden"
+    aria-label="Mobile"
+  >
+    <div class="shell flex flex-col py-2 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
       {
         nav.map((item) => (
           <a
             href={item.href}
-            class="border-b border-line/70 py-3 text-sm"
+            class="flex min-h-12 items-center border-b border-line/80 text-base"
             aria-current={current(item.href) ? "page" : undefined}
           >
             {item.label}

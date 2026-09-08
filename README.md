@@ -20,7 +20,13 @@ pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:4321](http://localhost:4321).
+Open [http://localhost:4321](http://localhost:4321). The dev and preview servers bind `0.0.0.0`, so phones and tablets on the same LAN can use `http://<this-machine>:4321`.
+
+If the firewall is up (UFW default drop):
+
+```sh
+sudo ufw allow 4321/tcp comment 'dinoslab preview'
+```
 
 ```sh
 pnpm build
