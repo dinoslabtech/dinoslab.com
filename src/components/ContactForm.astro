@@ -50,7 +50,7 @@ const isInterest = variant === "interest";
       <label class="grid gap-1.5 text-[13px]">
         <span class="font-medium">How many boards?</span>
         <select name="quantity" class="field">
-          <option value="just-trying">Just trying it / not sure</option>
+          <option value="just-trying">Not sure yet / just trying</option>
           <option value="1-5">1–5</option>
           <option value="6-20">6–20</option>
           <option value="21-100">21–100</option>
@@ -61,11 +61,11 @@ const isInterest = variant === "interest";
   }
 
   <label class="grid gap-1.5 text-[13px]">
-    <span class="font-medium">{isInterest ? "Anything we should know" : "Message"}</span>
+    <span class="font-medium">{isInterest ? "Notes" : "Message"}</span>
     <textarea name="message" rows="5" required={!isInterest} class="field min-h-[8rem] resize-y" />
   </label>
 
   <button type="submit" class="btn-primary mt-1 justify-self-start">
-    {isInterest ? "Register interest" : "Send message"}
+    Send
   </button>
 </form>

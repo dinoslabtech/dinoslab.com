@@ -6,36 +6,34 @@ import { site } from "@/data/site";
 
 <Layout
   title="About"
-  description="Dino’s Lab is an independent hardware studio in Ladispoli, near Rome, with a production agreement at Acme Systems."
+  description="Dino’s Lab is a small electronics studio in Ladispoli, near Rome, with assembly at Acme Systems."
 >
   <div class="shell py-16 lg:py-20">
-    <PageIntro kicker="About" title="A small studio, a real line.">
-      Independent hardware studio in Ladispoli, in the Rome area. We design
-      printed circuit boards and modules, write firmware, and build the software
-      that sits around the hardware.
+    <PageIntro kicker="About" title="Who we are">
+      A small electronics studio in Ladispoli, just outside Rome.
     </PageIntro>
 
     <div class="mt-14 grid gap-12 lg:grid-cols-12">
       <div class="space-y-5 text-[17px] leading-relaxed text-muted lg:col-span-7">
         <p>
-          We are not a large house with a names-on-the-door roster. The studio
-          collaborates with professionals in software, hardware, firmware, and
-          mechanics as each project needs them.
+          We design printed circuit boards, write firmware, and take care of
+          the software around the hardware. For each job we pull in people we
+          already work with — software, firmware, mechanics — as needed.
         </p>
         <p>
-          Production is the part most design shops outsource to a distant fab.
-          We have a production agreement with{" "}
+          A lot of PCB consultancies stop at Gerbers and a far-away fab. We
+          have a production agreement with{" "}
           <a class="text-ink underline decoration-line underline-offset-2 hover:text-lab" href={site.acme.url}>
             {site.acme.name}
           </a>
-          , also in Ladispoli. Their line — pick-and-place, vapour-phase reflow,
-          through-hole, test — is the same one behind their own System-on-Module
-          products, including the RoadRunner. We use it for Dino’s Lab boards:
-          prototypes, small series, and runs of tens of thousands in a month.
+          , also in Ladispoli. Pick-and-place, vapour-phase reflow, through-hole,
+          test: the same line they use for their own modules, including the
+          RoadRunner. That’s where Dino’s Lab boards get built, ten pieces or
+          ten thousand.
         </p>
         <p>
-          The catalog is the long game. Custom work is how we start. We speak
-          English and take work from anywhere.
+          Our own modules are next. Until they exist, the work is custom.
+          English is fine, and so is working at a distance.
         </p>
       </div>
 
@@ -55,7 +53,7 @@ import { site } from "@/data/site";
           </dd>
         </div>
         <div class="grid grid-cols-[7rem_1fr] gap-4 px-5 py-4 text-sm">
-          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Contact</dt>
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Email</dt>
           <dd>
             <a class="hover:text-lab" href={`mailto:${site.email}`}>{site.email}</a>
           </dd>

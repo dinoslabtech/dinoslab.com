@@ -1,0 +1,86 @@
+---
+import Icon from "@/components/Icon.astro";
+import { site } from "@/data/site";
+
+interface Props {
+  github?: boolean;
+  location?: boolean;
+  compact?: boolean;
+}
+
+const { github = false, location = false, compact = false } = Astro.props;
+
+type Item = {
+  icon: "mail" | "phone" | "telegram" | "github";
+  href: string;
+  label: string;
+  text: string;
+};
+
+const items: Item[] = [
+  {
+    icon: "mail",
+    href: `mailto:${site.email}`,
+    label: "Email",
+    text: site.email,
+  },
+  {
+    icon: "phone",
+    href: `tel:${site.phone.replace(/\s/g, "")}`,
+    label: "Phone",
+    text: site.phone,
+  },
+  {
+    icon: "telegram",
+    href: site.telegram,
+    label: "Telegram",
+    text: site.telegramHandle,
+  },
+];
+
+if (github) {
+  items.push({
+    icon: "github",
+    href: site.github,
+    label: "GitHub",
+    text: site.githubHandle,
+  });
+}
+---
+
+<ul class:list={[compact ? "space-y-1" : "divide-y divide-line border-y border-line"]}>
+  {
+    items.map((item) => (
+      <li>
+        <a
+          href={item.href}
+          class:list={[
+            "group flex min-h-11 items-center gap-3 text-sm hover:text-lab",
+            compact ? "py-1" : "py-3",
+          ]}
+        >
+          <span class="text-muted group-hover:text-lab">
+            <Icon name={item.icon} />
+          </span>
+          {!compact && (
+            <span class="w-20 shrink-0 font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+              {item.label}
+            </span>
+          )}
+          <span class={compact ? "" : "text-[15px] sm:text-base"}>{item.text}</span>
+        </a>
+      </li>
+    ))
+  }
+  {
+    location && (
+      <li class:list={["flex min-h-11 items-center gap-3 text-sm text-muted", compact ? "py-1" : "py-3"]}>
+        <Icon name="pin" />
+        {!compact && (
+          <span class="w-20 shrink-0 font-mono text-[11px] uppercase tracking-[0.16em]">Studio</span>
+        )}
+        <span class={compact ? "" : "text-[15px] text-ink sm:text-base"}>{site.location}</span>
+      </li>
+    )
+  }
+</ul>

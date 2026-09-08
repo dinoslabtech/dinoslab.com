@@ -3,9 +3,9 @@ export const site = {
   legalName: "Dino's Lab",
   url: "https://dinoslab.com",
   description:
-    "Independent hardware studio in Ladispoli, near Rome. We design PCBs and modules, write the firmware around them, and assemble on an Italian production line.",
-  tagline: "Boards, modules, and the firmware around them.",
-  email: "hello@dinoslab.com",
+    "Electronics studio in Ladispoli, near Rome. We design PCBs, write the firmware, and assemble the boards in Italy.",
+  tagline: "PCB design, firmware, and assembly in Italy.",
+  email: "info@dinoslab.com",
   phone: "+39 333 456 7890",
   telegram: "https://t.me/dinoslab",
   telegramHandle: "@dinoslab",
