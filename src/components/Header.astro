@@ -1,0 +1,90 @@
+---
+import { site, nav } from "@/data/site";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function current(href: string) {
+  if (href === "/") return path === "/";
+  return path === href || path.startsWith(`${href}/`);
+}
+---
+
+<header class="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-md">
+  <div class="shell flex h-14 items-center justify-between sm:h-[3.75rem]">
+    <a href="/" class="flex min-h-11 items-center gap-2.5" aria-current={path === "/" ? "page" : undefined}>
+      <img src="/logo-mark.svg" alt="" width="28" height="28" class="h-7 w-7" />
+      <span class="text-[15px] font-medium tracking-tight">{site.name}</span>
+    </a>
+
+    <nav class="hidden items-center gap-6 xl:flex 2xl:gap-7" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="nav-link min-h-11 inline-flex items-center"
+            aria-current={current(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/contact" class="btn-primary ml-1">Contact</a>
+    </nav>
+
+    <button
+      id="nav-toggle"
+      type="button"
+      class="inline-flex h-11 w-11 items-center justify-center xl:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="Open menu"
+    >
+      <span id="nav-icon-open" aria-hidden="true">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="square" stroke-width="1.6" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </span>
+      <span id="nav-icon-close" class="hidden" aria-hidden="true">
+        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="square" stroke-width="1.6" d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </span>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-nav"
+    class="hidden max-h-[min(80vh,32rem)] overflow-y-auto border-t border-line bg-paper xl:hidden"
+    aria-label="Mobile"
+  >
+    <div class="shell flex flex-col py-2 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="flex min-h-12 items-center border-b border-line/80 text-base"
+            aria-current={current(item.href) ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <a href="/contact" class="btn-primary mt-4 mb-2 w-full">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById("nav-toggle");
+  const menu = document.getElementById("mobile-nav");
+  const openIcon = document.getElementById("nav-icon-open");
+  const closeIcon = document.getElementById("nav-icon-close");
+
+  toggle?.addEventListener("click", () => {
+    const open = menu?.classList.toggle("hidden") === false;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    openIcon?.classList.toggle("hidden", open);
+    closeIcon?.classList.toggle("hidden", !open);
+  });
+</script>

@@ -1,0 +1,39 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import ProductCard from "@/components/ProductCard.astro";
+import { getCollection } from "astro:content";
+
+const products = await getCollection("products");
+---
+
+<Layout
+  title="Products"
+  description="Dino’s Lab modules. First release: STM32N6 edge-AI module. Register interest."
+>
+  <div class="shell py-16 lg:py-20">
+    <PageIntro kicker="Products" title="Modules">
+      Catalogue in development. First item is an STM32N6 module for edge AI.
+      Indicative quantity can be included with an interest request.
+    </PageIntro>
+
+    <div
+      class:list={[
+        "mt-12 grid gap-6",
+        products.length > 1 ? "md:grid-cols-2" : "max-w-xl",
+      ]}
+    >
+      {
+        products.map((product) => (
+          <ProductCard
+            href={`/products/${product.id}`}
+            category={product.data.category}
+            title={product.data.title}
+            chip={product.data.chip}
+            summary={product.data.summary}
+          />
+        ))
+      }
+    </div>
+  </div>
+</Layout>

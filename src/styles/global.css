@@ -1,0 +1,149 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-lab: #4ec4ad;
+  --color-lab-bright: #6ed9c4;
+  --color-lab-deep: #0f5f53;
+  --color-lab-ink: #0a3d36;
+  --color-mist: #14302b;
+  --color-paper: #0c0f10;
+  --color-panel: #14181a;
+  --color-ink: #e8eceb;
+  --color-muted: #8b9693;
+  --color-line: #2a3234;
+  --color-white: #ffffff;
+  --color-void: #080a0b;
+
+  --radius-sm: 2px;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+  font-feature-settings: "cv11", "ss01", "kern";
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: var(--color-lab-deep);
+}
+
+::selection {
+  background: var(--color-lab-deep);
+  color: #fff;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-lab);
+  outline-offset: 2px;
+}
+
+.shell {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+.eyebrow {
+  @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-lab;
+}
+
+.display {
+  @apply text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] sm:text-4xl md:text-5xl lg:text-[3.35rem] lg:leading-[1.08];
+}
+
+.lead {
+  @apply max-w-xl text-base leading-relaxed text-muted sm:text-lg;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-ghost {
+  @apply inline-flex min-h-11 items-center justify-center gap-2 px-4 py-2.5 text-[13px] font-medium tracking-wide transition-colors;
+  border-radius: var(--radius-sm);
+}
+
+.btn-primary {
+  @apply bg-lab-deep text-white hover:bg-lab;
+}
+
+.btn-secondary {
+  @apply border border-line bg-panel text-ink hover:border-lab/50;
+}
+
+.btn-ghost {
+  @apply text-lab hover:bg-mist;
+}
+
+.badge {
+  @apply inline-flex items-center border border-lab/25 bg-mist px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-lab;
+}
+
+.panel {
+  @apply border border-line bg-panel;
+}
+
+.field {
+  @apply min-h-11 w-full border border-line bg-paper px-3 py-2.5 text-base text-ink sm:text-sm;
+  border-radius: var(--radius-sm);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--color-lab);
+  box-shadow: 0 0 0 3px rgb(78 196 173 / 0.18);
+}
+
+.prose-lab {
+  @apply prose prose-invert max-w-none;
+  --tw-prose-body: var(--color-muted);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-links: var(--color-lab);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-quotes: var(--color-ink);
+  --tw-prose-code: var(--color-lab);
+  --tw-prose-pre-bg: var(--color-void);
+  --tw-prose-hr: var(--color-line);
+  --tw-prose-th-borders: var(--color-line);
+  --tw-prose-td-borders: var(--color-line);
+}
+
+.prose-lab h2 {
+  @apply font-medium tracking-tight;
+}
+
+.nav-link {
+  @apply relative text-[13px] text-muted transition-colors hover:text-ink;
+}
+
+.nav-link[aria-current="page"] {
+  @apply text-ink;
+}
+
+.nav-link[aria-current="page"]::after {
+  content: "";
+  @apply absolute right-0 -bottom-1 left-0 h-px bg-lab;
+}
+
+.figure-grid {
+  background-color: #101415;
+  background-image:
+    linear-gradient(to right, rgb(78 196 173 / 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(78 196 173 / 0.12) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
