@@ -3,57 +3,59 @@ import { site, nav } from "@/data/site";
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-line bg-white">
-  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-4">
-    <div class="md:col-span-2">
-      <div class="flex items-center gap-3">
-        <img src="/logo-mark.svg" alt="" width="32" height="32" class="h-8 w-8" />
-        <span class="font-semibold">{site.name}</span>
+<footer class="mt-auto bg-void text-white">
+  <div class="shell grid gap-12 py-14 md:grid-cols-12">
+    <div class="md:col-span-5">
+      <div class="flex items-center gap-2.5">
+        <img src="/logo-mark.svg" alt="" width="28" height="28" class="h-7 w-7" />
+        <span class="text-[15px] font-medium">{site.name}</span>
       </div>
-      <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-        {site.tagline} Independent studio in {site.location}. Production with{" "}
-        <a class="underline decoration-line underline-offset-2 hover:text-lab" href={site.acme.url}>
+      <p class="mt-4 max-w-sm text-sm leading-relaxed text-white/60">
+        {site.tagline} Independent studio in {site.location}. Boards assembled with{" "}
+        <a class="text-white/90 underline decoration-white/25 underline-offset-2 hover:decoration-white" href={site.acme.url}>
           {site.acme.name}
         </a>.
       </p>
     </div>
 
-    <div>
-      <p class="text-xs font-semibold uppercase tracking-wider text-muted">Studio</p>
-      <ul class="mt-3 space-y-2 text-sm">
+    <div class="md:col-span-3">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">Studio</p>
+      <ul class="mt-4 space-y-2 text-sm text-white/70">
         {nav.map((item) => (
           <li>
-            <a class="hover:text-lab" href={item.href}>{item.label}</a>
+            <a class="hover:text-white" href={item.href}>{item.label}</a>
           </li>
         ))}
         <li>
-          <a class="hover:text-lab" href="/contact">Contact</a>
+          <a class="hover:text-white" href="/contact">Contact</a>
         </li>
       </ul>
     </div>
 
-    <div>
-      <p class="text-xs font-semibold uppercase tracking-wider text-muted">Talk to us</p>
-      <ul class="mt-3 space-y-2 text-sm">
+    <div class="md:col-span-4">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-white/40">Contact</p>
+      <ul class="mt-4 space-y-2 text-sm text-white/70">
         <li>
-          <a class="hover:text-lab" href={`mailto:${site.email}`}>{site.email}</a>
+          <a class="hover:text-white" href={`mailto:${site.email}`}>{site.email}</a>
         </li>
         <li>
-          <a class="hover:text-lab" href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
+          <a class="hover:text-white" href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
+          <span class="text-white/40"> · SIM</span>
         </li>
         <li>
-          <a class="hover:text-lab" href={site.telegram}>Telegram {site.telegramHandle}</a>
+          <a class="hover:text-white" href={site.telegram}>Telegram {site.telegramHandle}</a>
         </li>
         <li>
-          <a class="hover:text-lab" href={site.github}>GitHub {site.githubHandle}</a>
+          <a class="hover:text-white" href={site.github}>GitHub {site.githubHandle}</a>
         </li>
-        <li class="text-muted">{site.location}</li>
+        <li class="text-white/45">{site.location}</li>
       </ul>
     </div>
   </div>
-  <div class="border-t border-line">
-    <p class="mx-auto max-w-6xl px-4 py-5 text-xs text-muted sm:px-6">
-      © {year} {site.legalName}. English-speaking studio. We work worldwide.
-    </p>
+  <div class="border-t border-white/10">
+    <div class="shell flex flex-col gap-2 py-4 font-mono text-[11px] tracking-wide text-white/40 sm:flex-row sm:justify-between">
+      <p>© {year} {site.legalName}</p>
+      <p>English · Worldwide</p>
+    </div>
   </div>
 </footer>

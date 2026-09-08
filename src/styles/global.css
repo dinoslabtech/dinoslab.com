@@ -6,14 +6,17 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   --color-lab: #0f5f53;
-  --color-lab-bright: #167a6b;
+  --color-lab-bright: #147a6c;
   --color-lab-ink: #0a3d36;
-  --color-mist: #e7f1ee;
-  --color-paper: #f6f4ef;
-  --color-ink: #1a1c1e;
-  --color-muted: #5c6368;
-  --color-line: #d8d4cb;
+  --color-mist: #e8f0ee;
+  --color-paper: #f4f2ec;
+  --color-ink: #141618;
+  --color-muted: #5a6166;
+  --color-line: #d4d0c6;
   --color-white: #ffffff;
+  --color-void: #121416;
+
+  --radius-sm: 2px;
 }
 
 html {
@@ -22,11 +25,19 @@ html {
 
 body {
   @apply bg-paper text-ink font-sans antialiased;
+  font-feature-settings: "cv11", "ss01", "kern";
+}
+
+body::before {
+  content: "";
+  display: block;
+  height: 3px;
+  background: var(--color-lab);
 }
 
 ::selection {
   background: var(--color-lab);
-  color: white;
+  color: #fff;
 }
 
 a:focus-visible,
@@ -36,4 +47,90 @@ select:focus-visible,
 textarea:focus-visible {
   outline: 2px solid var(--color-lab);
   outline-offset: 2px;
+}
+
+.shell {
+  @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+}
+
+.eyebrow {
+  @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-lab;
+}
+
+.display {
+  @apply text-[2.15rem] font-medium leading-[1.08] tracking-[-0.03em] sm:text-5xl lg:text-[3.35rem];
+}
+
+.lead {
+  @apply max-w-xl text-base leading-relaxed text-muted sm:text-lg;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 text-[13px] font-medium tracking-wide transition-colors;
+  border-radius: var(--radius-sm);
+}
+
+.btn-primary {
+  @apply bg-lab text-white hover:bg-lab-bright;
+}
+
+.btn-secondary {
+  @apply border border-ink/15 bg-white text-ink hover:border-ink/40;
+}
+
+.btn-ghost {
+  @apply text-lab hover:bg-mist;
+}
+
+.badge {
+  @apply inline-flex items-center border border-lab/20 bg-mist px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-lab-ink;
+}
+
+.panel {
+  @apply border border-line bg-white;
+}
+
+.field {
+  @apply w-full border border-line bg-white px-3 py-2.5 text-sm text-ink;
+  border-radius: var(--radius-sm);
+}
+
+.field:focus {
+  outline: none;
+  border-color: var(--color-lab);
+  box-shadow: 0 0 0 3px rgb(15 95 83 / 0.12);
+}
+
+.prose-lab {
+  @apply prose prose-neutral max-w-none;
+  --tw-prose-links: var(--color-lab);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-quotes: var(--color-ink);
+}
+
+.prose-lab h2 {
+  @apply font-medium tracking-tight;
+}
+
+.nav-link {
+  @apply relative text-[13px] text-muted transition-colors hover:text-ink;
+}
+
+.nav-link[aria-current="page"] {
+  @apply text-ink;
+}
+
+.nav-link[aria-current="page"]::after {
+  content: "";
+  @apply absolute right-0 -bottom-1 left-0 h-px bg-lab;
+}
+
+.figure-grid {
+  background-color: #fbfaf6;
+  background-image:
+    linear-gradient(to right, rgb(15 95 83 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(15 95 83 / 0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
 }

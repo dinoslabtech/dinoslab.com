@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import PageIntro from "@/components/PageIntro.astro";
 import ContactForm from "@/components/ContactForm.astro";
 import { site } from "@/data/site";
 ---
@@ -8,41 +9,52 @@ import { site } from "@/data/site";
   title="Contact"
   description="Email, SIM, or Telegram. Dino’s Lab is in Ladispoli / Rome and works worldwide."
 >
-  <div class="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2">
-    <div>
-      <p class="text-sm font-medium uppercase tracking-wider text-lab">Contact</p>
-      <h1 class="mt-2 text-4xl font-semibold tracking-tight">Ask us directly.</h1>
-      <p class="mt-4 max-w-md text-lg text-muted">
+  <div class="shell grid gap-12 py-16 lg:grid-cols-12 lg:py-20">
+    <div class="lg:col-span-5">
+      <PageIntro kicker="Contact" title="Ask us directly.">
         Quotes, module interest, or a short question. We answer in English.
-      </p>
-      <ul class="mt-10 space-y-4 text-sm">
-        <li>
-          <p class="text-xs font-semibold uppercase tracking-wider text-muted">Email</p>
-          <a class="text-lg hover:text-lab" href={`mailto:${site.email}`}>{site.email}</a>
-        </li>
-        <li>
-          <p class="text-xs font-semibold uppercase tracking-wider text-muted">SIM</p>
-          <a class="text-lg hover:text-lab" href={`tel:${site.phone.replace(/\s/g, "")}`}>
-            {site.phone}
-          </a>
-        </li>
-        <li>
-          <p class="text-xs font-semibold uppercase tracking-wider text-muted">Telegram</p>
-          <a class="text-lg hover:text-lab" href={site.telegram}>{site.telegramHandle}</a>
-        </li>
-        <li>
-          <p class="text-xs font-semibold uppercase tracking-wider text-muted">GitHub</p>
-          <a class="text-lg hover:text-lab" href={site.github}>{site.githubHandle}</a>
-        </li>
-        <li>
-          <p class="text-xs font-semibold uppercase tracking-wider text-muted">Studio</p>
-          <p class="text-lg">{site.location}</p>
-        </li>
-      </ul>
+      </PageIntro>
+
+      <dl class="mt-10 divide-y divide-line border-y border-line">
+        <div class="py-4">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Email</dt>
+          <dd class="mt-1">
+            <a class="text-lg hover:text-lab" href={`mailto:${site.email}`}>{site.email}</a>
+          </dd>
+        </div>
+        <div class="py-4">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">SIM</dt>
+          <dd class="mt-1">
+            <a class="text-lg hover:text-lab" href={`tel:${site.phone.replace(/\s/g, "")}`}>
+              {site.phone}
+            </a>
+          </dd>
+        </div>
+        <div class="py-4">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Telegram</dt>
+          <dd class="mt-1">
+            <a class="text-lg hover:text-lab" href={site.telegram}>{site.telegramHandle}</a>
+          </dd>
+        </div>
+        <div class="py-4">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">GitHub</dt>
+          <dd class="mt-1">
+            <a class="text-lg hover:text-lab" href={site.github}>{site.githubHandle}</a>
+          </dd>
+        </div>
+        <div class="py-4">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Studio</dt>
+          <dd class="mt-1 text-lg">{site.location}</dd>
+        </div>
+      </dl>
     </div>
-    <div class="rounded-2xl border border-line bg-white p-6 sm:p-8">
-      <h2 class="text-lg font-semibold">Write to the studio</h2>
-      <p class="mt-2 text-sm text-muted">For a board quote, use consulting. This form is for everything else.</p>
+
+    <div class="panel h-fit p-6 sm:p-8 lg:col-span-7">
+      <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Message</p>
+      <p class="mt-2 text-sm text-muted">
+        For a board quote, use <a class="underline underline-offset-2 hover:text-lab" href="/consulting">consulting</a>.
+        This form is for everything else.
+      </p>
       <div class="mt-6">
         <ContactForm />
       </div>
