@@ -1,0 +1,145 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import { site } from "@/data/site";
+import { getCollection } from "astro:content";
+
+const products = await getCollection("products");
+---
+
+<Layout>
+  <section class="border-b border-line">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.2fr_0.8fr] lg:py-24">
+      <div>
+        <p class="text-sm font-medium uppercase tracking-wider text-lab">
+          Hardware studio · {site.location}
+        </p>
+        <h1 class="mt-4 max-w-xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
+          Boards and modules, designed in the lab.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+          Dino’s Lab is an independent studio. We design PCBs, write the firmware
+          and software that sit on them, and assemble in Italy — from a handful
+          of prototypes to tens of thousands a month.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a
+            href="/products"
+            class="rounded-full bg-lab px-5 py-2.5 text-sm font-medium text-white hover:bg-lab-bright"
+          >
+            First module
+          </a>
+          <a
+            href="/consulting"
+            class="rounded-full border border-line bg-white px-5 py-2.5 text-sm font-medium hover:border-ink"
+          >
+            Custom boards
+          </a>
+        </div>
+      </div>
+      <div class="flex items-end justify-center lg:justify-end">
+        <img
+          src="/logo.svg"
+          alt="Dino’s Lab mark: a sauropod with PCB traces along its back"
+          class="w-full max-w-md"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-line bg-white">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <p class="text-sm font-medium uppercase tracking-wider text-lab">In the lab</p>
+      <h2 class="mt-2 text-3xl font-semibold tracking-tight">Products</h2>
+      <p class="mt-3 max-w-2xl text-muted">
+        The catalog is just starting. Register interest if you want a board —
+        even if you only want to try one.
+      </p>
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {
+          products.map((product) => (
+            <a
+              href={`/products/${product.id}`}
+              class="group rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-lab"
+            >
+              <div class="flex items-center justify-between gap-3">
+                <p class="font-mono text-xs uppercase tracking-wider text-lab">
+                  {product.data.category}
+                </p>
+                <span class="rounded-full bg-mist px-2.5 py-1 text-xs font-medium text-lab-ink">
+                  Coming soon
+                </span>
+              </div>
+              <h3 class="mt-4 text-2xl font-semibold group-hover:text-lab">
+                {product.data.title}
+              </h3>
+              <p class="mt-2 font-mono text-sm text-muted">{product.data.chip}</p>
+              <p class="mt-4 text-sm leading-relaxed text-muted">
+                {product.data.summary}
+              </p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-line">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-3">
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight">Custom work</h2>
+        <p class="mt-3 text-sm leading-relaxed text-muted">
+          Schematic, layout, firmware, and software around the board. Prototypes
+          first, then a small series or a real production run.
+        </p>
+        <a href="/consulting" class="mt-4 inline-block text-sm font-medium text-lab hover:underline">
+          Consulting →
+        </a>
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight">Assembled in Italy</h2>
+        <p class="mt-3 text-sm leading-relaxed text-muted">
+          We have a production agreement with{" "}
+          <a class="underline decoration-line underline-offset-2 hover:text-lab" href={site.acme.url}>
+            {site.acme.name}
+          </a>{" "}
+          in Ladispoli. Same pick-and-place and vapour-phase line they use for
+          their own modules — including the RoadRunner SOM.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight">Worldwide</h2>
+        <p class="mt-3 text-sm leading-relaxed text-muted">
+          Based in the Rome area. The studio works in English and takes projects
+          from anywhere.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-lab text-white">
+    <div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:items-center">
+      <div>
+        <h2 class="text-3xl font-semibold tracking-tight">Tell us what you need</h2>
+        <p class="mt-4 text-white/80">
+          A quote for a custom board, or a note that you want the N6 module when
+          it exists. Email, SIM, or Telegram — or the form.
+        </p>
+        <ul class="mt-6 space-y-2 text-sm text-white/90">
+          <li>
+            <a class="hover:underline" href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+          <li>
+            <a class="hover:underline" href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
+          </li>
+          <li>
+            <a class="hover:underline" href={site.telegram}>Telegram {site.telegramHandle}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="rounded-2xl bg-white p-6 text-ink">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</Layout>

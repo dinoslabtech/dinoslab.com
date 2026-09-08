@@ -1,0 +1,43 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const products = await getCollection("products");
+---
+
+<Layout
+  title="Products"
+  description="Modules and boards from Dino’s Lab. First up: an STM32N6 edge-AI module. Register interest."
+>
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <p class="text-sm font-medium uppercase tracking-wider text-lab">Catalog</p>
+    <h1 class="mt-2 text-4xl font-semibold tracking-tight">Products</h1>
+    <p class="mt-4 max-w-2xl text-lg text-muted">
+      Nothing is for sale yet. The first module is in design. If it looks useful,
+      say how many you might want — or that you just want to try one.
+    </p>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2">
+      {
+        products.map((product) => (
+          <a
+            href={`/products/${product.id}`}
+            class="rounded-2xl border border-line bg-white p-8 hover:border-lab"
+          >
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs uppercase tracking-wider text-lab">
+                {product.data.category}
+              </span>
+              <span class="rounded-full bg-mist px-2.5 py-1 text-xs font-medium text-lab-ink">
+                Coming soon
+              </span>
+            </div>
+            <h2 class="mt-6 text-3xl font-semibold">{product.data.title}</h2>
+            <p class="mt-2 font-mono text-sm text-muted">{product.data.chip}</p>
+            <p class="mt-4 text-muted">{product.data.summary}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,53 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const products = await getCollection("products");
+  return products.map((product) => ({
+    params: { id: product.id },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { Content } = await render(product);
+---
+
+<Layout title={product.data.title} description={product.data.summary}>
+  <article class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <p class="text-sm font-medium uppercase tracking-wider text-lab">
+      {product.data.category}
+    </p>
+    <div class="mt-2 flex flex-wrap items-center gap-3">
+      <h1 class="text-4xl font-semibold tracking-tight">{product.data.title}</h1>
+      <span class="rounded-full bg-mist px-3 py-1 text-xs font-medium text-lab-ink">
+        Coming soon
+      </span>
+    </div>
+    <p class="mt-2 font-mono text-sm text-muted">{product.data.chip}</p>
+    <p class="mt-6 max-w-2xl text-lg text-muted">{product.data.summary}</p>
+
+    <div class="mt-12 grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+      <div
+        class="prose prose-neutral max-w-none prose-headings:font-semibold prose-a:text-lab"
+      >
+        <Content />
+      </div>
+      <aside class="h-fit rounded-2xl border border-line bg-white p-6">
+        <h2 class="text-lg font-semibold">Register interest</h2>
+        <p class="mt-2 text-sm text-muted">
+          No payment. Tell us a quantity if you have one, or pick “just trying”.
+        </p>
+        <div class="mt-6">
+          <ContactForm
+            name="interest"
+            variant="interest"
+            product={product.data.shortName}
+          />
+        </div>
+      </aside>
+    </div>
+  </article>
+</Layout>

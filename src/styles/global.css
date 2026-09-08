@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  --font-sans: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --color-lab: #0f5f53;
+  --color-lab-bright: #167a6b;
+  --color-lab-ink: #0a3d36;
+  --color-mist: #e7f1ee;
+  --color-paper: #f6f4ef;
+  --color-ink: #1a1c1e;
+  --color-muted: #5c6368;
+  --color-line: #d8d4cb;
+  --color-white: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+}
+
+::selection {
+  background: var(--color-lab);
+  color: white;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-lab);
+  outline-offset: 2px;
+}

@@ -1,0 +1,51 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import { site } from "@/data/site";
+---
+
+<Layout
+  title="Contact"
+  description="Email, SIM, or Telegram. Dino’s Lab is in Ladispoli / Rome and works worldwide."
+>
+  <div class="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2">
+    <div>
+      <p class="text-sm font-medium uppercase tracking-wider text-lab">Contact</p>
+      <h1 class="mt-2 text-4xl font-semibold tracking-tight">Ask us directly.</h1>
+      <p class="mt-4 max-w-md text-lg text-muted">
+        Quotes, module interest, or a short question. We answer in English.
+      </p>
+      <ul class="mt-10 space-y-4 text-sm">
+        <li>
+          <p class="text-xs font-semibold uppercase tracking-wider text-muted">Email</p>
+          <a class="text-lg hover:text-lab" href={`mailto:${site.email}`}>{site.email}</a>
+        </li>
+        <li>
+          <p class="text-xs font-semibold uppercase tracking-wider text-muted">SIM</p>
+          <a class="text-lg hover:text-lab" href={`tel:${site.phone.replace(/\s/g, "")}`}>
+            {site.phone}
+          </a>
+        </li>
+        <li>
+          <p class="text-xs font-semibold uppercase tracking-wider text-muted">Telegram</p>
+          <a class="text-lg hover:text-lab" href={site.telegram}>{site.telegramHandle}</a>
+        </li>
+        <li>
+          <p class="text-xs font-semibold uppercase tracking-wider text-muted">GitHub</p>
+          <a class="text-lg hover:text-lab" href={site.github}>{site.githubHandle}</a>
+        </li>
+        <li>
+          <p class="text-xs font-semibold uppercase tracking-wider text-muted">Studio</p>
+          <p class="text-lg">{site.location}</p>
+        </li>
+      </ul>
+    </div>
+    <div class="rounded-2xl border border-line bg-white p-6 sm:p-8">
+      <h2 class="text-lg font-semibold">Write to the studio</h2>
+      <p class="mt-2 text-sm text-muted">For a board quote, use consulting. This form is for everything else.</p>
+      <div class="mt-6">
+        <ContactForm />
+      </div>
+    </div>
+  </div>
+</Layout>

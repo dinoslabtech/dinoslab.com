@@ -1,0 +1,91 @@
+---
+interface Props {
+  name?: string;
+  heading?: string;
+  product?: string;
+  variant?: "contact" | "interest";
+}
+
+const {
+  name = "contact",
+  heading,
+  product,
+  variant = "contact",
+} = Astro.props;
+
+const isInterest = variant === "interest";
+---
+
+<form
+  name={name}
+  method="POST"
+  action="/thank-you"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  class="grid gap-4"
+>
+  <input type="hidden" name="form-name" value={name} />
+  {product && <input type="hidden" name="product" value={product} />}
+  <p class="hidden">
+    <label>
+      Don’t fill this out
+      <input name="bot-field" />
+    </label>
+  </p>
+
+  {heading && <p class="text-sm font-medium text-ink">{heading}</p>}
+
+  <label class="grid gap-1 text-sm">
+    <span class="font-medium">Name</span>
+    <input
+      type="text"
+      name="name"
+      required
+      autocomplete="name"
+      class="rounded-md border border-line bg-white px-3 py-2"
+    />
+  </label>
+
+  <label class="grid gap-1 text-sm">
+    <span class="font-medium">Email</span>
+    <input
+      type="email"
+      name="email"
+      required
+      autocomplete="email"
+      class="rounded-md border border-line bg-white px-3 py-2"
+    />
+  </label>
+
+  {
+    isInterest && (
+      <label class="grid gap-1 text-sm">
+        <span class="font-medium">How many boards?</span>
+        <select name="quantity" class="rounded-md border border-line bg-white px-3 py-2">
+          <option value="just-trying">Just trying it / not sure</option>
+          <option value="1-5">1–5</option>
+          <option value="6-20">6–20</option>
+          <option value="21-100">21–100</option>
+          <option value="100+">100+</option>
+        </select>
+      </label>
+    )
+  }
+
+  <label class="grid gap-1 text-sm">
+    <span class="font-medium">{isInterest ? "Anything we should know" : "Message"}</span>
+    <textarea
+      name="message"
+      rows="5"
+      required={!isInterest}
+      class="rounded-md border border-line bg-white px-3 py-2"
+    />
+  </label>
+
+  <button
+    type="submit"
+    class="mt-1 inline-flex items-center justify-center rounded-full bg-lab px-5 py-2.5 text-sm font-medium text-white hover:bg-lab-bright"
+  >
+    {isInterest ? "Register interest" : "Send"}
+  </button>
+</form>
