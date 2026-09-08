@@ -1,0 +1,92 @@
+---
+import { site } from "@/data/site";
+
+interface Props {
+  name?: string;
+  heading?: string;
+  product?: string;
+  variant?: "contact" | "interest";
+}
+
+const {
+  name = "contact",
+  heading,
+  product,
+  variant = "contact",
+} = Astro.props;
+
+const isInterest = variant === "interest";
+
+const subjects: Record<string, string> = {
+  contact: `${site.name} — contact`,
+  quote: `${site.name} — quote request`,
+  interest: `${site.name} — module interest`,
+};
+
+const action = `https://formsubmit.co/${site.email}`;
+const nextUrl = new URL("/thank-you", site.url).href;
+---
+
+<form
+  name={name}
+  method="POST"
+  action={action}
+  class="js-mail-form grid gap-4"
+>
+  <input type="hidden" name="_subject" value={subjects[name] ?? subjects.contact} />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_next" value={nextUrl} />
+  <input type="hidden" name="form" value={name} />
+  {product && <input type="hidden" name="product" value={product} />}
+
+  <p class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+    <label>
+      Leave empty
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
+    </label>
+  </p>
+
+  {heading && <p class="text-sm font-medium">{heading}</p>}
+
+  <label class="grid gap-1.5 text-[13px]">
+    <span class="font-medium">Name</span>
+    <input type="text" name="name" required autocomplete="name" class="field" />
+  </label>
+
+  <label class="grid gap-1.5 text-[13px]">
+    <span class="font-medium">Email</span>
+    <input type="email" name="email" required autocomplete="email" class="field" />
+  </label>
+
+  {
+    isInterest && (
+      <label class="grid gap-1.5 text-[13px]">
+        <span class="font-medium">How many boards?</span>
+        <select name="quantity" class="field">
+          <option value="just-trying">Not sure yet / just trying</option>
+          <option value="1-5">1–5</option>
+          <option value="6-20">6–20</option>
+          <option value="21-100">21–100</option>
+          <option value="100+">100+</option>
+        </select>
+      </label>
+    )
+  }
+
+  <label class="grid gap-1.5 text-[13px]">
+    <span class="font-medium">{isInterest ? "Notes" : "Message"}</span>
+    <textarea name="message" rows="5" required={!isInterest} class="field min-h-[8rem] resize-y" />
+  </label>
+
+  <button type="submit" class="btn-primary mt-1 justify-self-start">
+    Send
+  </button>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("form.js-mail-form").forEach((form) => {
+    const next = form.querySelector<HTMLInputElement>("input[name='_next']");
+    if (next) next.value = `${window.location.origin}/thank-you`;
+  });
+</script>

@@ -1,0 +1,47 @@
+---
+import { site, nav } from "@/data/site";
+import ContactLinks from "@/components/ContactLinks.astro";
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t border-line bg-void">
+  <div class="shell grid gap-10 py-12 sm:gap-12 sm:py-14 md:grid-cols-12">
+    <div class="md:col-span-5">
+      <div class="flex items-center gap-2.5">
+        <img src="/logo-mark.svg" alt="" width="28" height="28" class="h-7 w-7" />
+        <span class="text-[15px] font-medium">{site.name}</span>
+      </div>
+      <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">
+        {site.tagline} Production with{" "}
+        <a class="text-ink underline decoration-line underline-offset-2 hover:text-lab" href={site.acme.url}>
+          {site.acme.name}
+        </a>.
+      </p>
+    </div>
+
+    <div class="md:col-span-3">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Studio</p>
+      <ul class="mt-4 space-y-0 text-sm text-muted">
+        {nav.map((item) => (
+          <li>
+            <a class="inline-flex min-h-11 items-center hover:text-ink" href={item.href}>{item.label}</a>
+          </li>
+        ))}
+        <li>
+          <a class="inline-flex min-h-11 items-center hover:text-ink" href="/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="md:col-span-4">
+      <p class="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Contact</p>
+      <ContactLinks github compact />
+    </div>
+  </div>
+  <div class="border-t border-line">
+    <div class="shell flex flex-col gap-2 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] font-mono text-[11px] tracking-wide text-muted sm:flex-row sm:justify-between">
+      <p>© {year} {site.legalName}</p>
+      <p>{site.location}</p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,30 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageIntro from "@/components/PageIntro.astro";
+---
+
+<Layout
+  title="Docs"
+  description="Technical documentation for Dino’s Lab modules. Nothing published yet."
+>
+  <div class="shell py-16 lg:py-20">
+    <PageIntro kicker="Docs" title="Documentation">
+      Datasheets, pinouts, and bring-up notes will be published with the first
+      module.
+    </PageIntro>
+
+    <div class="panel mt-12">
+      <div class="flex items-center justify-between border-b border-line px-5 py-2.5 text-sm text-muted">
+        <span>Library</span>
+        <span>Empty</span>
+      </div>
+      <div class="px-5 py-16 text-center">
+        <p class="text-sm text-muted">
+          For the N6 module,{" "}
+          <a class="text-lab underline underline-offset-2" href="/products">register interest</a>
+          {" "}to receive documentation when it is released.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>

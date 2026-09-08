@@ -1,0 +1,24 @@
+export const site = {
+  name: "Dino's Lab",
+  legalName: "Dino's Lab",
+  url: "https://dinoslab.com",
+  description:
+    "Electronic design studio in Ladispoli (Rome), Italy. PCB layout, firmware, and board assembly from prototype to series production.",
+  tagline: "PCB design, firmware, and assembly.",
+  email: "info@dinoslab.com",
+  github: "https://github.com/dinoslabtech",
+  githubHandle: "dinoslabtech",
+  location: "Ladispoli (Rome), Italy",
+  acme: {
+    name: "Acme Systems",
+    url: "https://www.acmesystems.it",
+  },
+} as const;
+
+export const nav = [
+  { href: "/products", label: "Products" },
+  { href: "/consulting", label: "Consulting" },
+  { href: "/docs", label: "Docs" },
+  { href: "/blog", label: "Blog" },
+  { href: "/about", label: "About" },
+] as const;

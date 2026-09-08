@@ -1,0 +1,42 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+  <article class="shell max-w-3xl py-16 lg:py-20">
+    <p class="eyebrow">Note</p>
+    <p class="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+      <time datetime={post.data.pubDate.toISOString()}>
+        {
+          post.data.pubDate.toLocaleDateString("en-GB", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })
+        }
+      </time>
+      {" · "}
+      {post.data.author}
+    </p>
+    <h1 class="display mt-4">{post.data.title}</h1>
+    <p class="lead mt-5">{post.data.description}</p>
+    <div class="prose-lab mt-12">
+      <Content />
+    </div>
+    <p class="mt-16 border-t border-line pt-6 font-mono text-[11px] uppercase tracking-[0.16em]">
+      <a class="text-lab hover:underline" href="/blog">← All notes</a>
+    </p>
+  </article>
+</Layout>

@@ -1,0 +1,65 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import { site } from "@/data/site";
+---
+
+<Layout
+  title="About"
+  description="Dino’s Lab is an electronic design studio in Ladispoli (Rome), Italy, with board assembly through Acme Systems."
+>
+  <div class="shell py-16 lg:py-20">
+    <PageIntro kicker="About" title="The studio">
+      Electronic design and board assembly. The studio is in Ladispoli (Rome), Italy.
+    </PageIntro>
+
+    <div class="mt-14 grid gap-12 lg:grid-cols-12">
+      <div class="space-y-5 text-[17px] leading-relaxed text-muted lg:col-span-7">
+        <p>
+          Dino’s Lab provides schematic capture, PCB layout, embedded firmware,
+          and application software. Related disciplines — mechanics, industrial
+          design, and specialist firmware — are covered through a network of
+          professionals engaged per project.
+        </p>
+        <p>
+          Assembly is carried out under a production agreement with{" "}
+          <a class="text-ink underline decoration-line underline-offset-2 hover:text-lab" href={site.acme.url}>
+            {site.acme.name}
+          </a>
+          : SMT pick-and-place, vapour-phase reflow, through-hole completion, and
+          test. Quantities range from first prototypes to series of tens of
+          thousands per month.
+        </p>
+        <p>
+          A catalogue of modules is in development. Custom design remains
+          available throughout.
+        </p>
+      </div>
+
+      <dl class="h-fit divide-y divide-line border border-line bg-panel lg:col-span-5">
+        <div class="grid grid-cols-[7rem_1fr] gap-4 px-5 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Studio</dt>
+          <dd>{site.location}</dd>
+        </div>
+        <div class="grid grid-cols-[7rem_1fr] gap-4 px-5 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Production</dt>
+          <dd>
+            <a class="hover:text-lab" href={site.acme.url}>{site.acme.name}</a>
+          </dd>
+        </div>
+        <div class="grid grid-cols-[7rem_1fr] gap-4 px-5 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">GitHub</dt>
+          <dd>
+            <a class="hover:text-lab" href={site.github}>{site.githubHandle}</a>
+          </dd>
+        </div>
+        <div class="grid grid-cols-[7rem_1fr] gap-4 px-5 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Email</dt>
+          <dd>
+            <a class="hover:text-lab" href={`mailto:${site.email}`}>{site.email}</a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</Layout>
