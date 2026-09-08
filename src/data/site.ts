@@ -3,15 +3,15 @@ export const site = {
   legalName: "Dino's Lab",
   url: "https://dinoslab.com",
   description:
-    "Electronics studio in Ladispoli, near Rome. We design PCBs, write the firmware, and assemble the boards in Italy.",
-  tagline: "PCB design, firmware, and assembly in Italy.",
+    "Electronic design studio in Ladispoli (Rome), Italy. PCB layout, firmware, and board assembly from prototype to series production.",
+  tagline: "PCB design, firmware, and assembly.",
   email: "info@dinoslab.com",
   phone: "+39 333 456 7890",
   telegram: "https://t.me/dinoslab",
   telegramHandle: "@dinoslab",
   github: "https://github.com/dinoslabtech",
   githubHandle: "dinoslabtech",
-  location: "Ladispoli / Rome, Italy",
+  location: "Ladispoli (Rome), Italy",
   acme: {
     name: "Acme Systems",
     url: "https://www.acmesystems.it",
