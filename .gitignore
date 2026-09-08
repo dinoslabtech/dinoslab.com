@@ -1,58 +1,31 @@
-# -------------------------
-# Node / pnpm
-# -------------------------
+# Dependencies
 node_modules/
-.pnp.*
-.pnpm-store/
-package-lock.json
-pnpm-lock.yaml
 
-# -------------------------
 # Astro
-# -------------------------
 dist/
 .astro/
-.astro/types/
-.cache/
 
-# -------------------------
-# Turborepo
-# -------------------------
-node_modules/
-packages/**/node_modules/
-apps/**/node_modules/
-.turbo/
+# Netlify
+.netlify/
 
-# -------------------------
-# TypeScript
-# -------------------------
-*.tsbuildinfo
-
-# -------------------------
-# Editor / IDE
-# -------------------------
+# Editor
 .vscode/
 .idea/
 *.sublime-workspace
 *.sublime-project
 
-# -------------------------
 # Logs
-# -------------------------
+*.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
 
-# -------------------------
-# System
-# -------------------------
+# OS
 .DS_Store
 Thumbs.db
 *.swp
 *.swo
 
-# -------------------------
-# Astro prebuild & cache
-# -------------------------
-.cache/
+# Env
+.env
+.env.*
+!.env.example

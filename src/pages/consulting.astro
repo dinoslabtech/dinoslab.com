@@ -1,0 +1,105 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import { site } from "@/data/site";
+
+const steps = [
+  {
+    title: "Schematic and architecture",
+    body: "We sit on the requirements, pick the parts, and draw a schematic that can actually be built.",
+  },
+  {
+    title: "PCB layout",
+    body: "Layout for the stack you need — including RF, power, and dense BGA work when the board asks for it.",
+  },
+  {
+    title: "Firmware and software",
+    body: "Bring-up, drivers, and the software around the board: agents, Linux, a small UI, whatever the product needs.",
+  },
+  {
+    title: "Prototype",
+    body: "A first run you can hold. We iterate until the board behaves.",
+  },
+  {
+    title: "Small series or scale",
+    body: "Assembly on the Acme Systems line in Ladispoli. A few tens of boards, or tens of thousands in a month.",
+  },
+];
+---
+
+<Layout
+  title="Consulting"
+  description="Custom PCB design, firmware, and production in Italy — prototypes through volume."
+>
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <p class="text-sm font-medium uppercase tracking-wider text-lab">Consulting</p>
+    <h1 class="mt-2 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl">
+      A full board, not just Gerbers.
+    </h1>
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+      Hire the studio for a custom PCB. We take it from idea to assembled
+      hardware, with firmware and the software that talks to it. Based in
+      Ladispoli, near Rome. We work worldwide, in English.
+    </p>
+  </div>
+
+  <section class="border-y border-line bg-white">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <h2 class="text-2xl font-semibold">What a project looks like</h2>
+      <ol class="mt-10 grid gap-8 md:grid-cols-2">
+        {
+          steps.map((step, i) => (
+            <li class="flex gap-4">
+              <span class="font-mono text-sm text-lab">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <h3 class="font-semibold">{step.title}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-muted">{step.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <h2 class="text-2xl font-semibold">Production</h2>
+    <p class="mt-4 max-w-2xl leading-relaxed text-muted">
+      Dino’s Lab is independent. We have a production agreement with{" "}
+      <a class="text-lab underline decoration-line underline-offset-2" href={site.acme.url}>
+        {site.acme.name}
+      </a>
+      {" "}in Ladispoli: SMD pick-and-place, vapour-phase reflow, through-hole,
+      and test. That is the same line they use for their own Linux SOMs.
+      Most consultancies stop at files. We can hand you assembled boards,
+      in Italy, at prototype quantity or at scale.
+    </p>
+  </section>
+
+  <section class="border-t border-line bg-white">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-2">
+      <div>
+        <h2 class="text-2xl font-semibold">Request a quote</h2>
+        <p class="mt-3 text-muted">
+          Describe the board, the quantity, and the deadline. We answer by
+          email, SIM, or Telegram.
+        </p>
+        <ul class="mt-6 space-y-2 text-sm">
+          <li>
+            <a class="hover:text-lab" href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+          <li>
+            <a class="hover:text-lab" href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
+            <span class="text-muted"> · SIM</span>
+          </li>
+          <li>
+            <a class="hover:text-lab" href={site.telegram}>Telegram {site.telegramHandle}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="rounded-2xl border border-line p-6">
+        <ContactForm name="quote" />
+      </div>
+    </div>
+  </section>
+</Layout>
