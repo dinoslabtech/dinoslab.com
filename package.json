@@ -1,6 +1,6 @@
 {
   "name": "dinoslab.com",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": true,
   "type": "module",
   "description": "Dino's Lab — boards, modules, and custom PCB work.",

@@ -11,7 +11,7 @@ interface Props {
 const { github = false, location = false, compact = false } = Astro.props;
 
 type Item = {
-  icon: "mail" | "phone" | "telegram" | "github";
+  icon: "mail" | "github";
   href: string;
   label: string;
   text: string;
@@ -23,18 +23,6 @@ const items: Item[] = [
     href: `mailto:${site.email}`,
     label: "Email",
     text: site.email,
-  },
-  {
-    icon: "phone",
-    href: `tel:${site.phone.replace(/\s/g, "")}`,
-    label: "Phone",
-    text: site.phone,
-  },
-  {
-    icon: "telegram",
-    href: site.telegram,
-    label: "Telegram",
-    text: site.telegramHandle,
   },
 ];
 
