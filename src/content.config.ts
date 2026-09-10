@@ -14,6 +14,15 @@ const blog = defineCollection({
   }),
 });
 
+const docs = defineCollection({
+  loader: glob({ base: "./src/content/docs", pattern: "**/*.{md,mdx}" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    order: z.number(),
+  }),
+});
+
 const specRow = z.tuple([z.string(), z.string()]);
 
 const products = defineCollection({
@@ -37,4 +46,4 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { blog, products };
+export const collections = { blog, products, docs };
