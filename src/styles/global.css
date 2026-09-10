@@ -149,3 +149,35 @@ textarea:focus-visible {
     linear-gradient(to bottom, color-mix(in srgb, var(--color-lab) 16%, transparent) 1px, transparent 1px);
   background-size: 20px 20px;
 }
+
+.spec-table {
+  @apply w-full text-sm;
+  border-top: 1px solid var(--color-line);
+}
+
+.spec-table th,
+.spec-table td {
+  @apply py-3 align-top;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.spec-table th {
+  @apply w-[11rem] pr-4 text-left font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted sm:w-[13rem];
+}
+
+.spec-table td {
+  @apply text-ink;
+}
+
+.mod-diagram {
+  @apply grid gap-px bg-line sm:grid-cols-2;
+  border: 1px solid var(--color-line);
+}
+
+.mod-node {
+  @apply bg-panel p-5 sm:p-6;
+}
+
+.prose-lab table {
+  @apply text-sm;
+}
