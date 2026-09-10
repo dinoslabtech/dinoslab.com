@@ -2,9 +2,11 @@
 import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/PageIntro.astro";
 import ProductCard from "@/components/ProductCard.astro";
+import { createTermLinker } from "@/data/terms";
 import { getCollection } from "astro:content";
 
 const products = await getCollection("products");
+const link = createTermLinker();
 ---
 
 <Layout
@@ -12,10 +14,13 @@ const products = await getCollection("products");
   description="Dino’s Lab catalogue. PCB boards and electronics modules. First release: STM32N657X0 edge-AI module."
 >
   <div class="shell py-16 lg:py-20">
-    <PageIntro kicker="Products" title="Boards and modules">
-      The catalogue. First item is the DNL-N6, an STM32N657X0 module for edge AI,
-      with HexaSPI PSRAM and Octo-SPI NOR. Further boards will follow.
-    </PageIntro>
+    <PageIntro kicker="Products" title="Boards and modules" />
+    <p
+      class="lead mt-5 max-w-2xl"
+      set:html={link(
+        "The catalogue. First item is the DNL-N6, an STM32N657X0 module for edge AI, with HexaSPI PSRAM and Octo-SPI NOR. Further boards will follow.",
+      )}
+    />
 
     <div
       class:list={[

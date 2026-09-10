@@ -2,9 +2,10 @@
 interface Props {
   title: string;
   rows: [string, string][];
+  link?: (text: string) => string;
 }
 
-const { title, rows } = Astro.props;
+const { title, rows, link = (text) => text } = Astro.props;
 ---
 
 <section class="spec-block">
@@ -14,8 +15,8 @@ const { title, rows } = Astro.props;
       {
         rows.map(([key, value]) => (
           <tr>
-            <th scope="row">{key}</th>
-            <td>{value}</td>
+            <th scope="row" set:html={link(key)} />
+            <td set:html={link(value)} />
           </tr>
         ))
       }

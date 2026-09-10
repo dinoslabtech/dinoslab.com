@@ -7,18 +7,19 @@ interface Node {
 
 interface Props {
   nodes: Node[];
+  link?: (text: string) => string;
 }
 
-const { nodes } = Astro.props;
+const { nodes, link = (text) => text } = Astro.props;
 ---
 
-<div class="mod-diagram" role="img" aria-label="DNL-N6 block diagram">
+<div class="mod-diagram" aria-label="DNL-N6 block diagram">
   {
     nodes.map((node) => (
       <div class="mod-node">
         <p class="font-mono text-[10px] uppercase tracking-[0.18em] text-lab">{node.kicker}</p>
-        <p class="mt-2 text-lg font-medium tracking-tight">{node.title}</p>
-        <p class="mt-1 text-sm leading-relaxed text-muted">{node.body}</p>
+        <p class="mt-2 text-lg font-medium tracking-tight" set:html={link(node.title)} />
+        <p class="mt-1 text-sm leading-relaxed text-muted" set:html={link(node.body)} />
       </div>
     ))
   }

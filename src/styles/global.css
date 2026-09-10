@@ -181,3 +181,7 @@ textarea:focus-visible {
 .prose-lab table {
   @apply text-sm;
 }
+
+a.term {
+  @apply text-ink underline decoration-lab/45 underline-offset-2 hover:text-lab;
+}

@@ -112,7 +112,7 @@ The DNL-N6 is a solder- or socket-down module built around **STM32N657X0**, STâ€
 
 ## Memory map (typical)
 
-The STM32N6 boots from ROM, copies an FSBL from external NOR into SRAM, then runs the application. Weights for Neural-ART usually stay in NOR and are paged; activations and frames sit in PSRAM or the 4.2 MB on-chip SRAM.
+The STM32N6 boots from ROM, copies an FSBL from external [NOR](/docs/memory#nor) into [SRAM](/docs/memory#sram), then runs the application. Weights for Neural-ART usually stay in NOR and are paged; activations and frames sit in [PSRAM](/docs/memory#psram) or the 4.2 MB on-chip SRAM.
 
 | Region | Typical map | Device |
 | --- | --- | --- |
@@ -121,7 +121,7 @@ The STM32N6 boots from ROM, copies an FSBL from external NOR into SRAM, then run
 | FSBL | `0x7000 0000` | First stage in NOR |
 | Application | `0x7010 0000` | NOR |
 | Network weights | `0x7100 0000` | NOR |
-| HexaSPI PSRAM | `0x9000 0000` | 256 Mbit, XSPI x16 |
+| [HexaSPI](/docs/hexaspi) PSRAM | `0x9000 0000` | 256 Mbit, XSPI x16 |
 
 Final addresses on DNL-N6 will be confirmed in the bring-up notes.
 
