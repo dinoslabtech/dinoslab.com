@@ -1,9 +1,9 @@
 {
   "name": "dinoslab.com",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "private": true,
   "type": "module",
-  "description": "Dino's Lab — boards, modules, and custom PCB work.",
+  "description": "Dino's Lab — PCB boards, modules, and electronics.",
   "scripts": {
     "dev": "astro dev --host 0.0.0.0 --port 4321",
     "build": "astro build",
