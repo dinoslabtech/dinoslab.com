@@ -3,8 +3,8 @@ export const site = {
   legalName: "Dino's Lab",
   url: "https://dinoslab.com",
   description:
-    "Electronic design studio in Ladispoli (Rome), Italy. PCB layout, firmware, and board assembly from prototype to series production.",
-  tagline: "PCB design, firmware, and assembly.",
+    "PCB boards, modules, and electronics from Dino's Lab. Ladispoli (Rome), Italy.",
+  tagline: "PCB boards, modules, and electronics.",
   email: "info@dinoslab.com",
   github: "https://github.com/dinoslabtech",
   githubHandle: "dinoslabtech",
@@ -17,7 +17,6 @@ export const site = {
 
 export const nav = [
   { href: "/products", label: "Products" },
-  { href: "/consulting", label: "Consulting" },
   { href: "/docs", label: "Docs" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },

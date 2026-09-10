@@ -1,6 +1,6 @@
 # Dino's Lab
 
-Website for [dinoslab.com](https://dinoslab.com). Electronic design studio in Ladispoli (Rome), Italy.
+Website for [dinoslab.com](https://dinoslab.com). PCB boards, modules, and electronics. Ladispoli (Rome), Italy.
 
 ## Stack
 

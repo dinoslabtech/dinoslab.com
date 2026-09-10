@@ -10,10 +10,10 @@ function current(href: string) {
 ---
 
 <header class="sticky top-0 z-50 border-b border-line bg-paper/90 backdrop-blur-md">
-  <div class="shell flex h-14 items-center justify-between sm:h-[3.75rem]">
-    <a href="/" class="flex min-h-11 items-center gap-2.5" aria-current={path === "/" ? "page" : undefined}>
-      <img src="/logo-mark.svg" alt="" width="28" height="28" class="h-7 w-7" />
-      <span class="text-[15px] font-medium tracking-tight">{site.name}</span>
+  <div class="shell flex h-16 items-center justify-between sm:h-20">
+    <a href="/" class="flex min-h-11 items-center gap-3" aria-current={path === "/" ? "page" : undefined}>
+      <img src="/logo-mark.svg" alt="" width="48" height="48" class="h-10 w-10 sm:h-12 sm:w-12" />
+      <span class="text-lg font-medium tracking-tight sm:text-xl">{site.name}</span>
     </a>
 
     <nav class="hidden items-center gap-6 xl:flex 2xl:gap-7" aria-label="Primary">
