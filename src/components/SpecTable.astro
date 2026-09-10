@@ -1,0 +1,24 @@
+---
+interface Props {
+  title: string;
+  rows: [string, string][];
+}
+
+const { title, rows } = Astro.props;
+---
+
+<section class="spec-block">
+  <h3 class="font-mono text-[11px] uppercase tracking-[0.18em] text-lab">{title}</h3>
+  <table class="spec-table mt-4">
+    <tbody>
+      {
+        rows.map(([key, value]) => (
+          <tr>
+            <th scope="row">{key}</th>
+            <td>{value}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</section>
