@@ -182,6 +182,18 @@ textarea:focus-visible {
   @apply text-sm;
 }
 
+.prose-lab .note-example {
+  @apply mt-0 mb-10 border border-line bg-panel p-5 not-italic sm:p-6;
+}
+
+.prose-lab .note-example p {
+  @apply m-0;
+}
+
+.prose-lab .note-example .eyebrow {
+  @apply mb-2;
+}
+
 a.term {
   @apply text-ink underline decoration-lab/45 underline-offset-2 hover:text-lab;
 }
