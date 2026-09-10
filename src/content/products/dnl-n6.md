@@ -2,8 +2,8 @@
 title: DNL-N6
 shortName: DNL-N6
 status: coming_soon
-summary: "Carrier-mounted edge-AI module on ST’s STM32N657X0, with AP Memory HexaSPI PSRAM and Octo-SPI NOR, for cameras and inference at the board edge."
-chip: STM32N657X0 · Cortex-M55 · Neural-ART
+summary: "Carrier-mounted edge-AI module on ST’s STM32N6 series, with AP Memory HexaSPI PSRAM and Octo-SPI NOR, for cameras and inference at the board edge."
+chip: STM32N6 · Cortex-M55 · Neural-ART
 category: AI module
 highlights:
   - { value: "800 MHz", label: "Cortex-M55" }
@@ -14,27 +14,27 @@ highlights:
   - { value: "CSI-2", label: "2-lane camera" }
 features:
   - title: Edge AI without a Linux MPU
-    body: "ST Neural-ART runs at up to 1 GHz, 600 GOPS and 288 MAC/cycle, with stream engines, on-the-fly weight decompression, and real-time crypto on the model path. Workloads that needed an accelerated MPU stay on an MCU."
+    body: "ST Neural-ART on STM32N6x7 devices runs at up to 1 GHz, 600 GOPS and 288 MAC/cycle, with stream engines, on-the-fly weight decompression, and real-time crypto on the model path. Workloads that needed an accelerated MPU stay on an MCU."
   - title: Camera pipeline on the module
     body: "MIPI CSI-2 (2-lane) plus a parallel 16-bit PSSI path. On-chip ISP with three pipes on the same stream (bad pixel, black level, exposure, demosaic, crop, downsize, gamma, YUV). Hardware H.264 encoder and JPEG codec."
-  - title: Memory like the ST N6 Nucleo reference
-    body: "512-Mbit Octo-SPI NOR for FSBL, application, and weights; 256-Mbit AP Memory Hexadeca-SPI PSRAM for framebuffers and activations. The STM32N657X0 is the 264-pin SKU with both 16-bit and 8-bit XSPI ports, so both devices sit on the MCU at once."
+  - title: HexaSPI RAM and Octo-SPI NOR
+    body: "512-Mbit Octo-SPI NOR for FSBL, application, and weights; 256-Mbit AP Memory Hexadeca-SPI PSRAM for framebuffers and activations. The MCU is an STM32N6 device that exposes both XSPI ports."
   - title: Graphics and display
     body: "NeoChrom 2.5D GPU, Chrom-ART (DMA2D), and LTDC. Framebuffers can live in HexaSPI PSRAM; the 4.2 MB on-chip SRAM is contiguous and large enough for a 1280 × 800 double buffer."
 specGroups:
   - title: Processor
     rows:
-      - ["Part", "STM32N657X0H3Q"]
-      - ["Package", "VFBGA264, 14 × 14 mm, 0.8 mm pitch"]
-      - ["I/O count", "165"]
+      - ["Family", "STM32N6 series (device chosen at hardware freeze)"]
+      - ["Options", "Temperature grade, package, and hardware AES / crypto selected per SKU"]
+      - ["Package", "BGA; pitch and ball count depend on the device"]
       - ["Core", "Arm Cortex-M55, TrustZone, Helium (MVE), FPU (half / single / double)"]
-      - ["CPU clock", "Up to 800 MHz (VOS high, VDDCORE 0.89 V); 600 MHz in VOS low"]
-      - ["Performance", "3360 CoreMark, 1280 DMIPS"]
+      - ["CPU clock", "Up to 800 MHz (VOS high); 600 MHz in VOS low"]
+      - ["Performance", "Up to 3360 CoreMark, 1280 DMIPS"]
       - ["Caches", "32 KB I-cache, 32 KB D-cache"]
       - ["TCM", "64 KB ITCM + 128 KB DTCM, both with ECC"]
   - title: Neural-ART accelerator
     rows:
-      - ["Type", "ST Neural-ART NPU (STM32N6x7)"]
+      - ["Type", "ST Neural-ART NPU (STM32N6x7 devices in the series)"]
       - ["Clock", "Up to 1 GHz"]
       - ["Throughput", "600 GOPS, 288 MAC/cycle"]
       - ["Datapath", "Dedicated stream engines, on-the-fly weight decompression"]
@@ -48,14 +48,12 @@ specGroups:
       - ["Boot ROM", "128 KB"]
   - title: External memory
     rows:
-      - ["PSRAM", "AP Memory APS256XXN, 256 Mbit (32 MB)"]
+      - ["PSRAM", "AP Memory APS256XXN class, 256 Mbit (32 MB)"]
       - ["PSRAM interface", "Hexadeca-SPI (x16) on XSPI, 1.8 V, up to 200 MHz DDR"]
       - ["PSRAM role", "Framebuffers, activations, working set"]
       - ["NOR flash", "512 Mbit (64 MB) Octo-SPI, 1.8 V, 200 MHz DTR, read-while-write"]
       - ["NOR interface", "XSPI octal, memory-mapped (typical map 0x7000 0000)"]
       - ["NOR role", "FSBL, application, neural-network weights"]
-      - ["NOR class", "Same class as NUCLEO-N657X0-Q (MX25UM51245G footprint, BGA24)"]
-      - ["PSRAM class", "Same class as ST N6 HexaSPI reference (APS256XXN-OB9 / OBR)"]
   - title: Vision and graphics
     rows:
       - ["Camera serial", "MIPI CSI-2, 2 lanes"]
@@ -65,50 +63,51 @@ specGroups:
       - ["Display", "LTDC / TFT-LCD"]
       - ["GPU", "NeoChrom 2.5D"]
       - ["2D", "Chrom-ART (DMA2D)"]
-  - title: Connectivity (MCU)
+  - title: Connectivity (series)
     rows:
-      - ["USB", "2× USB 2.0 OTG HS with on-chip HS PHY; 1× UCPD"]
-      - ["Ethernet", "1× 10/100/1000 MAC with TSN (IEEE 802.1)"]
-      - ["CAN", "3× FDCAN with TTCAN"]
-      - ["SD / eMMC", "2× SDMMC (MMC v4.0, SD, CE-ATA)"]
-      - ["I2C / I3C", "4× I2C, 2× I3C"]
-      - ["SPI / I2S", "6× SPI (4× I2S-capable)"]
-      - ["UART", "5× USART, 5× UART, 1× LPUART"]
-      - ["Audio", "2× SAI, SPDIF, MDF (6 filters), ADF"]
-      - ["External bus", "FMC, up to 32-bit: SRAM, PSRAM, SDRAM, NOR, NAND"]
+      - ["USB", "USB 2.0 OTG HS with on-chip HS PHY; UCPD on selected devices"]
+      - ["Ethernet", "Gigabit MAC with TSN (IEEE 802.1)"]
+      - ["CAN", "FDCAN with TTCAN"]
+      - ["SD / eMMC", "SDMMC"]
+      - ["I2C / I3C", "I2C and I3C"]
+      - ["SPI / I2S", "SPI, I2S-capable"]
+      - ["UART", "USART, UART, LPUART"]
+      - ["Audio", "SAI, SPDIF, MDF, ADF"]
+      - ["External bus", "FMC: SRAM, PSRAM, SDRAM, NOR, NAND"]
   - title: Analog, timers, system
     rows:
-      - ["ADC", "2× 12-bit, 20 channels each"]
+      - ["ADC", "12-bit ADCs"]
       - ["References", "Internal VREFBUF, digital temperature sensor"]
-      - ["Timers", "2 advanced, 10 general-purpose, 3 basic, 5 low-power"]
-      - ["DMA", "16-channel GPDMA, 16-channel HPDMA"]
-      - ["RNG", "Analog true RNG"]
+      - ["Timers", "Advanced, general-purpose, basic, and low-power timers"]
+      - ["DMA", "GPDMA and HPDMA"]
+      - ["RNG", "True RNG"]
       - ["Watchdogs", "IWDG, WWDG"]
-      - ["RTC", "Secure RTC"]
+      - ["RTC", "RTC (secure RTC on devices with the crypto option)"]
       - ["Unique ID", "96-bit"]
   - title: Security
     rows:
       - ["Isolation", "Arm TrustZone"]
       - ["Boot", "Secure boot from XSPI NOR, HyperFlash, or eMMC"]
-      - ["Crypto", "SAES, CRYPT, PKA, MCE 1.4"]
+      - ["Crypto", "Hardware AES and related blocks on selected devices in the series"]
       - ["Tamper", "Tamper detection"]
-  - title: Power and environment (MCU)
+  - title: Power and environment
     rows:
-      - ["VDD", "1.71–3.6 V"]
+      - ["VDD", "1.71–3.6 V (MCU)"]
       - ["VDDCORE", "Internal SMPS; 0.89 V (800 MHz) / 0.81 V (600 MHz)"]
       - ["Memories", "1.8 V Octo-SPI NOR and HexaSPI PSRAM"]
-      - ["Ambient (MCU)", "−40 to +125 °C"]
+      - ["Device grade", "Temperature grade chosen with the STM32N6 SKU"]
+      - ["Module rating", "To be published with the hardware release"]
       - ["Module supply", "To be published with the hardware release"]
   - title: Module
     rows:
-      - ["Form", "Carrier-mounted SOM — not a Nucleo or Discovery kit"]
+      - ["Form", "Carrier-mounted SOM"]
       - ["Target use", "Cameras, inspection, and other edge-AI loads that do not need Linux"]
       - ["I/O to carrier", "To be published (power, boot, SWD, USB HS, CSI-2, SDMMC, UART, I2C, SPI, GPIO)"]
       - ["Mechanics / pinout", "To be published with the design release"]
       - ["Status", "Design in progress. This page is not a datasheet."]
 ---
 
-The DNL-N6 is a solder- or socket-down module built around **STM32N657X0**, ST’s Cortex-M55 MCU with Neural-ART. It is meant to sit on a carrier with a camera, not to replace a Linux MPU.
+The DNL-N6 is a solder- or socket-down module built around the **STM32N6** series — Cortex-M55, with Neural-ART on N6x7 devices. The exact part (package, temperature grade, hardware AES) is chosen when the hardware is frozen. The module is meant to sit on a carrier with a camera, not to replace a Linux MPU.
 
 ## Memory map (typical)
 
@@ -131,7 +130,4 @@ Bring-up targets the ST N6 tree: **STM32CubeN6**, **STM32CubeMX**, **STM32CubeID
 
 ## Documentation
 
-Datasheet-level pinout, mechanical drawing, power budget, and a bring-up guide will ship with the first hardware. Until then this page tracks the intended silicon and memory selection.
-
-References used for the figures above: ST DS14791 (STM32N6x5xx / STM32N6x7xx), NUCLEO-N657X0-Q user manual UM3417, and AP Memory APS256XXN.
-
+Datasheet-level pinout, mechanical drawing, power budget, and a bring-up guide will ship with the first hardware. Until then this page tracks the intended series and memory selection.

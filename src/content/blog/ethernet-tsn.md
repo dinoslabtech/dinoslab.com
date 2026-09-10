@@ -1,13 +1,18 @@
 ---
 title: Ethernet TSN
-description: "Time-Sensitive Networking — scheduled, bounded-latency Ethernet for industrial links, on the STM32N6 MAC."
+description: "Time-Sensitive Networking — scheduled, bounded-latency Ethernet for industrial links."
 pubDate: 2026-09-10T12:03:00Z
 author: Michele Forese
 tags: ["hardware", "n6", "ethernet"]
 order: 6
 ---
 
-**TSN** (Time-Sensitive Networking) is a set of IEEE 802.1 standards that turn Ethernet into a link with **time** in the contract, not only best-effort delivery. The STM32N657X0 MAC is described by ST as **1 Gbit Ethernet with TSN**.
+<aside class="note-example">
+<p class="eyebrow">Example</p>
+<p><a href="/products/dnl-n6">DNL-N6</a> — the STM32N6 series MAC is TSN-capable; bringing it to the carrier is a pin-mux choice.</p>
+</aside>
+
+**TSN** (Time-Sensitive Networking) is a set of IEEE 802.1 standards that turn Ethernet into a link with **time** in the contract, not only best-effort delivery. Several industrial MCUs, including the STM32N6 series, integrate a **Gigabit MAC with TSN**.
 
 ## What is wrong with ordinary Ethernet
 
@@ -28,8 +33,8 @@ Together they let you say: this 64-byte cyclic frame goes out every 500 µs, and
 
 TSN is not a fieldbus on its own. EtherCAT, PROFINET IRT, and OPC UA PubSub *use* TSN or sit beside it. You still need a stack, a profile, and a switch that speaks the same standards. A “TSN MAC” on the MCU is the hardware hook, not a turnkey PLC network.
 
-## On a module
+## On a board
 
-DNL-N6 may or may not bring RGMII/RMII to the carrier — that is a pin-mux and connector decision still open. The silicon includes the TSN-capable MAC. If the carrier has magnetics and a PHY, the option is there. If you only need a camera and USB, you can ignore it.
+The MAC is in the silicon. A PHY, magnetics, and an RJ45 (or a connector to a carrier) are board choices. If the product only needs a camera and USB, the TSN MAC can stay unused.
 
 MAC addresses on STM32N6 live in **OTP** until you programme them. They are not printed in the factory.

@@ -7,11 +7,16 @@ tags: ["hardware", "n6", "i2c"]
 order: 8
 ---
 
+<aside class="note-example">
+<p class="eyebrow">Example</p>
+<p><a href="/products/dnl-n6">DNL-N6</a> — camera control is typically I2C/CCI; the STM32N6 series also has I3C when the sensor speaks it.</p>
+</aside>
+
 **I2C** (Inter-Integrated Circuit) is the two-wire bus almost every sensor, EEPROM, and PMIC still speaks: **SDA** and **SCL**, open-drain, pull-ups, 7-bit addresses.
 
 **I3C** (Improved Inter Integrated Circuit, a MIPI spec) is the successor. Same two pins in spirit, not the same electricals, and a lot more in the protocol.
 
-The STM32N657X0 has **four I2C** and **two I3C**.
+A current MCU might have several of each. The STM32N6 series, for example, lists **four I2C** and **two I3C**.
 
 <h2 id="i2c">I2C</h2>
 
@@ -34,8 +39,8 @@ The STM32N657X0 has **four I2C** and **two I3C**.
 **Pros:** Faster, fewer GPIOs, better multi-drop of similar parts.  
 **Cons:** Fewer devices than I2C, more complicated host, voltage and mix rules (legacy I2C on an I3C bus is a checklist, not a default).
 
-## Which one on DNL-N6
+## Which one for a camera board
 
-Camera modules still often use **I2C** (or CCI, which is I2C-shaped) for register setup, with **CSI-2** for pixels. I3C is there when a sensor or a board management chip speaks it. Do not assume an I2C-only IMU will magically run at I3C rates.
+Camera modules still often use **I2C** (or CCI, which is I2C-shaped) for register setup, with **CSI-2** for pixels. I3C is there when a sensor or a board-management chip speaks it. Do not assume an I2C-only IMU will magically run at I3C rates.
 
 If you only need a temperature sensor and an EEPROM, I2C is the bus. If you are hanging several identical sensors and you are short on pins, look at I3C.
