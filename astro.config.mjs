@@ -9,5 +9,11 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      allowedHosts: [".ts.net"],
+    },
+    preview: {
+      allowedHosts: [".ts.net"],
+    },
   },
 });

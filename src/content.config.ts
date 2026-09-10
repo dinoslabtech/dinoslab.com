@@ -11,8 +11,11 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     author: z.string(),
     tags: z.array(z.string()).default([]),
+    order: z.number().optional(),
   }),
 });
+
+const specRow = z.tuple([z.string(), z.string()]);
 
 const products = defineCollection({
   loader: glob({ base: "./src/content/products", pattern: "**/*.{md,mdx}" }),
@@ -23,6 +26,15 @@ const products = defineCollection({
     summary: z.string(),
     chip: z.string(),
     category: z.string(),
+    highlights: z
+      .array(z.object({ value: z.string(), label: z.string() }))
+      .optional(),
+    features: z
+      .array(z.object({ title: z.string(), body: z.string() }))
+      .optional(),
+    specGroups: z
+      .array(z.object({ title: z.string(), rows: z.array(specRow) }))
+      .optional(),
   }),
 });
 
