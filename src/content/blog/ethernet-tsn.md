@@ -1,6 +1,9 @@
 ---
 title: Ethernet TSN
 description: "Time-Sensitive Networking — scheduled, bounded-latency Ethernet for industrial links, on the STM32N6 MAC."
+pubDate: 2026-09-10T12:03:00Z
+author: Michele Forese
+tags: ["hardware", "n6", "ethernet"]
 order: 6
 ---
 

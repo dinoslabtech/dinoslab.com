@@ -1,6 +1,9 @@
 ---
 title: SRAM, DRAM, PSRAM, NOR, NAND
 description: "The memories you actually put on a board — what each one is good at, and the trade-offs."
+pubDate: 2026-09-10T12:04:00Z
+author: Michele Forese
+tags: ["hardware", "n6", "memory"]
 order: 5
 ---
 

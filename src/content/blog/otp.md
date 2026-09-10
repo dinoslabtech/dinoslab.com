@@ -1,6 +1,9 @@
 ---
 title: OTP memory
 description: "One-time programmable fuses — what they are, why STM32N6 has 8 KB of them, and why you do not use them as EEPROM."
+pubDate: 2026-09-10T12:05:00Z
+author: Michele Forese
+tags: ["hardware", "n6", "memory"]
 order: 4
 ---
 

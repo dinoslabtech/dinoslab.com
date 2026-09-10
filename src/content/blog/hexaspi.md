@@ -1,6 +1,9 @@
 ---
 title: HexaSPI
 description: "Hexadeca-SPI (x16) — the 16-bit serial memory bus used for AP Memory PSRAM on STM32N6."
+pubDate: 2026-09-10T12:07:00Z
+author: Michele Forese
+tags: ["hardware", "n6", "memory"]
 order: 2
 ---
 

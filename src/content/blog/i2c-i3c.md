@@ -1,6 +1,9 @@
 ---
 title: I2C and I3C
 description: "Two-wire control buses — I2C as the workhorse, I3C as the MIPI successor with speed and in-band interrupts."
+pubDate: 2026-09-10T12:01:00Z
+author: Michele Forese
+tags: ["hardware", "n6", "i2c"]
 order: 8
 ---
 

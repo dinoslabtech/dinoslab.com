@@ -1,6 +1,9 @@
 ---
 title: MIPI CSI-2
 description: "Camera Serial Interface 2 — the two-wire-per-lane link used to bring a CMOS sensor into an MCU or ISP."
+pubDate: 2026-09-10T12:08:00Z
+author: Michele Forese
+tags: ["hardware", "n6", "camera"]
 order: 1
 ---
 
