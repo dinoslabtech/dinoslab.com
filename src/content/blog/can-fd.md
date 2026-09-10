@@ -1,6 +1,9 @@
 ---
 title: CAN FD and TTCAN
 description: "Flexible Data-rate CAN and time-triggered CAN — the two modes on STM32N6’s FDCAN controllers."
+pubDate: 2026-09-10T12:02:00Z
+author: Michele Forese
+tags: ["hardware", "n6", "can"]
 order: 7
 ---
 

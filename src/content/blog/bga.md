@@ -1,6 +1,9 @@
 ---
 title: BGA packages
 description: "Ball grid array — why STM32N657X0 is a VFBGA264, and what that means for layout and assembly."
+pubDate: 2026-09-10T12:06:00Z
+author: Michele Forese
+tags: ["hardware", "n6", "packaging"]
 order: 3
 ---
 

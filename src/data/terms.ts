@@ -6,20 +6,20 @@ export type Term = {
 
 /** Longer phrases first. Same `id` links at most once per linker instance. */
 export const terms: Term[] = [
-  { id: "mipi", href: "/docs/mipi-csi-2", patterns: [/MIPI CSI-2/gi, /CSI-2/gi] },
-  { id: "hexaspi", href: "/docs/hexaspi", patterns: [/Hexadeca-SPI/gi, /Hexa-SPI/gi, /HexaSPI/gi] },
-  { id: "tsn", href: "/docs/ethernet-tsn", patterns: [/Ethernet TSN/gi, /\bTSN\b/g] },
-  { id: "canfd", href: "/docs/can-fd", patterns: [/\bFDCAN\b/g, /CAN FD/g] },
-  { id: "ttcan", href: "/docs/can-fd#ttcan", patterns: [/\bTTCAN\b/g] },
-  { id: "i3c", href: "/docs/i2c-i3c#i3c", patterns: [/\bI3C\b/g] },
-  { id: "i2c", href: "/docs/i2c-i3c#i2c", patterns: [/\bI2C\b/g] },
-  { id: "otp", href: "/docs/otp", patterns: [/\bOTP\b/g] },
-  { id: "bga", href: "/docs/bga", patterns: [/\bVFBGA\d*\b/g, /\bBGA\d*\b/g] },
-  { id: "psram", href: "/docs/memory#psram", patterns: [/\bPSRAM\b/g] },
-  { id: "sram", href: "/docs/memory#sram", patterns: [/\bSRAM\b/g] },
-  { id: "dram", href: "/docs/memory#dram", patterns: [/\bSDRAM\b/g, /\bDRAM\b/g] },
-  { id: "nand", href: "/docs/memory#nand", patterns: [/\bNAND\b/g] },
-  { id: "nor", href: "/docs/memory#nor", patterns: [/\bNOR\b/g] },
+  { id: "mipi", href: "/blog/mipi-csi-2", patterns: [/MIPI CSI-2/gi, /CSI-2/gi] },
+  { id: "hexaspi", href: "/blog/hexaspi", patterns: [/Hexadeca-SPI/gi, /Hexa-SPI/gi, /HexaSPI/gi] },
+  { id: "tsn", href: "/blog/ethernet-tsn", patterns: [/Ethernet TSN/gi, /\bTSN\b/g] },
+  { id: "canfd", href: "/blog/can-fd", patterns: [/\bFDCAN\b/g, /CAN FD/g] },
+  { id: "ttcan", href: "/blog/can-fd#ttcan", patterns: [/\bTTCAN\b/g] },
+  { id: "i3c", href: "/blog/i2c-i3c#i3c", patterns: [/\bI3C\b/g] },
+  { id: "i2c", href: "/blog/i2c-i3c#i2c", patterns: [/\bI2C\b/g] },
+  { id: "otp", href: "/blog/otp", patterns: [/\bOTP\b/g] },
+  { id: "bga", href: "/blog/bga", patterns: [/\bVFBGA\d*\b/g, /\bBGA\d*\b/g] },
+  { id: "psram", href: "/blog/memory#psram", patterns: [/\bPSRAM\b/g] },
+  { id: "sram", href: "/blog/memory#sram", patterns: [/\bSRAM\b/g] },
+  { id: "dram", href: "/blog/memory#dram", patterns: [/\bSDRAM\b/g, /\bDRAM\b/g] },
+  { id: "nand", href: "/blog/memory#nand", patterns: [/\bNAND\b/g] },
+  { id: "nor", href: "/blog/memory#nor", patterns: [/\bNOR\b/g] },
 ];
 
 function escapeHtml(text: string): string {

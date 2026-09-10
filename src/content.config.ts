@@ -11,15 +11,7 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     author: z.string(),
     tags: z.array(z.string()).default([]),
-  }),
-});
-
-const docs = defineCollection({
-  loader: glob({ base: "./src/content/docs", pattern: "**/*.{md,mdx}" }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    order: z.number(),
+    order: z.number().optional(),
   }),
 });
 
@@ -46,4 +38,4 @@ const products = defineCollection({
   }),
 });
 
-export const collections = { blog, products, docs };
+export const collections = { blog, products };
