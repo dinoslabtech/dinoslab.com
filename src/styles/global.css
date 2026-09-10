@@ -150,6 +150,44 @@ textarea:focus-visible {
   background-size: 20px 20px;
 }
 
+.facts-grid {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+@media (min-width: 640px) {
+  .facts-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .facts-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.facts-cell {
+  background: var(--color-paper);
+  padding: 1.1rem 0.85rem 1.2rem;
+  min-width: 0;
+}
+
+.facts-value {
+  @apply font-mono text-xl tracking-tight text-ink;
+  white-space: nowrap;
+}
+
+.facts-label {
+  @apply mt-1 font-mono text-[10px] uppercase text-muted sm:text-[11px];
+  letter-spacing: 0.1em;
+  overflow-wrap: anywhere;
+}
+
 .spec-table {
   @apply w-full text-sm;
   border-top: 1px solid var(--color-line);
@@ -167,6 +205,26 @@ textarea:focus-visible {
 
 .spec-table td {
   @apply text-ink;
+}
+
+@media (max-width: 639px) {
+  .spec-table {
+    border-top: none;
+  }
+
+  .spec-table tr {
+    display: grid;
+    gap: 0.2rem;
+    padding-block: 0.8rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .spec-table th,
+  .spec-table td {
+    width: auto;
+    border: none;
+    padding: 0;
+  }
 }
 
 .mod-diagram {
