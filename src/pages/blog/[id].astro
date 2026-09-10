@@ -6,12 +6,15 @@ export async function getStaticPaths() {
   const posts = await getCollection("blog");
   return posts.map((post) => ({
     params: { id: post.id },
-    props: { post },
+    props: { post, posts },
   }));
 }
 
-const { post } = Astro.props;
+const { post, posts } = Astro.props;
 const { Content } = await render(post);
+const related = posts
+  .filter((item) => item.id !== post.id && item.data.tags.includes("n6") && post.data.tags.includes("n6"))
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
@@ -35,7 +38,23 @@ const { Content } = await render(post);
     <div class="prose-lab mt-12">
       <Content />
     </div>
-    <p class="mt-16 border-t border-line pt-6 font-mono text-[11px] uppercase tracking-[0.16em]">
+    {
+      related.length > 0 && (
+        <nav class="mt-16 border-t border-line pt-8" aria-label="Related notes">
+          <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Also in notes</p>
+          <ul class="mt-4 grid gap-2 sm:grid-cols-2">
+            {related.map((item) => (
+              <li>
+                <a class="text-sm text-lab hover:underline" href={`/blog/${item.id}`}>
+                  {item.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+    <p class="mt-10 font-mono text-[11px] uppercase tracking-[0.16em]">
       <a class="text-lab hover:underline" href="/blog">← All notes</a>
     </p>
   </article>

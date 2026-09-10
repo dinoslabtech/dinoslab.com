@@ -2,25 +2,30 @@
 import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/PageIntro.astro";
 import ProductCard from "@/components/ProductCard.astro";
+import { createTermLinker } from "@/data/terms";
 import { getCollection } from "astro:content";
 
 const products = await getCollection("products");
+const link = createTermLinker();
 ---
 
 <Layout
   title="Products"
-  description="Dino’s Lab modules. First release: STM32N6 edge-AI module. Register interest."
+  description="Dino’s Lab catalogue. PCB boards and electronics modules. First release: STM32N6 edge-AI module."
 >
   <div class="shell py-16 lg:py-20">
-    <PageIntro kicker="Products" title="Modules">
-      Catalogue in development. First item is an STM32N6 module for edge AI.
-      Indicative quantity can be included with an interest request.
-    </PageIntro>
+    <PageIntro kicker="Products" title="Boards and modules" />
+    <p
+      class="lead mt-5 max-w-2xl"
+      set:html={link(
+        "The catalogue. First item is the DNL-N6, an STM32N6 module for edge AI, with HexaSPI PSRAM and Octo-SPI NOR. Further boards will follow.",
+      )}
+    />
 
     <div
       class:list={[
         "mt-12 grid gap-6",
-        products.length > 1 ? "md:grid-cols-2" : "max-w-xl",
+        products.length > 1 ? "md:grid-cols-2" : "",
       ]}
     >
       {
@@ -31,6 +36,7 @@ const products = await getCollection("products");
             title={product.data.title}
             chip={product.data.chip}
             summary={product.data.summary}
+            featured={products.length === 1}
           />
         ))
       }
