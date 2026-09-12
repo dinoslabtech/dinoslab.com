@@ -14,12 +14,12 @@ const posts = (await getCollection("blog")).sort((a, b) => {
   title="Blog"
   description="Articles on firmware, Linux, and hardware from Dino’s Lab."
 >
-  <div class="shell py-16 lg:py-20">
+  <div class="shell section">
     <PageIntro title="Blog">
       Firmware, Linux, and hardware.
     </PageIntro>
 
-    <ul class="mt-12 divide-y divide-line border-y border-line">
+    <ul class="mt-8 divide-y divide-line border-y border-line">
       {
         posts.map((post) => (
           <li>
