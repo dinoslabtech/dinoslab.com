@@ -1,15 +1,27 @@
 ---
+import { productStatusLabel } from "@/data/site";
+
 interface Props {
   href: string;
   category: string;
   title: string;
   chip: string;
   summary: string;
+  status: keyof typeof productStatusLabel;
   heading?: "h2" | "h3";
   featured?: boolean;
 }
 
-const { href, category, title, chip, summary, heading = "h2", featured = false } = Astro.props;
+const {
+  href,
+  category,
+  title,
+  chip,
+  summary,
+  status,
+  heading = "h2",
+  featured = false,
+} = Astro.props;
 const Heading = heading;
 ---
 
@@ -23,20 +35,24 @@ const Heading = heading;
   {
     featured && (
       <div class="figure-grid flex min-h-52 items-center justify-center px-8 py-12 md:min-h-[18rem]">
-        <p class="font-mono text-3xl tracking-tight text-lab sm:text-4xl">{title}</p>
+        <Heading class="font-mono text-3xl tracking-tight text-lab group-hover:text-lab sm:text-4xl">
+          {title}
+        </Heading>
       </div>
     )
   }
   <div class="flex flex-col">
     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-line px-4 py-2.5 sm:px-5">
       <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-lab">{category}</span>
-      <span class="badge">Coming soon</span>
+      <span class="badge">{productStatusLabel[status]}</span>
     </div>
     <div class="flex flex-1 flex-col px-5 py-6 sm:px-6 sm:py-8">
-      <Heading class:list={["font-medium tracking-tight group-hover:text-lab", featured ? "text-3xl" : "text-2xl"]}>
-        {title}
-      </Heading>
-      <p class="mt-2 font-mono text-xs text-muted">{chip}</p>
+      {
+        !featured && (
+          <Heading class="text-2xl font-medium tracking-tight group-hover:text-lab">{title}</Heading>
+        )
+      }
+      <p class:list={["font-mono text-xs text-muted", !featured && "mt-2"]}>{chip}</p>
       <p class="mt-4 text-sm leading-relaxed text-muted">{summary}</p>
       <p class="mt-6 font-mono text-[11px] uppercase tracking-[0.16em] text-lab">
         Details <span aria-hidden="true" class="font-sans">→</span>

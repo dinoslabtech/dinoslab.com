@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import ContactForm from "@/components/ContactForm.astro";
 import SpecTable from "@/components/SpecTable.astro";
 import ModuleDiagram from "@/components/ModuleDiagram.astro";
+import { productStatusLabel } from "@/data/site";
 import { createTermLinker } from "@/data/terms";
 import { getCollection, render } from "astro:content";
 
@@ -45,12 +46,7 @@ const diagram = [
   },
 ];
 
-const statusLabel =
-  product.data.status === "coming_soon"
-    ? "Coming soon"
-    : product.data.status === "available"
-      ? "Available"
-      : "Discontinued";
+const statusLabel = productStatusLabel[product.data.status];
 ---
 
 <Layout title={product.data.title} description={product.data.summary}>
@@ -95,8 +91,7 @@ const statusLabel =
         {
           features && features.length > 0 && (
             <section id="features">
-              <p class="eyebrow">Overview</p>
-              <h2 class="mt-3 text-3xl font-medium tracking-tight">What is on the board</h2>
+              <h2 class="text-3xl font-medium tracking-tight">What is on the board</h2>
               <div class="mt-10 grid gap-6 sm:grid-cols-2">
                 {features.map((item) => (
                   <div class="panel p-5 sm:p-6">
@@ -112,8 +107,7 @@ const statusLabel =
         {
           product.id === "dnl-n6" && (
             <section id="block-diagram" class="mt-16">
-              <p class="eyebrow">Block diagram</p>
-              <h2 class="mt-3 text-3xl font-medium tracking-tight">Signal path</h2>
+              <h2 class="text-3xl font-medium tracking-tight">Block diagram</h2>
               <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
                 Camera in, Neural-ART and the M55 in the middle, two XSPI memories on the
                 side. Carrier I/O is not frozen; the silicon and the two memories are.
@@ -135,7 +129,8 @@ const statusLabel =
           </div>
           <div class="p-5 sm:p-6">
             <p class="text-sm text-muted">
-              Indicative quantity, or a request for a sample. No payment.
+              An evaluation sample to test the module, or a quantity to buy. No
+              payment.
             </p>
             <div class="mt-6">
               <ContactForm
@@ -153,8 +148,7 @@ const statusLabel =
       specGroups && specGroups.length > 0 && (
         <section id="specifications" class="border-t border-line bg-panel">
           <div class="shell py-16 lg:py-20">
-            <p class="eyebrow">Specifications</p>
-            <h2 class="mt-3 text-3xl font-medium tracking-tight">Technical characteristics</h2>
+            <h2 class="text-3xl font-medium tracking-tight">Specifications</h2>
             <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
               MCU figures from the STM32N6 series (ST DS14791). The exact device —
               package, temperature grade, crypto — is chosen at hardware freeze.
@@ -180,10 +174,9 @@ const statusLabel =
       product.id === "dnl-n6" && primers.length > 0 && (
         <section class="border-t border-line bg-panel">
           <div class="shell py-16 lg:py-20">
-            <p class="eyebrow">Notes</p>
-            <h2 class="mt-3 text-3xl font-medium tracking-tight">Notes on the silicon</h2>
+            <h2 class="text-3xl font-medium tracking-tight">Related articles</h2>
             <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-              Short articles for the buses, package, and memories named above. Linked
+              Short articles on the buses, package, and memories named above. Linked
               in place where those words first appear.
             </p>
             <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

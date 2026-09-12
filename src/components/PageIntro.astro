@@ -1,6 +1,6 @@
 ---
 interface Props {
-  kicker: string;
+  kicker?: string;
   title: string;
   class?: string;
 }
@@ -9,8 +9,8 @@ const { kicker, title, class: className } = Astro.props;
 ---
 
 <header class:list={["max-w-2xl", className]}>
-  <p class="eyebrow">{kicker}</p>
-  <h1 class="display mt-3">{title}</h1>
+  {kicker && <p class="eyebrow">{kicker}</p>}
+  <h1 class:list={["display", kicker && "mt-3"]}>{title}</h1>
   {
     Astro.slots.has("default") && (
       <p class="lead mt-5">
