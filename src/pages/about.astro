@@ -8,16 +8,16 @@ import { site } from "@/data/site";
   title="About"
   description="Dino’s Lab designs and sells PCB boards, modules, and electronics. Ladispoli (Rome), Italy."
 >
-  <div class="shell py-16 lg:py-20">
-    <PageIntro kicker="About" title="Dino’s Lab">
+  <div class="shell section">
+    <PageIntro title="About">
       PCB boards, modules, and electronics.
     </PageIntro>
 
-    <div class="mt-14 grid gap-12 lg:grid-cols-12">
+    <div class="mt-10 grid gap-8 lg:grid-cols-12">
       <div class="space-y-5 text-[17px] leading-relaxed text-muted lg:col-span-7">
         <p>
           Dino’s Lab designs and sells its own circuit boards and electronics
-          modules. The first catalogue item is the DNL-N6, an STM32N6 module for
+          modules. The first board is the DNL-N6, an STM32N6 module for
           edge AI and vision. Further boards are in development.
         </p>
         <p>
@@ -30,7 +30,7 @@ import { site } from "@/data/site";
         </p>
       </div>
 
-      <dl class="h-fit divide-y divide-line border border-line bg-panel lg:col-span-5">
+      <dl class="panel h-fit divide-y divide-line overflow-hidden lg:col-span-5">
         <div class="grid grid-cols-[7rem_1fr] gap-4 px-5 py-4 text-sm">
           <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Location</dt>
           <dd>{site.location}</dd>
