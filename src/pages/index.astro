@@ -11,10 +11,10 @@ const available = products.filter((product) => product.data.status === "availabl
 
 <Layout>
   <section class="border-b border-line">
-    <div class="shell grid items-center gap-10 py-12 sm:py-16 lg:grid-cols-12 lg:gap-10 lg:py-24">
+    <div class="shell section-hero grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
       <div class="lg:col-span-7">
         <h1 class="display max-w-xl">PCB boards, modules, electronics.</h1>
-        <p class="lead mt-6">
+        <p class="lead mt-4">
           Dino’s Lab designs and sells circuit boards and electronics modules.
           First release is an STM32N6 module for edge AI and vision.
         </p>
@@ -24,7 +24,7 @@ const available = products.filter((product) => product.data.status === "availabl
         </div>
       </div>
 
-      <figure class="panel lg:col-span-5">
+      <figure class="panel overflow-hidden lg:col-span-5">
         <div class="figure-grid px-8 py-10">
           <img
             src="/logo.svg"
@@ -39,8 +39,8 @@ const available = products.filter((product) => product.data.status === "availabl
   {
     comingSoon.length > 0 && (
       <section class="border-b border-line">
-        <div class="shell py-12 sm:py-16 lg:py-20">
-          <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div class="shell section">
+          <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-8">
             <h2 class="text-3xl font-medium tracking-tight">Coming soon</h2>
             <p class="max-w-md text-sm leading-relaxed text-muted">
               Boards in design. Register interest on the product page — an
@@ -48,7 +48,7 @@ const available = products.filter((product) => product.data.status === "availabl
             </p>
           </div>
 
-          <div class="mt-10 grid gap-8">
+          <div class="mt-8 grid gap-8">
             {comingSoon.map((product) => {
               const href = `/products/${product.id}`;
               const facts = product.data.highlights?.slice(0, 4) ?? [];
@@ -103,11 +103,11 @@ const available = products.filter((product) => product.data.status === "availabl
   {
     available.length > 0 && (
       <section class="border-b border-line">
-        <div class="shell py-12 sm:py-16 lg:py-20">
+        <div class="shell section">
           <h2 class="text-3xl font-medium tracking-tight">Available now</h2>
           <div
             class:list={[
-              "mt-10 grid gap-6",
+              "mt-8 grid gap-6",
               available.length > 1 ? "md:grid-cols-2" : "",
             ]}
           >
@@ -128,8 +128,8 @@ const available = products.filter((product) => product.data.status === "availabl
     )
   }
 
-  <section class="bg-panel">
-    <div class="shell flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:py-10">
+  <section class="bg-raised">
+    <div class="shell section-sm flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <p class="text-lg font-medium tracking-tight">Custom work</p>
         <p class="mt-1 max-w-xl text-sm leading-relaxed text-muted">

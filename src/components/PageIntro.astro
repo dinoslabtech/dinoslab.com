@@ -13,7 +13,7 @@ const { kicker, title, class: className } = Astro.props;
   <h1 class:list={["display", kicker && "mt-3"]}>{title}</h1>
   {
     Astro.slots.has("default") && (
-      <p class="lead mt-5">
+      <p class="lead mt-4">
         <slot />
       </p>
     )
