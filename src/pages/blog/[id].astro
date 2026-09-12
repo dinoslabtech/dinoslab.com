@@ -18,9 +18,8 @@ const related = posts
 ---
 
 <Layout title={post.data.title} description={post.data.description}>
-  <article class="shell max-w-3xl py-16 lg:py-20">
-    <p class="eyebrow">Note</p>
-    <p class="mt-4 font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
+  <article class="shell section max-w-3xl">
+    <p class="font-mono text-[11px] uppercase tracking-[0.12em] text-muted">
       <time datetime={post.data.pubDate.toISOString()}>
         {
           post.data.pubDate.toLocaleDateString("en-GB", {
@@ -40,8 +39,8 @@ const related = posts
     </div>
     {
       related.length > 0 && (
-        <nav class="mt-16 border-t border-line pt-8" aria-label="Related notes">
-          <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Also in notes</p>
+        <nav class="mt-16 border-t border-line pt-8" aria-label="Related articles">
+          <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Related articles</p>
           <ul class="mt-4 grid gap-2 sm:grid-cols-2">
             {related.map((item) => (
               <li>
@@ -55,7 +54,7 @@ const related = posts
       )
     }
     <p class="mt-10 font-mono text-[11px] uppercase tracking-[0.16em]">
-      <a class="text-lab hover:underline" href="/blog">← All notes</a>
+      <a class="text-lab hover:underline" href="/blog">← All articles</a>
     </p>
   </article>
 </Layout>

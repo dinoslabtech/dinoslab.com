@@ -6,40 +6,74 @@ import { createTermLinker } from "@/data/terms";
 import { getCollection } from "astro:content";
 
 const products = await getCollection("products");
+const comingSoon = products.filter((product) => product.data.status === "coming_soon");
+const available = products.filter((product) => product.data.status === "available");
 const link = createTermLinker();
 ---
 
 <Layout
   title="Products"
-  description="Dino’s Lab catalogue. PCB boards and electronics modules. First release: STM32N6 edge-AI module."
+  description="PCB boards and electronics modules from Dino’s Lab. First release: STM32N6 edge-AI module."
 >
-  <div class="shell py-16 lg:py-20">
-    <PageIntro kicker="Products" title="Boards and modules" />
+  <div class="shell section">
+    <PageIntro title="Products" />
     <p
-      class="lead mt-5 max-w-2xl"
+      class="lead mt-4 max-w-2xl"
       set:html={link(
-        "The catalogue. First item is the DNL-N6, an STM32N6 module for edge AI, with HexaSPI PSRAM and Octo-SPI NOR. Further boards will follow.",
+        "The first board is the DNL-N6, an STM32N6 module for edge AI, with HexaSPI PSRAM and Octo-SPI NOR. Further boards will follow.",
       )}
     />
 
-    <div
-      class:list={[
-        "mt-12 grid gap-6",
-        products.length > 1 ? "md:grid-cols-2" : "",
-      ]}
-    >
-      {
-        products.map((product) => (
-          <ProductCard
-            href={`/products/${product.id}`}
-            category={product.data.category}
-            title={product.data.title}
-            chip={product.data.chip}
-            summary={product.data.summary}
-            featured={products.length === 1}
-          />
-        ))
-      }
-    </div>
+    {
+      available.length > 0 && (
+        <section class="mt-14">
+          <p class="eyebrow">Available now</p>
+          <div
+            class:list={[
+              "mt-6 grid gap-6",
+              available.length > 1 ? "md:grid-cols-2" : "",
+            ]}
+          >
+            {available.map((product) => (
+              <ProductCard
+                href={`/products/${product.id}`}
+                category={product.data.category}
+                title={product.data.title}
+                chip={product.data.chip}
+                summary={product.data.summary}
+                status={product.data.status}
+                featured={available.length === 1 && comingSoon.length === 0}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      comingSoon.length > 0 && (
+        <section class={available.length > 0 ? "mt-16" : "mt-14"}>
+          {available.length > 0 && <p class="eyebrow">Coming soon</p>}
+          <div
+            class:list={[
+              available.length > 0 ? "mt-6 grid gap-6" : "grid gap-6",
+              comingSoon.length > 1 ? "md:grid-cols-2" : "",
+            ]}
+          >
+            {comingSoon.map((product) => (
+              <ProductCard
+                href={`/products/${product.id}`}
+                category={product.data.category}
+                title={product.data.title}
+                chip={product.data.chip}
+                summary={product.data.summary}
+                status={product.data.status}
+                featured={comingSoon.length === 1 && available.length === 0}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
   </div>
 </Layout>
