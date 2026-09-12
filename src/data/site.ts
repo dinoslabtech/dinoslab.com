@@ -21,3 +21,9 @@ export const nav = [
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
 ] as const;
+
+export const productStatusLabel = {
+  coming_soon: "Coming soon",
+  available: "Available",
+  discontinued: "Discontinued",
+} as const;
