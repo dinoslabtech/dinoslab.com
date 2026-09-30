@@ -158,11 +158,19 @@ textarea:focus-visible {
 }
 
 .eyebrow {
-  @apply font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-lab;
+  @apply font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-lab;
 }
 
 .display {
   @apply text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] sm:text-4xl md:text-5xl lg:text-[3.35rem] lg:leading-[1.08];
+}
+
+.display-hero {
+  @apply text-[2.75rem] font-medium leading-[1.05] tracking-[-0.035em] sm:text-5xl md:text-6xl lg:text-[4.5rem] lg:leading-[1.02];
+}
+
+.title {
+  @apply text-[1.75rem] font-medium leading-[1.15] tracking-[-0.03em] sm:text-3xl md:text-4xl;
 }
 
 .lead {
@@ -199,20 +207,25 @@ textarea:focus-visible {
 }
 
 .badge {
-  @apply inline-flex items-center border border-lab/25 bg-mist px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-lab;
+  @apply inline-flex items-center border border-line bg-transparent px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted;
   border-radius: var(--radius-sm);
 }
 
+/* Sajid: canvas / card / raised = +0 / +5 / +10 lightness. Only raised
+   surfaces get the top highlight and stacked shadow (light from above). */
 .panel {
   background: var(--color-panel);
   border: 1px solid var(--color-line);
-  border-top-color: var(--color-highlight);
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
 }
 
+/* Raised allowlist: ProductViewer, interest/contact/quote forms,
+   .diagram (N6 figure), .note-example (blog-only). Do not grow it. */
 .panel-raised {
   background: var(--color-raised);
+  border: 1px solid var(--color-line);
+  border-top-color: var(--color-highlight);
+  border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }
 
@@ -291,6 +304,22 @@ textarea:focus-visible {
   }
 }
 
+.facts-grid.facts-grid-kit {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .facts-grid.facts-grid-kit {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .facts-grid.facts-grid-kit {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .facts-cell {
   background: var(--color-paper);
   padding: 1.1rem 0.85rem 1.2rem;
@@ -306,28 +335,6 @@ textarea:focus-visible {
   @apply mt-1 font-mono text-[10px] uppercase text-muted sm:text-[11px];
   letter-spacing: 0.1em;
   overflow-wrap: anywhere;
-}
-
-.spotlight-facts {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--color-line);
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
-@media (min-width: 640px) {
-  .spotlight-facts {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-.spotlight-cell {
-  background: var(--color-raised);
-  padding: 0.85rem 0.9rem 1rem;
-  min-width: 0;
 }
 
 .spec-table {
@@ -369,16 +376,163 @@ textarea:focus-visible {
   }
 }
 
-.mod-diagram {
-  @apply grid gap-px bg-line sm:grid-cols-2;
-  border: 1px solid var(--color-line);
-  border-radius: var(--radius-md);
-  overflow: hidden;
+.sku-tab,
+.viewer-tab {
+  @apply min-h-11 px-3 py-2 font-mono text-[12px] tracking-tight text-muted;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+}
+
+.sku-tab:hover,
+.viewer-tab:hover {
+  color: var(--color-ink);
+}
+
+.sku-tab[aria-selected="true"],
+.viewer-tab[aria-selected="true"] {
+  color: var(--color-ink);
+  background: var(--color-raised);
+  border-color: var(--color-line);
+  border-top-color: var(--color-highlight);
   box-shadow: var(--shadow-sm);
 }
 
-.mod-node {
-  @apply bg-panel p-5 sm:p-6;
+.sku-tab:disabled,
+.viewer-tab:disabled {
+  opacity: 0.55;
+}
+
+.viewer-stage,
+.viewer-canvas {
+  min-height: 18rem;
+  height: 18rem;
+  background: var(--color-void);
+}
+
+.viewer-canvas {
+  display: block;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .viewer-stage,
+  .viewer-canvas {
+    min-height: 28rem;
+    height: 28rem;
+  }
+}
+
+.viewer-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 36ch;
+  margin-inline: auto;
+  height: 100%;
+  min-height: inherit;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: var(--color-muted);
+}
+
+.viewer[data-empty="true"] .viewer-stage,
+.viewer[data-empty="true"] .viewer-empty {
+  min-height: 10rem;
+  height: 10rem;
+}
+
+@media (min-width: 640px) {
+  .viewer[data-empty="true"] .viewer-stage,
+  .viewer[data-empty="true"] .viewer-empty {
+    min-height: 12rem;
+    height: 12rem;
+  }
+}
+
+.viewer[data-layout="home"] .viewer-stage,
+.viewer[data-layout="home"] .viewer-canvas {
+  min-height: 16rem;
+  height: 16rem;
+}
+
+@media (min-width: 640px) {
+  .viewer[data-layout="home"] .viewer-stage,
+  .viewer[data-layout="home"] .viewer-canvas {
+    min-height: 22rem;
+    height: 22rem;
+  }
+}
+
+.diagram {
+  border: 1px solid var(--color-line);
+  border-top-color: var(--color-highlight);
+  border-radius: var(--radius-md);
+  background: var(--color-raised);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.diagram-row {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.diagram-row:last-child {
+  border-bottom: none;
+}
+
+@media (min-width: 640px) {
+  .diagram-row {
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+.diagram-kicker {
+  @apply font-mono text-[11px] uppercase tracking-[0.16em] text-muted;
+}
+
+.diagram-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.75rem;
+}
+
+.diagram-stack {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.diagram-box {
+  @apply font-mono text-[13px];
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.7rem;
+}
+
+.diagram-box-core {
+  color: var(--color-lab);
+}
+
+.diagram-arrow {
+  color: var(--color-muted);
+}
+
+.diagram-line {
+  @apply text-sm text-muted;
+}
+
+.diagram-bus {
+  @apply mr-2 font-mono text-[11px] uppercase tracking-[0.12em] text-lab;
 }
 
 .prose-lab table {
@@ -387,7 +541,7 @@ textarea:focus-visible {
 
 .prose-lab .note-example {
   @apply mt-0 mb-10 not-italic;
-  background: var(--color-panel);
+  background: var(--color-raised);
   border: 1px solid var(--color-line);
   border-top-color: var(--color-highlight);
   border-radius: var(--radius-md);
@@ -407,8 +561,4 @@ textarea:focus-visible {
 
 .prose-lab .note-example .eyebrow {
   @apply mb-2;
-}
-
-a.term {
-  @apply text-ink underline decoration-lab/45 underline-offset-2 hover:text-lab;
 }

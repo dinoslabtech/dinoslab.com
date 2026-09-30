@@ -1,6 +1,6 @@
 # Dino's Lab
 
-Website for [dinoslab.com](https://dinoslab.com). PCB boards, modules, and electronics. Ladispoli (Rome), Italy.
+Website for [dinoslab.com](https://dinoslab.com). Solder-down modules, designed in Ladispoli, built by [Acme Systems](https://www.acmesystems.it). First board: DNL-N6.
 
 ## Stack
 
@@ -63,3 +63,15 @@ Mock values until the real ones land — edit `src/data/site.ts`.
 - Products: `src/content/products/`
 - Blog: `src/content/blog/`
 - Brand assets: `resources/` (source) and `public/` (what the site serves)
+
+SoM order codes: `DNL-N6-{PSRAM_MB}/{NOR_MB}[-R[{FMC_MB}]]`. First SKUs are `DNL-N6-32/64` and `DNL-N6-32/64-R`.
+
+CAD GLBs for the product viewer go in `public/models/`:
+
+| File | View |
+|------|------|
+| `dnl-n6.glb` | SoM |
+| `dnl-n6-dk.glb` | DevKit |
+| `dnl-n6-on-dk.glb` | SoM seated on the DevKit |
+
+Until those files exist, the viewer is an empty stage. Docs live at `/docs` and stay out of the nav until a PDF is published.
