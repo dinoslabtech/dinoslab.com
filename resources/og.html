@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dino's Lab OG</title>
+    <style>
+      @font-face {
+        font-family: "Inter Variable";
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: block;
+        src: url("../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+          format("woff2-variations");
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: hsl(171 16% 6.5%);
+        color: hsl(171 10% 93%);
+        font-family: "Inter Variable", "Liberation Sans", sans-serif;
+      }
+
+      .bar {
+        height: 3px;
+        background: hsl(171 73% 22%);
+      }
+
+      .card {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        box-sizing: border-box;
+        height: 627px;
+        padding: 0 96px;
+      }
+
+      .mark {
+        width: 168px;
+        height: 168px;
+        flex-shrink: 0;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 72px;
+        font-weight: 500;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+      }
+
+      p {
+        margin: 16px 0 0;
+        font-size: 28px;
+        font-weight: 400;
+        letter-spacing: -0.01em;
+        color: hsl(171 12% 70%);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar"></div>
+    <div class="card">
+      <img class="mark" src="../public/logo-mark.svg" alt="" width="168" height="168" />
+      <div>
+        <h1>Dino’s Lab</h1>
+        <p>DNL-N6 · STM32N6 SoM</p>
+      </div>
+    </div>
+  </body>
+</html>

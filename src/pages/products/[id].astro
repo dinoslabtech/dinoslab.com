@@ -2,9 +2,9 @@
 import Layout from "@/layouts/Layout.astro";
 import ContactForm from "@/components/ContactForm.astro";
 import SpecTable from "@/components/SpecTable.astro";
-import ModuleDiagram from "@/components/ModuleDiagram.astro";
+import ProductViewer from "@/components/ProductViewer.astro";
+import N6BlockDiagram from "@/components/N6BlockDiagram.astro";
 import { productStatusLabel } from "@/data/site";
-import { createTermLinker } from "@/data/terms";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
@@ -17,36 +17,26 @@ export async function getStaticPaths() {
 
 const { product } = Astro.props;
 const { Content } = await render(product);
-const { highlights, features, specGroups } = product.data;
-const link = createTermLinker();
+const {
+  highlights,
+  specGroups,
+  variants,
+  relatedProduct,
+  viewer,
+  onModule,
+  onCarrier,
+  frozen,
+  open,
+} = product.data;
+const statusLabel = productStatusLabel[product.data.status];
+const defaultSku = variants?.[0];
+const related = relatedProduct
+  ? (await getCollection("products")).find((item) => item.id === relatedProduct)
+  : undefined;
 const primers = (await getCollection("blog"))
   .filter((post) => post.data.tags.includes("n6"))
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
-
-const diagram = [
-  {
-    kicker: "Camera",
-    title: "MIPI CSI-2",
-    body: "2-lane serial camera plus 16-bit PSSI. On-chip ISP, three pipes.",
-  },
-  {
-    kicker: "MCU",
-    title: "STM32N6 series",
-    body: "Cortex-M55 at 800 MHz, Neural-ART 600 GOPS, NeoChrom GPU, H.264, 4.2 MB SRAM.",
-  },
-  {
-    kicker: "XSPI ×16",
-    title: "AP Memory HexaSPI",
-    body: "APS256XXN, 256 Mbit PSRAM, 1.8 V. Framebuffers and activations.",
-  },
-  {
-    kicker: "XSPI ×8",
-    title: "Octo-SPI NOR",
-    body: "512 Mbit, 1.8 V, 200 MHz DTR. FSBL, application, and network weights.",
-  },
-];
-
-const statusLabel = productStatusLabel[product.data.status];
+const showPrimers = product.id === "dnl-n6" && primers.length > 0;
 ---
 
 <Layout title={product.data.title} description={product.data.summary}>
@@ -55,50 +45,127 @@ const statusLabel = productStatusLabel[product.data.status];
       <div class="shell section">
         <p class="eyebrow">{product.data.category}</p>
         <div class="mt-3 flex flex-wrap items-center gap-3">
-          <h1 class="display">{product.data.title}</h1>
+          <h1 class="title">{product.data.title}</h1>
           <span class="badge">{statusLabel}</span>
         </div>
         <p class="mt-3 font-mono text-sm text-muted">{product.data.chip}</p>
-        <p class="lead mt-4 max-w-3xl" set:html={link(product.data.summary)} />
+        <p class="lead mt-4 max-w-3xl">{product.data.summary}</p>
+
+        {
+          variants && variants.length > 0 && (
+            <div class="mt-8" data-sku-switch>
+              <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Order code</p>
+              <div class="mt-3 flex flex-wrap gap-2" role="tablist" aria-label="SKU">
+                {variants.map((sku, index) => (
+                  <button
+                    type="button"
+                    class="sku-tab"
+                    role="tab"
+                    data-code={sku.code}
+                    aria-selected={index === 0 ? "true" : "false"}
+                  >
+                    {sku.title}
+                  </button>
+                ))}
+              </div>
+              <p class="sku-code mt-3 font-mono text-sm text-lab" data-sku-code>
+                {defaultSku?.code}
+              </p>
+            </div>
+          )
+        }
+
         <div class="mt-8 flex flex-wrap gap-3">
           <a href="#interest" class="btn-primary">Register interest</a>
-          <a href="#specifications" class="btn-secondary">Specifications</a>
+          {
+            related && (
+              <a href={`/products/${related.id}`} class="btn-secondary">
+                {related.data.shortName}
+              </a>
+            )
+          }
+          {specGroups && specGroups.length > 0 && (
+            <a href="#specifications" class="btn-ghost">Specifications</a>
+          )}
         </div>
       </div>
     </header>
 
     {
+      viewer && (
+        <section class="border-y border-line" aria-label="CAD model">
+          <div class="shell section-sm">
+            <ProductViewer
+              som={viewer.som}
+              kit={viewer.kit}
+              combined={viewer.combined}
+              defaultMode={product.data.kind === "kit" ? "kit" : "som"}
+            />
+          </div>
+        </section>
+      )
+    }
+
+    {
       highlights && highlights.length > 0 && (
         <section aria-label="Key figures">
           <div class="shell">
-            <div class="facts-grid">
-              {
-                highlights.map((item) => (
-                  <div class="facts-cell">
-                    <p class="facts-value" set:html={item.value} />
-                    <p class="facts-label" set:html={link(item.label)} />
-                  </div>
-                ))
-              }
+            <div class:list={["facts-grid", product.data.kind === "kit" && "facts-grid-kit"]}>
+              {highlights.map((item) => (
+                <div class="facts-cell">
+                  <p class="facts-value">{item.value}</p>
+                  <p class="facts-label">{item.label}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
       )
     }
 
-    <div class="shell section grid gap-8 lg:grid-cols-12 lg:gap-10">
-      <div class="lg:col-span-8">
+    <div class="shell section grid gap-10 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-8 space-y-12">
         {
-          features && features.length > 0 && (
-            <section id="features">
-              <h2 class="text-3xl font-medium tracking-tight">What is on the board</h2>
-              <div class="mt-8 grid gap-4 sm:grid-cols-2">
-                {features.map((item) => (
-                  <div class="panel p-5 sm:p-6">
-                    <h3 class="font-medium tracking-tight">{item.title}</h3>
-                    <p class="mt-3 text-sm leading-relaxed text-muted" set:html={link(item.body)} />
+          (frozen || open) && (
+            <section>
+              <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Frozen and open</h2>
+              <div class="mt-6 grid gap-8 sm:grid-cols-2">
+                {frozen && frozen.length > 0 && (
+                  <SpecTable title="Frozen" rows={frozen} />
+                )}
+                {open && open.length > 0 && (
+                  <SpecTable title="Still open" rows={open} />
+                )}
+              </div>
+            </section>
+          )
+        }
+
+        {
+          (onModule || onCarrier) && (
+            <section>
+              <h2 class="text-2xl font-medium tracking-tight md:text-3xl">SoM and carrier</h2>
+              <div class="mt-6 grid gap-8 sm:grid-cols-2">
+                {onModule && (
+                  <div>
+                    <h3 class="font-medium tracking-tight">On the module</h3>
+                    <ul class="mt-4 space-y-2 text-sm leading-relaxed text-muted">
+                      {onModule.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
                   </div>
-                ))}
+                )}
+                {onCarrier && (
+                  <div>
+                    <h3 class="font-medium tracking-tight">On your carrier</h3>
+                    <ul class="mt-4 space-y-2 text-sm leading-relaxed text-muted">
+                      {onCarrier.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             </section>
           )
@@ -106,22 +173,21 @@ const statusLabel = productStatusLabel[product.data.status];
 
         {
           product.id === "dnl-n6" && (
-            <section id="block-diagram" class="mt-12">
-              <h2 class="text-3xl font-medium tracking-tight">Block diagram</h2>
+            <section id="block-diagram">
+              <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Block diagram</h2>
               <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-                Camera in, Neural-ART and the M55 in the middle, two XSPI memories on the
-                side. Carrier I/O is not frozen; the silicon and the two memories are.
+                Power and PHY on the module. MDI, CSI-2, and the rest of the I/O at the edge.
               </p>
               <div class="mt-8">
-                <ModuleDiagram nodes={diagram} link={link} />
+                <N6BlockDiagram />
               </div>
             </section>
           )
         }
       </div>
 
-      <aside class="h-fit lg:col-span-4 lg:sticky lg:top-24" id="interest">
-        <div class="panel panel-raised">
+      <aside class="order-first h-fit lg:order-none lg:col-span-4 lg:sticky lg:top-24" id="interest">
+        <div class="panel-raised">
           <div class="border-b border-line px-5 py-3">
             <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
               Interest · {product.data.shortName}
@@ -129,14 +195,18 @@ const statusLabel = productStatusLabel[product.data.status];
           </div>
           <div class="p-5 sm:p-6">
             <p class="text-sm text-muted">
-              An evaluation sample to test the module, or a quantity to buy. No
-              payment.
+              {
+                product.data.kind === "kit"
+                  ? "The DevKit is the eval path. No payment."
+                  : "DevKit when it exists, or a quantity of SoMs for a carrier you design. No payment."
+              }
             </p>
             <div class="mt-6">
               <ContactForm
                 name="interest"
                 variant="interest"
                 product={product.data.shortName}
+                skus={variants}
               />
             </div>
           </div>
@@ -148,15 +218,13 @@ const statusLabel = productStatusLabel[product.data.status];
       specGroups && specGroups.length > 0 && (
         <section id="specifications" class="border-t border-line bg-void">
           <div class="shell section">
-            <h2 class="text-3xl font-medium tracking-tight">Specifications</h2>
+            <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Specifications</h2>
             <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-              MCU figures from the STM32N6 series (ST DS14791). The exact device —
-              package, temperature grade, crypto — is chosen at hardware freeze.
-              Module mechanics are not final.
+              Module figures. Silicon details that still depend on the STM32N6 SKU wait for hardware freeze.
             </p>
             <div class="mt-8 grid gap-8 lg:grid-cols-2">
               {specGroups.map((group) => (
-                <SpecTable title={group.title} rows={group.rows} link={link} />
+                <SpecTable title={group.title} rows={group.rows} />
               ))}
             </div>
           </div>
@@ -171,20 +239,18 @@ const statusLabel = productStatusLabel[product.data.status];
     </div>
 
     {
-      product.id === "dnl-n6" && primers.length > 0 && (
-        <section class="border-t border-line bg-void">
+      showPrimers && (
+        <section class="border-t border-line">
           <div class="shell section">
-            <h2 class="text-3xl font-medium tracking-tight">Related articles</h2>
+            <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Notes on this module</h2>
             <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-              Short articles on the buses, package, and memories named above. Linked
-              in place where those words first appear.
+              Why these buses and memories are on the DNL-N6.
             </p>
-            <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <ul class="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
               {primers.map((item) => (
                 <li>
-                  <a href={`/blog/${item.id}`} class="panel block h-full p-5 transition-[border-color,box-shadow] duration-150 hover:border-highlight hover:shadow-[var(--shadow-md)]">
-                    <p class="font-medium tracking-tight">{item.data.title}</p>
-                    <p class="mt-2 text-sm leading-relaxed text-muted">{item.data.description}</p>
+                  <a href={`/blog/${item.id}`} class="text-sm hover:text-lab">
+                    {item.data.title}
                   </a>
                 </li>
               ))}
@@ -195,3 +261,23 @@ const statusLabel = productStatusLabel[product.data.status];
     }
   </article>
 </Layout>
+
+{
+  variants && variants.length > 0 && (
+    <script>
+      const root = document.querySelector("[data-sku-switch]");
+      const tabs = root?.querySelectorAll<HTMLButtonElement>("[data-code]");
+      const code = root?.querySelector("[data-sku-code]");
+
+      tabs?.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const value = tab.dataset.code;
+          if (!value) return;
+          tabs.forEach((item) => item.setAttribute("aria-selected", String(item === tab)));
+          if (code) code.textContent = value;
+          window.dispatchEvent(new CustomEvent("dnl-sku", { detail: value }));
+        });
+      });
+    </script>
+  )
+}

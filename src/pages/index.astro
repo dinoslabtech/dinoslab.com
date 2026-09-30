@@ -1,29 +1,33 @@
 ---
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 import Layout from "@/layouts/Layout.astro";
 import ProductCard from "@/components/ProductCard.astro";
-import { productStatusLabel } from "@/data/site";
+import ProductViewer from "@/components/ProductViewer.astro";
+import { site } from "@/data/site";
 import { getCollection } from "astro:content";
 
 const products = await getCollection("products");
-const comingSoon = products.filter((product) => product.data.status === "coming_soon");
-const available = products.filter((product) => product.data.status === "available");
+const n6 = products.find((product) => product.id === "dnl-n6");
+const kit = products.find((product) => product.id === "dnl-n6-dk");
+const others = products.filter((product) => product.id !== "dnl-n6" && product.id !== "dnl-n6-dk");
+const somSrc = n6?.data.viewer?.som;
+const homeSomReady = Boolean(
+  somSrc && existsSync(join(process.cwd(), "public", somSrc.replace(/^\//, ""))),
+);
 ---
 
 <Layout>
   <section class="border-b border-line">
     <div class="shell section-hero grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
       <div class="lg:col-span-7">
-        <h1 class="display max-w-xl">PCB boards, modules, electronics.</h1>
-        <p class="lead mt-4">
-          Dino’s Lab designs and sells circuit boards and electronics modules.
-          First release is an STM32N6 module for edge AI and vision.
+        <h1 class="display-hero">{site.name}</h1>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
+          Solder-down modules, designed in Ladispoli, built by Acme Systems.
+          <br />
+          First board: DNL-N6.
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href="/products" class="btn-primary">Products</a>
-          <a href="/products/dnl-n6" class="btn-secondary">DNL-N6</a>
-        </div>
       </div>
-
       <figure class="panel overflow-hidden lg:col-span-5">
         <div class="figure-grid px-8 py-10">
           <img
@@ -37,63 +41,55 @@ const available = products.filter((product) => product.data.status === "availabl
   </section>
 
   {
-    comingSoon.length > 0 && (
+    n6 && (
       <section class="border-b border-line">
         <div class="shell section">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between md:gap-8">
-            <h2 class="text-3xl font-medium tracking-tight">Coming soon</h2>
-            <p class="max-w-md text-sm leading-relaxed text-muted">
-              Boards in design. Register interest on the product page — an
-              evaluation sample, or a quantity to buy.
-            </p>
+            <div>
+              <p class="eyebrow">{n6.data.category}</p>
+              <h2 class="display mt-3">{n6.data.title}</h2>
+            </div>
+            <p class="max-w-md text-sm leading-relaxed text-muted">{n6.data.summary}</p>
           </div>
 
-          <div class="mt-8 grid gap-8">
-            {comingSoon.map((product) => {
-              const href = `/products/${product.id}`;
-              const facts = product.data.highlights?.slice(0, 4) ?? [];
-              return (
-                <article class="panel overflow-hidden">
-                  <div class="grid lg:grid-cols-12">
-                    <div class="figure-grid flex min-h-48 items-center justify-center px-8 py-12 lg:col-span-5 lg:min-h-[22rem]">
-                      <h3 class="font-mono text-3xl tracking-tight text-lab sm:text-4xl">
-                        {product.data.title}
-                      </h3>
-                    </div>
-                    <div class="flex flex-col lg:col-span-7">
-                      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-line px-5 py-2.5 sm:px-6">
-                        <span class="font-mono text-[11px] uppercase tracking-[0.18em] text-lab">
-                          {product.data.category}
-                        </span>
-                        <span class="badge">{productStatusLabel[product.data.status]}</span>
-                      </div>
-                      <div class="flex flex-1 flex-col px-5 py-6 sm:px-6 sm:py-8">
-                        <p class="font-mono text-xs text-muted">{product.data.chip}</p>
-                        <p class="mt-4 text-sm leading-relaxed text-muted">{product.data.summary}</p>
-                        {facts.length > 0 && (
-                          <div class="spotlight-facts mt-6">
-                            {facts.map((item) => (
-                              <div class="spotlight-cell">
-                                <p class="facts-value text-lg">{item.value}</p>
-                                <p class="facts-label">{item.label}</p>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        <div class="mt-8 flex flex-wrap gap-3">
-                          <a href={href} class="btn-primary">
-                            View {product.data.shortName}
-                          </a>
-                          <a href={`${href}#interest`} class="btn-secondary">
-                            Register interest
-                          </a>
-                        </div>
-                      </div>
-                    </div>
+          {
+            homeSomReady && n6.data.viewer && (
+              <div class="mt-10">
+                <ProductViewer
+                  som={n6.data.viewer.som}
+                  kit={n6.data.viewer.kit}
+                  combined={n6.data.viewer.combined}
+                  layout="home"
+                />
+                <p class="mt-3">
+                  <a href="/products/dnl-n6" class="text-sm text-lab hover:text-lab-bright">
+                    Inspect in 3D
+                  </a>
+                </p>
+              </div>
+            )
+          }
+
+          {
+            n6.data.highlights && (
+              <div class="facts-grid mt-10">
+                {n6.data.highlights.map((item) => (
+                  <div class="facts-cell">
+                    <p class="facts-value">{item.value}</p>
+                    <p class="facts-label">{item.label}</p>
                   </div>
-                </article>
-              );
-            })}
+                ))}
+              </div>
+            )
+          }
+
+          <div class="mt-10 flex flex-wrap gap-3">
+            <a href="/products/dnl-n6" class="btn-primary">
+              View {n6.data.shortName}
+            </a>
+            <a href="/products/dnl-n6#interest" class="btn-secondary">
+              Register interest
+            </a>
           </div>
         </div>
       </section>
@@ -101,17 +97,28 @@ const available = products.filter((product) => product.data.status === "availabl
   }
 
   {
-    available.length > 0 && (
+    kit && (
       <section class="border-b border-line">
+        <div class="shell section-sm flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="text-lg font-medium tracking-tight">{kit.data.title}</p>
+            <p class="mt-1 max-w-xl text-sm leading-relaxed text-muted">{kit.data.summary}</p>
+          </div>
+          <a href={`/products/${kit.id}`} class="btn-secondary shrink-0">
+            DevKit
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    others.length > 0 && (
+      <section>
         <div class="shell section">
-          <h2 class="text-3xl font-medium tracking-tight">Available now</h2>
-          <div
-            class:list={[
-              "mt-8 grid gap-6",
-              available.length > 1 ? "md:grid-cols-2" : "",
-            ]}
-          >
-            {available.map((product) => (
+          <h2 class="text-3xl font-medium tracking-tight">Also</h2>
+          <div class="mt-8 grid gap-6 md:grid-cols-2">
+            {others.map((product) => (
               <ProductCard
                 href={`/products/${product.id}`}
                 category={product.data.category}
@@ -127,16 +134,4 @@ const available = products.filter((product) => product.data.status === "availabl
       </section>
     )
   }
-
-  <section class="bg-raised">
-    <div class="shell section-sm flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div>
-        <p class="text-lg font-medium tracking-tight">Custom work</p>
-        <p class="mt-1 max-w-xl text-sm leading-relaxed text-muted">
-          Schematic, layout, firmware, and assembly on request.
-        </p>
-      </div>
-      <a href="/consulting" class="btn-secondary shrink-0">Consulting</a>
-    </div>
-  </section>
 </Layout>

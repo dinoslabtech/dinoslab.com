@@ -9,7 +9,7 @@ order: 2
 
 <aside class="note-example">
 <p class="eyebrow">Example</p>
-<p><a href="/products/dnl-n6">DNL-N6</a> — HexaSPI PSRAM next to Octo-SPI NOR on an STM32N6 XSPI host.</p>
+<p><a href="/products/dnl-n6">DNL-N6</a> — 32 MB HexaSPI PSRAM next to 64 MB Octo-SPI NOR on an STM32N6 XSPI host. Both stuffings share that pair; -R adds FMC RAM.</p>
 </aside>
 
 **HexaSPI** (Hexadeca-SPI) is a serial memory bus with **16 data lines**. It is the x16 member of the family that also includes Quad-SPI (x4) and Octo-SPI (x8). On ST parts the host is called **XSPI**.

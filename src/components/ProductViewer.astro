@@ -1,0 +1,143 @@
+---
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+interface Props {
+  som: string;
+  kit: string;
+  combined: string;
+  defaultMode?: "som" | "kit" | "combined";
+  layout?: "product" | "home";
+}
+
+const { som, kit, combined, defaultMode = "som", layout = "product" } = Astro.props;
+const isHome = layout === "home";
+
+function fromPublic(url: string) {
+  return join(process.cwd(), "public", url.replace(/^\//, ""));
+}
+
+const modes = [
+  { id: "som" as const, label: "SoM", src: som, alt: "DNL-N6 SoM CAD model" },
+  { id: "kit" as const, label: "DevKit", src: kit, alt: "DNL-N6 DevKit CAD model" },
+  { id: "combined" as const, label: "SoM on DevKit", src: combined, alt: "DNL-N6 SoM seated on DevKit" },
+].map((mode) => ({
+  ...mode,
+  ready: existsSync(fromPublic(mode.src)),
+}));
+
+const somMode = modes[0];
+const anyReady = isHome ? somMode.ready : modes.some((mode) => mode.ready);
+const initial = isHome
+  ? (somMode.ready ? somMode : undefined)
+  : (modes.find((mode) => mode.id === defaultMode && mode.ready) ?? modes.find((mode) => mode.ready));
+const missing = modes.filter((mode) => !mode.ready);
+const showCaption = !isHome && anyReady && missing.length > 0;
+---
+
+<div
+  class="viewer panel-raised"
+  data-viewer
+  data-layout={layout}
+  data-empty={!isHome && !anyReady ? "true" : undefined}
+>
+  {
+    !isHome && (
+      <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-3 sm:px-5">
+        <div class="flex flex-wrap gap-1" role="tablist" aria-label="3D model">
+          {
+            modes.map((mode) => (
+              <button
+                type="button"
+                class="viewer-tab"
+                role="tab"
+                data-mode={mode.id}
+                data-src={mode.ready ? mode.src : ""}
+                data-alt={mode.alt}
+                aria-selected={mode.id === initial?.id ? "true" : "false"}
+                disabled={!mode.ready}
+                title={!mode.ready ? "CAD not exported yet" : undefined}
+              >
+                {mode.label}
+              </button>
+            ))
+          }
+        </div>
+        <button type="button" class="btn-ghost text-[13px]" data-reset disabled={!anyReady}>
+          Reset
+        </button>
+      </div>
+    )
+  }
+
+  <div class="viewer-stage">
+    {
+      anyReady && initial ? (
+        <model-viewer
+          class="viewer-canvas"
+          src={initial.src}
+          alt={initial.alt}
+          camera-controls
+          touch-action="pan-y"
+          camera-orbit="0deg 75deg 105%"
+          interaction-prompt="none"
+          shadow-intensity="0.4"
+          exposure="0.9"
+        />
+      ) : (
+        <p class="viewer-empty">
+          CAD not exported yet. Rotatable models of the SoM, the DevKit, and the SoM on the DevKit will load here.
+        </p>
+      )
+    }
+  </div>
+
+  {
+    showCaption && (
+      <p class="px-4 py-2 font-mono text-[11px] text-muted">
+        Missing: {missing.map((mode) => mode.label).join(" · ")}
+      </p>
+    )
+  }
+</div>
+
+<script>
+  type ViewerEl = HTMLElement & {
+    src: string;
+    alt: string;
+    cameraOrbit: string;
+    cameraTarget: string;
+    jumpCameraToGoal: () => void;
+  };
+
+  async function initViewer(root: Element) {
+    const viewer = root.querySelector("model-viewer") as ViewerEl | null;
+    if (!viewer) return;
+
+    await import("@google/model-viewer");
+
+    const tabs = root.querySelectorAll<HTMLButtonElement>("[data-mode]");
+    const reset = root.querySelector<HTMLButtonElement>("[data-reset]");
+    const defaultOrbit = "0deg 75deg 105%";
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const src = tab.dataset.src;
+        if (!src) return;
+        viewer.src = src;
+        if (tab.dataset.alt) viewer.alt = tab.dataset.alt;
+        tabs.forEach((item) => item.setAttribute("aria-selected", String(item === tab)));
+      });
+    });
+
+    reset?.addEventListener("click", () => {
+      viewer.cameraOrbit = defaultOrbit;
+      viewer.cameraTarget = "auto auto auto";
+      viewer.jumpCameraToGoal();
+    });
+  }
+
+  document.querySelectorAll("[data-viewer]").forEach((root) => {
+    void initViewer(root);
+  });
+</script>

@@ -2,21 +2,20 @@
 interface Props {
   title: string;
   rows: [string, string][];
-  link?: (text: string) => string;
 }
 
-const { title, rows, link = (text) => text } = Astro.props;
+const { title, rows } = Astro.props;
 ---
 
 <section class="spec-block">
-  <h3 class="font-mono text-[11px] uppercase tracking-[0.18em] text-lab">{title}</h3>
+  <h3 class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{title}</h3>
   <table class="spec-table mt-4">
     <tbody>
       {
         rows.map(([key, value]) => (
           <tr>
-            <th scope="row" set:html={link(key)} />
-            <td set:html={link(value)} />
+            <th scope="row">{key}</th>
+            <td>{value}</td>
           </tr>
         ))
       }
