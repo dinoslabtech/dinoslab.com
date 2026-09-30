@@ -9,7 +9,7 @@ order: 6
 
 <aside class="note-example">
 <p class="eyebrow">Example</p>
-<p><a href="/products/dnl-n6">DNL-N6</a> — the STM32N6 series MAC is TSN-capable; bringing it to the carrier is a pin-mux choice.</p>
+<p><a href="/products/dnl-n6">DNL-N6</a> — Gigabit PHY on the SoM; MDI pairs at the module edge. Magnetics and RJ45 live on the carrier / DevKit. The MAC is TSN-capable.</p>
 </aside>
 
 **TSN** (Time-Sensitive Networking) is a set of IEEE 802.1 standards that turn Ethernet into a link with **time** in the contract, not only best-effort delivery. Several industrial MCUs, including the STM32N6 series, integrate a **Gigabit MAC with TSN**.

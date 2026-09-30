@@ -1,11 +1,17 @@
 ---
 import { site } from "@/data/site";
 
+interface Sku {
+  code: string;
+  title: string;
+}
+
 interface Props {
   name?: string;
   heading?: string;
   product?: string;
   variant?: "contact" | "interest";
+  skus?: Sku[];
 }
 
 const {
@@ -13,6 +19,7 @@ const {
   heading,
   product,
   variant = "contact",
+  skus = [],
 } = Astro.props;
 
 const isInterest = variant === "interest";
@@ -32,6 +39,7 @@ const nextUrl = new URL("/thank-you", site.url).href;
   method="POST"
   action={action}
   class="js-mail-form grid gap-4"
+  data-interest={isInterest ? "true" : undefined}
 >
   <input type="hidden" name="_subject" value={subjects[name] ?? subjects.contact} />
   <input type="hidden" name="_template" value="table" />
@@ -62,16 +70,40 @@ const nextUrl = new URL("/thank-you", site.url).href;
   {
     isInterest && (
       <label class="grid gap-1.5 text-[13px]">
-        <span class="font-medium">Evaluation or quantity</span>
-        <select name="intent" required class="field">
+        <span class="font-medium">Interest</span>
+        <select name="intent" required class="field js-intent">
           <option value="" disabled selected>
             Select
           </option>
-          <option value="evaluation">Evaluation / sample</option>
-          <option value="1-5">Buy 1–5</option>
-          <option value="6-20">Buy 6–20</option>
-          <option value="21-100">Buy 21–100</option>
-          <option value="100+">Buy 100+</option>
+          <option value="devkit">DNL-N6 DevKit when available</option>
+          <option value="som">SoM for my carrier</option>
+        </select>
+      </label>
+    )
+  }
+
+  {
+    isInterest && skus.length > 0 && (
+      <label class="js-som-only grid hidden gap-1.5 text-[13px]">
+        <span class="font-medium">Order code</span>
+        <select name="sku" class="field js-sku">
+          {skus.map((sku) => (
+            <option value={sku.code}>{sku.title}</option>
+          ))}
+        </select>
+      </label>
+    )
+  }
+
+  {
+    isInterest && (
+      <label class="js-som-only grid hidden gap-1.5 text-[13px]">
+        <span class="font-medium">Quantity</span>
+        <select name="quantity" class="field">
+          <option value="1-5">1–5</option>
+          <option value="6-20">6–20</option>
+          <option value="21-100">21–100</option>
+          <option value="100+">100+</option>
         </select>
       </label>
     )
@@ -85,11 +117,38 @@ const nextUrl = new URL("/thank-you", site.url).href;
   <button type="submit" class="btn-primary mt-1 justify-self-start">
     Send
   </button>
+  {
+    isInterest && (
+      <p class="text-xs text-muted">We email you about this module. We do not sell the list.</p>
+    )
+  }
 </form>
 
 <script>
   document.querySelectorAll<HTMLFormElement>("form.js-mail-form").forEach((form) => {
     const next = form.querySelector<HTMLInputElement>("input[name='_next']");
     if (next) next.value = `${window.location.origin}/thank-you`;
+
+    const intent = form.querySelector<HTMLSelectElement>(".js-intent");
+    const somFields = form.querySelectorAll<HTMLElement>(".js-som-only");
+    const sku = form.querySelector<HTMLSelectElement>(".js-sku");
+
+    function syncSom() {
+      const show = intent?.value === "som";
+      somFields.forEach((field) => {
+        field.classList.toggle("hidden", !show);
+        field.querySelectorAll("select").forEach((select) => {
+          select.required = Boolean(show);
+        });
+      });
+    }
+
+    intent?.addEventListener("change", syncSom);
+    syncSom();
+
+    window.addEventListener("dnl-sku", ((event: CustomEvent<string>) => {
+      if (!sku || !event.detail) return;
+      sku.value = event.detail;
+    }) as EventListener);
   });
 </script>

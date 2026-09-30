@@ -1,0 +1,40 @@
+---
+---
+
+<figure class="diagram" aria-label="DNL-N6 block diagram">
+  <div class="diagram-row">
+    <p class="diagram-kicker">Power</p>
+    <div class="diagram-flow">
+      <div class="diagram-box">4–36 V in</div>
+      <span class="diagram-arrow" aria-hidden="true">→</span>
+      <div class="diagram-stack">
+        <div class="diagram-box">3.3 V buck → MCU</div>
+        <div class="diagram-box">1.8 V buck → PSRAM, NOR</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-row">
+    <p class="diagram-kicker">On the SoM</p>
+    <div class="diagram-flow">
+      <div class="diagram-box diagram-box-core">STM32N6</div>
+      <div class="diagram-stack">
+        <div class="diagram-line"><span class="diagram-bus">HexaSPI</span> 32 MB PSRAM</div>
+        <div class="diagram-line"><span class="diagram-bus">Octo-SPI</span> 64 MB NOR</div>
+        <div class="diagram-line"><span class="diagram-bus">FMC</span> RAM on DNL-N6-32/64-R</div>
+        <div class="diagram-line"><span class="diagram-bus">RGMII</span> GbE PHY</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-row">
+    <p class="diagram-kicker">Module edge</p>
+    <div class="diagram-flow">
+      <div class="diagram-stack">
+        <div class="diagram-line"><span class="diagram-bus">MDI</span> to carrier magnetics / RJ45</div>
+        <div class="diagram-line"><span class="diagram-bus">CSI-2</span> to camera on the carrier</div>
+        <div class="diagram-line"><span class="diagram-bus">I/O</span> USB, SWD, SDMMC, UART, I2C, SPI, GPIO</div>
+      </div>
+    </div>
+  </div>
+</figure>

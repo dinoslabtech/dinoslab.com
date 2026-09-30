@@ -2,78 +2,41 @@
 import Layout from "@/layouts/Layout.astro";
 import PageIntro from "@/components/PageIntro.astro";
 import ProductCard from "@/components/ProductCard.astro";
-import { createTermLinker } from "@/data/terms";
 import { getCollection } from "astro:content";
 
-const products = await getCollection("products");
-const comingSoon = products.filter((product) => product.data.status === "coming_soon");
-const available = products.filter((product) => product.data.status === "available");
-const link = createTermLinker();
+const products = (await getCollection("products")).sort((a, b) => {
+  const order = ["dnl-n6", "dnl-n6-dk"];
+  const rank = (id: string) => {
+    const index = order.indexOf(id);
+    return index === -1 ? order.length : index;
+  };
+  return rank(a.id) - rank(b.id);
+});
 ---
 
 <Layout
   title="Products"
-  description="PCB boards and electronics modules from Dino’s Lab. First release: STM32N6 edge-AI module."
+  description="DNL-N6 STM32N6 SoM and the DNL-N6 DevKit from Dino’s Lab."
 >
   <div class="shell section">
-    <PageIntro title="Products" />
-    <p
-      class="lead mt-4 max-w-2xl"
-      set:html={link(
-        "The first board is the DNL-N6, an STM32N6 module for edge AI, with HexaSPI PSRAM and Octo-SPI NOR. Further boards will follow.",
-      )}
-    />
+    <PageIntro title="Products">
+      The DNL-N6 SoM and its DevKit. Same PCB, two memory stuffings, order codes DNL-N6-32/64 and DNL-N6-32/64-R.
+    </PageIntro>
 
-    {
-      available.length > 0 && (
-        <section class="mt-14">
-          <p class="eyebrow">Available now</p>
-          <div
-            class:list={[
-              "mt-6 grid gap-6",
-              available.length > 1 ? "md:grid-cols-2" : "",
-            ]}
-          >
-            {available.map((product) => (
-              <ProductCard
-                href={`/products/${product.id}`}
-                category={product.data.category}
-                title={product.data.title}
-                chip={product.data.chip}
-                summary={product.data.summary}
-                status={product.data.status}
-                featured={available.length === 1 && comingSoon.length === 0}
-              />
-            ))}
-          </div>
-        </section>
-      )
-    }
-
-    {
-      comingSoon.length > 0 && (
-        <section class={available.length > 0 ? "mt-16" : "mt-14"}>
-          {available.length > 0 && <p class="eyebrow">Coming soon</p>}
-          <div
-            class:list={[
-              available.length > 0 ? "mt-6 grid gap-6" : "grid gap-6",
-              comingSoon.length > 1 ? "md:grid-cols-2" : "",
-            ]}
-          >
-            {comingSoon.map((product) => (
-              <ProductCard
-                href={`/products/${product.id}`}
-                category={product.data.category}
-                title={product.data.title}
-                chip={product.data.chip}
-                summary={product.data.summary}
-                status={product.data.status}
-                featured={comingSoon.length === 1 && available.length === 0}
-              />
-            ))}
-          </div>
-        </section>
-      )
-    }
+    <div class="mt-14 grid gap-6">
+      {
+        products.map((product) => (
+          <ProductCard
+            href={`/products/${product.id}`}
+            category={product.data.category}
+            title={product.data.title}
+            chip={product.data.chip}
+            summary={product.data.summary}
+            status={product.data.status}
+            featured={product.id === "dnl-n6"}
+          />
+        ))
+      }
+    </div>
   </div>
 </Layout>
