@@ -1,0 +1,15 @@
+BEGIN:VCARD
+VERSION:3.0
+N:;Dino's Lab;;;
+FN:Dino's Lab
+ORG:Dino's Lab
+TEL;TYPE=CELL:+39 3516795597
+EMAIL;TYPE=INTERNET:info@dinoslab.com
+URL:https://dinoslab.com
+item1.URL:https://t.me/dinoslab
+item1.X-ABLabel:Telegram
+item2.URL:https://wa.me/393516795597
+item2.X-ABLabel:WhatsApp
+item3.URL:https://github.com/dinoslabtech
+item3.X-ABLabel:GitHub
+END:VCARD
