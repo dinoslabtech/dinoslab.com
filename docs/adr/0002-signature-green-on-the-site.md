@@ -15,4 +15,16 @@ This supersedes the earlier public-site color rules: Brand green `#0F5F53`, page
 
 ## Consequences
 
-Committed copies in `src/styles/palette.css` and `public/` are the colors the production build uses. Compatibility aliases keep unmigrated components building until later slices remap them.
+Committed copies in `src/styles/palette.css` and `public/` are the colors the production build uses. Tailwind theme tokens map 1:1 onto remaining Palette roles. Compatibility aliases from the migration are gone.
+
+Light role values remain review-only: set `data-theme="light"` on `html`. There is no public theme switcher. Whether to expose one, persist a preference, or sync `theme-color` with the review theme is still open.
+
+Token and pair checks confirm authored Palette values; they are not full WCAG conformance of composed pages.
+
+Residual limitations from the sitewide review:
+
+- Field hover maps to `--highlight`, which is the same hex as `--border` (`#71847A`) in the locked Palette, so hover is not a hue change.
+- Native `:user-invalid` uses the danger role plus the browser’s built-in validation text; there is no custom error banner.
+- No GLB in `public/models/`, so WebGL scene/skybox color was not measured; CSS canvas/poster roles are set.
+- `theme-color` stays the dark canvas `#121817` during light review.
+- No screenshot files are in the repository (no Chromium on this machine); review was live on the ticket ports.

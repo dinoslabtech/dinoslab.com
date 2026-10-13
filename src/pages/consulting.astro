@@ -40,14 +40,14 @@ const steps = [
     </PageIntro>
   </div>
 
-  <section class="border-y border-line bg-void">
+  <section class="border-y border-divider bg-canvas">
     <div class="shell section">
       <h2 class="text-3xl font-medium tracking-tight">From schematic to assembled board</h2>
-      <ol class="mt-8 divide-y divide-line border-y border-line">
+      <ol class="mt-8 divide-y divide-divider border-y border-divider">
         {
           steps.map((step, i) => (
             <li class="grid gap-2 py-6 md:grid-cols-[5rem_1fr] md:gap-10">
-              <span class="font-mono text-sm text-lab">{String(i + 1).padStart(2, "0")}</span>
+              <span class="font-mono text-sm text-accent-text">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <h3 class="font-medium tracking-tight">{step.title}</h3>
                 <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">{step.body}</p>
@@ -59,14 +59,14 @@ const steps = [
     </div>
   </section>
 
-  <section class="border-b border-line">
+  <section class="border-b border-divider">
     <div class="shell section grid gap-8 lg:grid-cols-12">
       <div class="lg:col-span-4">
         <h2 class="text-3xl font-medium tracking-tight">Assembly</h2>
       </div>
       <p class="max-w-2xl text-[17px] leading-relaxed text-muted lg:col-span-8">
         Boards are assembled under a production agreement with{" "}
-        <a class="text-ink underline decoration-line underline-offset-2 hover:text-lab" href={site.acme.url}>
+        <a class="text-accent-text underline underline-offset-2" href={site.acme.url}>
           {site.acme.name}
         </a>
         . SMT pick-and-place, vapour-phase reflow, through-hole, and test.
