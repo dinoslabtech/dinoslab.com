@@ -1,0 +1,101 @@
+{
+  "name": "css-variables",
+  "type": "dark",
+  "bg": "var(--shiki-background)",
+  "fg": "var(--shiki-foreground)",
+  "colors": {
+    "editor.foreground": "var(--shiki-foreground)",
+    "editor.background": "var(--shiki-background)"
+  },
+  "tokenColors": [
+    {
+      "settings": {
+        "foreground": "var(--shiki-foreground)"
+      }
+    },
+    {
+      "scope": ["comment", "string.quoted.docstring.multi", "punctuation.definition.comment"],
+      "settings": {
+        "foreground": "var(--shiki-token-comment)"
+      }
+    },
+    {
+      "scope": ["string", "markup.inline", "markup.fenced_code"],
+      "settings": {
+        "foreground": "var(--shiki-token-string)"
+      }
+    },
+    {
+      "scope": [
+        "constant.numeric",
+        "constant.language",
+        "constant.other.placeholder",
+        "variable.other.constant",
+        "support"
+      ],
+      "settings": {
+        "foreground": "var(--shiki-token-constant)"
+      }
+    },
+    {
+      "scope": [
+        "keyword",
+        "storage.modifier",
+        "storage.type",
+        "storage.control.clojure",
+        "punctuation.separator.key-value"
+      ],
+      "settings": {
+        "foreground": "var(--shiki-token-keyword)"
+      }
+    },
+    {
+      "scope": "variable.parameter.function",
+      "settings": {
+        "foreground": "var(--shiki-token-parameter)"
+      }
+    },
+    {
+      "scope": [
+        "support.function",
+        "entity.name.type",
+        "entity.name.function",
+        "meta.function-call",
+        "entity.other.attribute-name"
+      ],
+      "settings": {
+        "foreground": "var(--shiki-token-function)"
+      }
+    },
+    {
+      "scope": [
+        "entity.name.tag",
+        "string.quoted",
+        "string.regexp",
+        "string.interpolated",
+        "string.template",
+        "keyword.other.template"
+      ],
+      "settings": {
+        "foreground": "var(--shiki-token-string-expression)"
+      }
+    },
+    {
+      "scope": [
+        "punctuation.definition.arguments",
+        "punctuation.definition.dict",
+        "punctuation.separator",
+        "meta.function-call.arguments"
+      ],
+      "settings": {
+        "foreground": "var(--shiki-token-punctuation)"
+      }
+    },
+    {
+      "scope": ["markup.underline.link", "meta.link.inline.markdown"],
+      "settings": {
+        "foreground": "var(--shiki-token-link)"
+      }
+    }
+  ]
+}
