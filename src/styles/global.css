@@ -7,25 +7,26 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   /*
-    Palette roles from src/styles/palette.css.
-    Page ground: --bg-dark. Flat panels: --bg. Inset bands: --bg-dark.
-    Raised surfaces and ghost hover: --bg-light.
-    The header bar is Brand green (--brand-green), not a palette ground.
-    Hairlines use --border-muted. Actions use --primary.
+    Signature Green roles from src/styles/palette.css.
+    Canvas: --bg-dark. Panels: --bg. Raised: --bg-light.
+    Header uses --header-bg, not Brand green. Artwork stays --mark-ink.
+    Hairlines use --divider. Control boundaries use --control-border.
+    Inline accents use --accent-text. Actions use --primary / --on-primary.
+    Legacy --color-lab* names stay as compatibility aliases for later slices.
   */
-  --color-lab: var(--primary);
-  --color-lab-bright: var(--primary);
+  --color-lab: var(--accent-text);
+  --color-lab-bright: var(--accent-text);
   --color-lab-deep: var(--primary);
-  --color-lab-hover: var(--primary);
-  --color-lab-ink: var(--bg-dark);
-  --color-void: var(--bg-dark);
-  --color-paper: var(--bg);
-  --color-panel: var(--bg);
-  --color-raised: var(--bg-light);
-  --color-mist: var(--bg-light);
+  --color-lab-hover: var(--primary-hover);
+  --color-lab-ink: var(--on-primary);
+  --color-void: var(--surface-canvas);
+  --color-paper: var(--surface-panel);
+  --color-panel: var(--surface-panel);
+  --color-raised: var(--surface-raised);
+  --color-mist: var(--surface-raised);
   --color-ink: var(--text);
   --color-muted: var(--text-muted);
-  --color-line: var(--border-muted);
+  --color-line: var(--divider);
   --color-highlight: var(--highlight);
   --color-white: #ffffff;
 
@@ -47,16 +48,16 @@
   --space-20: 5rem;
   --space-24: 6rem;
 
-  /* Light from above: inset highlight + short dark + long soft (Sajid). */
+  /* Light from above: inset highlight + short dark + long soft. */
   --shadow-sm:
-    inset 0 1px 0 oklch(0.9 0.02 180 / 0.07),
-    0 1px 1px oklch(0.05 0.02 180 / 0.45),
-    0 6px 16px oklch(0.05 0.02 180 / 0.28);
+    inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent),
+    0 1px 1px color-mix(in srgb, var(--bg-dark) 55%, transparent),
+    0 6px 16px color-mix(in srgb, var(--bg-dark) 32%, transparent);
   --shadow-md:
-    inset 0 1px 0 oklch(0.9 0.02 180 / 0.1),
-    0 2px 4px oklch(0.05 0.02 180 / 0.45),
-    0 14px 32px oklch(0.05 0.02 180 / 0.35);
-  --shadow-inset: inset 0 1px 2px oklch(0.05 0.02 180 / 0.5);
+    inset 0 1px 0 color-mix(in srgb, var(--text) 10%, transparent),
+    0 2px 4px color-mix(in srgb, var(--bg-dark) 55%, transparent),
+    0 14px 32px color-mix(in srgb, var(--bg-dark) 38%, transparent);
+  --shadow-inset: inset 0 1px 2px color-mix(in srgb, var(--bg-dark) 55%, transparent);
 }
 
 html {
@@ -73,7 +74,7 @@ body {
   background-color: var(--bg-dark);
   background-image: radial-gradient(
     80rem 36rem at 50% -12%,
-    color-mix(in oklch, var(--bg-light) 70%, transparent),
+    color-mix(in srgb, var(--bg-light) 70%, transparent),
     transparent 62%
   );
   font-feature-settings: "cv11", "ss01", "kern";
@@ -89,7 +90,7 @@ body::before {
 
 ::selection {
   background: var(--primary);
-  color: var(--bg-dark);
+  color: var(--on-primary);
 }
 
 a:focus-visible,
@@ -97,7 +98,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--color-lab);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -191,22 +192,29 @@ textarea:focus-visible {
 
 .btn-primary {
   background-color: var(--primary);
-  color: var(--bg-dark);
+  color: var(--on-primary);
   box-shadow:
-    inset 0 1px 0 oklch(0.95 0.02 180 / 0.35),
-    0 1px 2px oklch(0.05 0.02 180 / 0.35);
+    inset 0 1px 0 color-mix(in srgb, var(--text) 18%, transparent),
+    0 1px 2px color-mix(in srgb, var(--bg-dark) 40%, transparent);
 }
 
 .btn-primary:hover {
-  background-color: color-mix(in oklch, var(--primary) 84%, black);
-  box-shadow:
-    inset 0 1px 0 oklch(0.95 0.02 180 / 0.4),
-    0 2px 8px oklch(0.05 0.02 180 / 0.35);
+  background-color: var(--primary-hover);
+}
+
+.btn-primary:active {
+  background-color: var(--primary-active);
 }
 
 .btn-secondary {
-  @apply border border-line bg-panel text-ink hover:border-highlight;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+  border: 1px solid var(--control-border);
   box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-hover);
 }
 
 .btn-ghost {
@@ -244,10 +252,10 @@ textarea:focus-visible {
 
 .field:focus {
   outline: none;
-  border-color: var(--color-lab);
+  border-color: var(--focus-ring);
   box-shadow:
     var(--shadow-inset),
-    0 0 0 3px color-mix(in srgb, var(--color-lab) 28%, transparent);
+    0 0 0 3px color-mix(in srgb, var(--focus-ring) 28%, transparent);
 }
 
 .prose-lab {
@@ -281,40 +289,43 @@ textarea:focus-visible {
   @apply absolute right-0 -bottom-1 left-0 h-px bg-lab;
 }
 
-/* Solid Brand green. Translucent --bg-light was not #0F5F53. */
 .site-header {
-  background-color: var(--brand-green);
-  border-bottom: 1px solid color-mix(in srgb, var(--brand-green) 68%, black);
+  background-color: var(--header-bg);
+  color: var(--header-text);
+  border-bottom: 1px solid var(--divider);
 }
 
 .site-header-bar {
-  color: oklch(0.96 0.04 180);
+  color: var(--header-text);
 }
 
 .site-header .nav-link {
-  color: oklch(0.9 0.035 180);
+  color: var(--text-muted);
 }
 
 .site-header .nav-link:hover,
 .site-header .nav-link[aria-current="page"] {
-  color: oklch(0.98 0.02 180);
+  color: var(--header-text);
 }
 
 .site-header .nav-link[aria-current="page"]::after {
-  background-color: oklch(0.96 0.04 180);
+  background-color: var(--accent-text);
 }
 
-/* The SVG fill is Brand green, so on this bar the drawings use light ink. */
-.site-header .brand-mark,
-.site-header .brand-wordmark {
-  filter: brightness(0) invert(1);
+.site-header #nav-toggle {
+  color: var(--header-text);
+}
+
+#mobile-nav a[aria-current="page"] {
+  color: var(--text);
+  box-shadow: inset 3px 0 0 var(--accent-text);
 }
 
 .figure-grid {
-  background-color: var(--bg-dark);
+  background-color: var(--surface-canvas);
   background-image:
-    linear-gradient(to right, color-mix(in oklch, var(--primary) 12%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklch, var(--primary) 12%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in srgb, var(--accent-text) 16%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--accent-text) 16%, transparent) 1px, transparent 1px);
   background-size: 1.25rem 1.25rem;
 }
 
