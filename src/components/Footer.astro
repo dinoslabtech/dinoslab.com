@@ -4,7 +4,7 @@ import ContactLinks from "@/components/ContactLinks.astro";
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-auto border-t border-line bg-void">
+<footer class="mt-auto border-t border-divider bg-canvas">
   <div class="shell grid gap-8 py-12 sm:gap-10 sm:py-16 md:grid-cols-12">
     <div class="md:col-span-5">
       <div class="brand-lockup">
@@ -35,7 +35,7 @@ const year = new Date().getFullYear();
       <ContactLinks github compact />
     </div>
   </div>
-  <div class="border-t border-line">
+  <div class="border-t border-divider">
     <div class="shell flex flex-col gap-2 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] font-mono text-[11px] tracking-wide text-muted sm:flex-row sm:justify-between">
       <p>© {year} {site.legalName}</p>
       <p>{site.location}</p>
