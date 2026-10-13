@@ -289,21 +289,45 @@ textarea:focus-visible {
 }
 
 .prose-lab {
-  @apply prose prose-invert max-w-none;
-  --tw-prose-body: var(--color-muted);
-  --tw-prose-headings: var(--color-ink);
-  --tw-prose-links: var(--color-lab);
-  --tw-prose-bold: var(--color-ink);
-  --tw-prose-quotes: var(--color-ink);
-  --tw-prose-code: var(--color-lab);
-  --tw-prose-pre-bg: var(--color-void);
-  --tw-prose-hr: var(--color-line);
-  --tw-prose-th-borders: var(--color-line);
-  --tw-prose-td-borders: var(--color-line);
+  @apply prose max-w-none;
+  --tw-prose-body: var(--text-muted);
+  --tw-prose-headings: var(--text);
+  --tw-prose-lead: var(--text-muted);
+  --tw-prose-links: var(--accent-text);
+  --tw-prose-bold: var(--text);
+  --tw-prose-counters: var(--text-muted);
+  --tw-prose-bullets: var(--text-muted);
+  --tw-prose-hr: var(--divider);
+  --tw-prose-quotes: var(--text);
+  --tw-prose-quote-borders: var(--divider);
+  --tw-prose-captions: var(--text-muted);
+  --tw-prose-kbd: var(--text);
+  --tw-prose-kbd-shadows: var(--divider);
+  --tw-prose-code: var(--accent-text);
+  --tw-prose-pre-code: var(--text);
+  --tw-prose-pre-bg: var(--surface-panel);
+  --tw-prose-th-borders: var(--divider);
+  --tw-prose-td-borders: var(--divider);
+  --shiki-foreground: var(--text);
+  --shiki-background: var(--surface-panel);
+  --shiki-token-constant: var(--warning);
+  --shiki-token-string: var(--success);
+  --shiki-token-comment: var(--text-muted);
+  --shiki-token-keyword: var(--accent-text);
+  --shiki-token-parameter: var(--text);
+  --shiki-token-function: var(--info);
+  --shiki-token-string-expression: var(--success);
+  --shiki-token-punctuation: var(--text-muted);
+  --shiki-token-link: var(--accent-text);
 }
 
 .prose-lab h2 {
   @apply font-medium tracking-tight;
+}
+
+.prose-lab a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .nav-link {
@@ -421,9 +445,9 @@ textarea:focus-visible {
   width: 100%;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
-  background: var(--color-line);
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
+  background: var(--divider);
+  border-top: 1px solid var(--divider);
+  border-bottom: 1px solid var(--divider);
 }
 
 @media (min-width: 640px) {
@@ -455,39 +479,42 @@ textarea:focus-visible {
 }
 
 .facts-cell {
-  background: var(--color-paper);
+  background: var(--surface-panel);
   padding: 1.1rem 0.85rem 1.2rem;
   min-width: 0;
 }
 
 .facts-value {
-  @apply font-mono text-xl tracking-tight text-ink;
+  @apply font-mono text-xl tracking-tight;
+  color: var(--text);
   white-space: nowrap;
 }
 
 .facts-label {
-  @apply mt-1 font-mono text-[10px] uppercase text-muted sm:text-[11px];
+  @apply mt-1 font-mono text-[10px] uppercase sm:text-[11px];
+  color: var(--text-muted);
   letter-spacing: 0.1em;
   overflow-wrap: anywhere;
 }
 
 .spec-table {
   @apply w-full text-sm;
-  border-top: 1px solid var(--color-line);
+  border-top: 1px solid var(--divider);
 }
 
 .spec-table th,
 .spec-table td {
   @apply py-3 align-top;
-  border-bottom: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--divider);
 }
 
 .spec-table th {
-  @apply w-[11rem] pr-4 text-left font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted sm:w-[13rem];
+  @apply w-[11rem] pr-4 text-left font-mono text-[11px] font-medium uppercase tracking-[0.14em] sm:w-[13rem];
+  color: var(--text-muted);
 }
 
 .spec-table td {
-  @apply text-ink;
+  color: var(--text);
 }
 
 @media (max-width: 639px) {
@@ -499,7 +526,7 @@ textarea:focus-visible {
     display: grid;
     gap: 0.2rem;
     padding-block: 0.8rem;
-    border-bottom: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--divider);
   }
 
   .spec-table th,
@@ -512,22 +539,23 @@ textarea:focus-visible {
 
 .sku-tab,
 .viewer-tab {
-  @apply min-h-11 px-3 py-2 font-mono text-[12px] tracking-tight text-muted;
+  @apply min-h-11 px-3 py-2 font-mono text-[12px] tracking-tight;
+  color: var(--text-muted);
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
 }
 
 .sku-tab:hover,
 .viewer-tab:hover {
-  color: var(--color-ink);
+  color: var(--text);
 }
 
 .sku-tab[aria-selected="true"],
 .viewer-tab[aria-selected="true"] {
-  color: var(--color-ink);
-  background: var(--color-raised);
-  border-color: var(--color-line);
-  border-top-color: var(--color-highlight);
+  color: var(--text);
+  background: var(--surface-raised);
+  border-color: var(--control-border);
+  font-weight: 500;
   box-shadow: var(--shadow-sm);
 }
 
@@ -540,12 +568,13 @@ textarea:focus-visible {
 .viewer-canvas {
   min-height: 18rem;
   height: 18rem;
-  background: var(--color-void);
+  background: var(--surface-canvas);
 }
 
 .viewer-canvas {
   display: block;
   width: 100%;
+  --poster-color: var(--surface-canvas);
 }
 
 @media (min-width: 640px) {
@@ -570,7 +599,7 @@ textarea:focus-visible {
   text-align: center;
   font-size: 0.875rem;
   line-height: 1.625;
-  color: var(--color-muted);
+  color: var(--text-muted);
 }
 
 .viewer[data-empty="true"] .viewer-stage,
@@ -602,10 +631,10 @@ textarea:focus-visible {
 }
 
 .diagram {
-  border: 1px solid var(--color-line);
-  border-top-color: var(--color-highlight);
+  border: 1px solid var(--divider);
+  border-top-color: var(--highlight);
   border-radius: var(--radius-md);
-  background: var(--color-raised);
+  background: var(--surface-raised);
   box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
@@ -614,7 +643,7 @@ textarea:focus-visible {
   display: grid;
   gap: 0.75rem;
   padding: 1.1rem 1.25rem;
-  border-bottom: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--divider);
 }
 
 .diagram-row:last-child {
@@ -630,7 +659,8 @@ textarea:focus-visible {
 }
 
 .diagram-kicker {
-  @apply font-mono text-[11px] uppercase tracking-[0.16em] text-muted;
+  @apply font-mono text-[11px] uppercase tracking-[0.16em];
+  color: var(--text-muted);
 }
 
 .diagram-flow {
@@ -647,37 +677,48 @@ textarea:focus-visible {
 
 .diagram-box {
   @apply font-mono text-[13px];
-  background: var(--color-panel);
-  border: 1px solid var(--color-line);
+  background: var(--surface-panel);
+  border: 1px solid var(--divider);
   border-radius: var(--radius-sm);
   padding: 0.45rem 0.7rem;
 }
 
 .diagram-box-core {
-  color: var(--color-lab);
+  color: var(--accent-text);
 }
 
 .diagram-arrow {
-  color: var(--color-muted);
+  color: var(--text-muted);
 }
 
 .diagram-line {
-  @apply text-sm text-muted;
+  @apply text-sm;
+  color: var(--text-muted);
 }
 
 .diagram-bus {
-  @apply mr-2 font-mono text-[11px] uppercase tracking-[0.12em] text-lab;
+  @apply mr-2 font-mono text-[11px] uppercase tracking-[0.12em];
+  color: var(--accent-text);
 }
 
 .prose-lab table {
   @apply text-sm;
+  background-color: var(--surface-panel);
+  border: 1px solid var(--divider);
+}
+
+.prose-lab pre {
+  /* Shiki inlines a placeholder hex for var() backgrounds; keep the panel role. */
+  background-color: var(--surface-panel) !important;
+  color: var(--text);
+  border: 1px solid var(--divider);
 }
 
 .prose-lab .note-example {
   @apply mt-0 mb-10 not-italic;
-  background: var(--color-raised);
-  border: 1px solid var(--color-line);
-  border-top-color: var(--color-highlight);
+  background: var(--surface-raised);
+  border: 1px solid var(--divider);
+  border-top-color: var(--highlight);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   padding: var(--space-5);
