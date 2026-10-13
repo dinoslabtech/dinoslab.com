@@ -42,11 +42,15 @@ The QR symbol for `https://dinoslab.com`.
 _Avoid_: barcode, Mark, Logo, Wordmark
 
 **Brand green**:
-The Mark's green, `#0F5F53`.
+The fixed green shared by the Mark, Wordmark and Logo, `#2D9282`.
 _Avoid_: teal as a separate color, calling a Palette role Brand green
 
+**Signature Green**:
+The chosen Palette. Brand green is `#2D9282`.
+_Avoid_: the previous hue-180 UI Colors Palette, calling Brand green `#0F5F53`
+
 **Palette**:
-The role colors for grounds, type, borders, actions, and alerts. One hue, taken from Brand green, in a light theme and a dark theme.
+The chosen Signature Green role colors for grounds, type, borders, actions and alerts, in light and dark themes.
 _Avoid_: color stack, brand colors when you mean Brand green
 
 **Draft**:
