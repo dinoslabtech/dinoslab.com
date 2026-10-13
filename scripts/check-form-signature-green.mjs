@@ -48,12 +48,12 @@ const PALETTE = {
 };
 
 const APPLY_COLOR = {
-  "border-line": ["border-color", "var(--color-line)"],
-  "bg-paper": ["background-color", "var(--color-paper)"],
+  "border-divider": ["border-color", "var(--color-divider)"],
   "bg-panel": ["background-color", "var(--color-panel)"],
   "bg-raised": ["background-color", "var(--color-raised)"],
   "text-ink": ["color", "var(--color-ink)"],
   "text-muted": ["color", "var(--color-muted)"],
+  "text-accent-text": ["color", "var(--color-accent-text)"],
 };
 
 let failed = 0;
@@ -451,10 +451,10 @@ test("Send remains the primary submission action", () => {
   mustInclude(formSrc, "Send", "Send label");
 });
 
-test("compatibility aliases later slices still need remain", () => {
-  for (const alias of ["--color-lab", "--color-void", "--color-paper", "--color-line", "--color-ink"]) {
-    if (!themeAliases[alias]) {
-      throw new Error(`missing compatibility alias ${alias}`);
+test("compatibility aliases used by earlier slices are gone", () => {
+  for (const alias of ["--color-lab", "--color-void", "--color-paper", "--color-line", "--color-mist"]) {
+    if (themeAliases[alias]) {
+      throw new Error(`compatibility alias ${alias} is still defined`);
     }
   }
 });

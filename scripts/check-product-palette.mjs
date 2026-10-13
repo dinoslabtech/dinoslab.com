@@ -6,8 +6,8 @@
  * Expected hex values are Signature Green literals from the identity spec,
  * not values copied out of the product CSS under test.
  *
- * Resolution uses src/styles/palette.css only. Compatibility aliases in
- * global.css (--color-void, --color-paper, --color-line, …) do not count.
+ * Resolution uses src/styles/palette.css only. Tailwind theme tokens in
+ * global.css do not count as the Palette source.
  */
 
 import { readFileSync } from "node:fs";

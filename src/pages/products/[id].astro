@@ -68,7 +68,7 @@ const showPrimers = product.id === "dnl-n6" && primers.length > 0;
                   </button>
                 ))}
               </div>
-              <p class="sku-code mt-3 font-mono text-sm text-lab" data-sku-code>
+              <p class="sku-code mt-3 font-mono text-sm text-accent-text" data-sku-code>
                 {defaultSku?.code}
               </p>
             </div>
@@ -93,7 +93,7 @@ const showPrimers = product.id === "dnl-n6" && primers.length > 0;
 
     {
       viewer && (
-        <section class="border-y border-line" aria-label="CAD model">
+        <section class="border-y border-divider" aria-label="CAD model">
           <div class="shell section-sm">
             <ProductViewer
               som={viewer.som}
@@ -188,7 +188,7 @@ const showPrimers = product.id === "dnl-n6" && primers.length > 0;
 
       <aside class="order-first h-fit lg:order-none lg:col-span-4 lg:sticky lg:top-24" id="interest">
         <div class="panel-raised">
-          <div class="border-b border-line px-5 py-3">
+          <div class="border-b border-divider px-5 py-3">
             <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">
               Interest · {product.data.shortName}
             </p>
@@ -216,7 +216,7 @@ const showPrimers = product.id === "dnl-n6" && primers.length > 0;
 
     {
       specGroups && specGroups.length > 0 && (
-        <section id="specifications" class="border-t border-line bg-void">
+        <section id="specifications" class="border-t border-divider bg-canvas">
           <div class="shell section">
             <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Specifications</h2>
             <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
@@ -240,7 +240,7 @@ const showPrimers = product.id === "dnl-n6" && primers.length > 0;
 
     {
       showPrimers && (
-        <section class="border-t border-line">
+        <section class="border-t border-divider">
           <div class="shell section">
             <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Notes on this module</h2>
             <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
@@ -249,7 +249,7 @@ const showPrimers = product.id === "dnl-n6" && primers.length > 0;
             <ul class="mt-8 grid gap-x-8 gap-y-3 sm:grid-cols-2">
               {primers.map((item) => (
                 <li>
-                  <a href={`/blog/${item.id}`} class="text-sm hover:text-lab">
+                  <a href={`/blog/${item.id}`} class="text-sm text-accent-text underline underline-offset-2">
                     {item.data.title}
                   </a>
                 </li>
