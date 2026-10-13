@@ -15,4 +15,6 @@ This supersedes the earlier public-site color rules: Brand green `#0F5F53`, page
 
 ## Consequences
 
-Committed copies in `src/styles/palette.css` and `public/` are the colors the production build uses. Compatibility aliases keep unmigrated components building until later slices remap them.
+Committed copies in `src/styles/palette.css` and `public/` are the colors the production build uses. Tailwind theme tokens map 1:1 onto remaining Palette roles. Compatibility aliases from the migration are gone.
+
+Light role values remain review-only: set `data-theme="light"` on `html`. There is no public theme switcher. Whether to expose one, persist a preference, or sync `theme-color` with the review theme is still open.

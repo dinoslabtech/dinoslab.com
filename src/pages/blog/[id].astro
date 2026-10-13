@@ -39,12 +39,12 @@ const related = posts
     </div>
     {
       related.length > 0 && (
-        <nav class="mt-16 border-t border-line pt-8" aria-label="Related articles">
+        <nav class="mt-16 border-t border-divider pt-8" aria-label="Related articles">
           <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Related articles</p>
           <ul class="mt-4 grid gap-2 sm:grid-cols-2">
             {related.map((item) => (
               <li>
-                <a class="text-sm text-lab underline underline-offset-2" href={`/blog/${item.id}`}>
+                <a class="text-sm text-accent-text underline underline-offset-2" href={`/blog/${item.id}`}>
                   {item.data.title}
                 </a>
               </li>
@@ -54,7 +54,7 @@ const related = posts
       )
     }
     <p class="mt-10 font-mono text-[11px] uppercase tracking-[0.16em]">
-      <a class="text-lab underline underline-offset-2" href="/blog">← All articles</a>
+      <a class="text-accent-text underline underline-offset-2" href="/blog">← All articles</a>
     </p>
   </article>
 </Layout>

@@ -55,7 +55,7 @@ function current(href: string) {
 
   <nav
     id="mobile-nav"
-    class="hidden max-h-[min(80vh,32rem)] overflow-y-auto border-t border-line bg-paper xl:hidden"
+    class="hidden max-h-[min(80vh,32rem)] overflow-y-auto border-t border-divider bg-panel xl:hidden"
     aria-label="Mobile"
   >
     <div class="shell flex flex-col py-2 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
@@ -63,7 +63,7 @@ function current(href: string) {
         nav.map((item) => (
           <a
             href={item.href}
-            class="flex min-h-12 items-center border-b border-line/80 text-base"
+            class="flex min-h-12 items-center border-b border-divider/80 text-base"
             aria-current={current(item.href) ? "page" : undefined}
           >
             {item.label}
