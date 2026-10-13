@@ -6,42 +6,13 @@
  * Expected hexes are Palette literals from the identity spec, not values
  * copied from the CSS under test.
  */
+import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { PALETTE as SPEC } from "./signature-green-palette.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-
-const SPEC = {
-  dark: {
-    canvas: "#121817",
-    panel: "#1C2422",
-    raised: "#29332F",
-    text: "#EDF2EF",
-    muted: "#B2BEB8",
-    divider: "#3B4942",
-    highlight: "#71847A",
-    primary: "#2D9282",
-    onPrimary: "#07120E",
-    accent: "#8FD9C1",
-    focus: "#8FD9C1",
-    brand: "#2D9282",
-  },
-  light: {
-    canvas: "#E5EBE7",
-    panel: "#F4F7F4",
-    raised: "#FFFFFF",
-    text: "#18251E",
-    muted: "#526258",
-    divider: "#C7D2CA",
-    highlight: "#71847A",
-    primary: "#2D9282",
-    onPrimary: "#07120E",
-    accent: "#0F5F53",
-    focus: "#0F5F53",
-    brand: "#2D9282",
-  },
-};
 
 const GONE_ALIASES = [
   "--color-lab",
@@ -404,6 +375,26 @@ test("intentional Brand green, OG canvas and syntax roles are kept", () => {
   }
 });
 
+test("canonical 92-pair Palette matrix runs against committed palette.css", () => {
+  const script = "/mnt/work/dev/dinoslab/dinoslab/brand/preview/palette-contrast.py";
+  const result = spawnSync(
+    "python3",
+    [script, "--palette", "src/styles/palette.css", "--fixed-brand"],
+    { cwd: root, encoding: "utf8" },
+  );
+  if (result.stdout) process.stdout.write(result.stdout);
+  if (result.stderr) process.stderr.write(result.stderr);
+  if (result.status !== 0) {
+    throw new Error(
+      result.stderr?.trim() || result.stdout?.trim() || `palette-contrast.py exited ${result.status}`,
+    );
+  }
+  const passes = result.stdout.match(/\| Pass \|/g)?.length ?? 0;
+  if (passes !== 92) {
+    throw new Error(`expected 92 passing authored pairs, got ${passes}`);
+  }
+});
+
 test("domain docs agree with Signature Green and record remaining theme UX", () => {
   const glossary = read("GLOSSARY.md");
   const adr = read("docs/adr/0002-signature-green-on-the-site.md");
@@ -414,6 +405,17 @@ test("domain docs agree with Signature Green and record remaining theme UX", () 
   mustInclude(adr, "no public theme switcher", "ADR no switcher");
   mustNotInclude(adr, "Compatibility aliases keep unmigrated", "ADR leftover alias consequence");
   mustInclude(adr, "review", "ADR light is review-only");
+  mustInclude(adr, "Field hover maps to `--highlight`", "ADR hover residual");
+  mustInclude(adr, "same hex as `--border`", "ADR hover is not a hue change");
+  mustInclude(adr, "#71847A", "ADR locked highlight/border hex");
+  mustInclude(adr, ":user-invalid", "ADR native invalid residual");
+  mustInclude(adr, "no custom error banner", "ADR no custom error banner");
+  mustInclude(adr, "No GLB in `public/models/`", "ADR no GLB residual");
+  mustInclude(adr, "WebGL", "ADR WebGL not measured");
+  mustInclude(adr, "`theme-color` stays the dark canvas `#121817`", "ADR theme-color residual");
+  mustInclude(adr, "not full WCAG conformance", "ADR WCAG non-claim");
+  mustInclude(adr, "No screenshot files", "ADR no in-repo screenshots");
+  mustInclude(adr, "no Chromium", "ADR no Chromium");
 });
 
 const distAbout = join(root, "dist/about/index.html");

@@ -13,37 +13,11 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { PALETTE as SPEC } from "./signature-green-palette.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const paletteCss = readFileSync(join(root, "src/styles/palette.css"), "utf8");
 const globalCss = readFileSync(join(root, "src/styles/global.css"), "utf8");
-
-const SPEC = {
-  dark: {
-    canvas: "#121817",
-    panel: "#1C2422",
-    raised: "#29332F",
-    text: "#EDF2EF",
-    muted: "#B2BEB8",
-    divider: "#3B4942",
-    control: "#71847A",
-    accent: "#8FD9C1",
-    highlight: "#71847A",
-    brand: "#2D9282",
-  },
-  light: {
-    canvas: "#E5EBE7",
-    panel: "#F4F7F4",
-    raised: "#FFFFFF",
-    text: "#18251E",
-    muted: "#526258",
-    divider: "#C7D2CA",
-    control: "#71847A",
-    accent: "#0F5F53",
-    highlight: "#71847A",
-    brand: "#2D9282",
-  },
-};
 
 function stripComments(css) {
   return css.replace(/\/\*[\s\S]*?\*\//g, "");
