@@ -36,18 +36,18 @@ if (github) {
 }
 ---
 
-<ul class:list={[compact ? "space-y-1" : "divide-y divide-line border-y border-line"]}>
+<ul class:list={[compact ? "space-y-1" : "divide-y divide-divider border-y border-divider"]}>
   {
     items.map((item) => (
       <li>
         <a
           href={item.href}
           class:list={[
-            "group flex min-h-11 items-center gap-3 text-sm hover:text-lab",
+            "group flex min-h-11 items-center gap-3 text-sm hover:text-accent-text",
             compact ? "py-1" : "py-3",
           ]}
         >
-          <span class="text-muted group-hover:text-lab">
+          <span class="text-muted group-hover:text-accent-text">
             <Icon name={item.icon} />
           </span>
           {!compact && (

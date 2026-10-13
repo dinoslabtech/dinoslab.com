@@ -12,23 +12,16 @@
     Header uses --header-bg, not Brand green. Artwork stays --mark-ink.
     Hairlines use --divider. Control boundaries use --control-border.
     Inline accents use --accent-text. Actions use --primary / --on-primary.
-    Legacy --color-lab* names stay as compatibility aliases for later slices.
+    Tailwind color names map 1:1 onto remaining roles.
   */
-  --color-lab: var(--accent-text);
-  --color-lab-bright: var(--accent-text);
-  --color-lab-deep: var(--primary);
-  --color-lab-hover: var(--primary-hover);
-  --color-lab-ink: var(--on-primary);
-  --color-void: var(--surface-canvas);
-  --color-paper: var(--surface-panel);
+  --color-canvas: var(--surface-canvas);
   --color-panel: var(--surface-panel);
   --color-raised: var(--surface-raised);
-  --color-mist: var(--surface-raised);
   --color-ink: var(--text);
   --color-muted: var(--text-muted);
-  --color-line: var(--divider);
+  --color-divider: var(--divider);
   --color-highlight: var(--highlight);
-  --color-white: #ffffff;
+  --color-accent-text: var(--accent-text);
 
   --radius-sm: 4px;
   --radius-md: 6px;
@@ -164,7 +157,7 @@ textarea:focus-visible {
 }
 
 .eyebrow {
-  @apply font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-lab;
+  @apply font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-accent-text;
 }
 
 .display {
@@ -218,28 +211,28 @@ textarea:focus-visible {
 }
 
 .btn-ghost {
-  @apply text-lab hover:bg-mist;
+  @apply text-accent-text hover:bg-raised;
 }
 
 .badge {
-  @apply inline-flex items-center border border-line bg-transparent px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted;
+  @apply inline-flex items-center border border-divider bg-transparent px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-muted;
   border-radius: var(--radius-sm);
 }
 
 /* Sajid: canvas / card / raised = +0 / +5 / +10 lightness. Only raised
    surfaces get the top highlight and stacked shadow (light from above). */
 .panel {
-  background: var(--color-panel);
-  border: 1px solid var(--color-line);
+  background: var(--surface-panel);
+  border: 1px solid var(--divider);
   border-radius: var(--radius-md);
 }
 
 /* Raised allowlist: ProductViewer, interest/contact/quote forms,
    .diagram (N6 figure), .note-example (blog-only). Do not grow it. */
 .panel-raised {
-  background: var(--color-raised);
-  border: 1px solid var(--color-line);
-  border-top-color: var(--color-highlight);
+  background: var(--surface-raised);
+  border: 1px solid var(--divider);
+  border-top-color: var(--highlight);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-md);
 }
@@ -340,7 +333,7 @@ textarea:focus-visible {
 
 .nav-link[aria-current="page"]::after {
   content: "";
-  @apply absolute right-0 -bottom-1 left-0 h-px bg-lab;
+  @apply absolute right-0 -bottom-1 left-0 h-px bg-accent-text;
 }
 
 .site-header {
