@@ -9,11 +9,12 @@ function current(href: string) {
 }
 ---
 
-<header class="sticky top-0 z-50 border-b border-line bg-raised/80 shadow-[var(--shadow-sm)] backdrop-blur-md">
-  <div class="shell flex h-16 items-center justify-between sm:h-20">
-    <a href="/" class="flex min-h-11 items-center gap-3" aria-current={path === "/" ? "page" : undefined}>
-      <img src="/logo-mark.svg" alt="" width="48" height="48" class="h-10 w-10 sm:h-12 sm:w-12" />
-      <span class="text-lg font-medium tracking-tight sm:text-xl">{site.name}</span>
+<header class="site-header sticky top-0 z-50">
+  <div class="shell site-header-bar flex h-16 items-center justify-between sm:h-20">
+    <a href="/" class="brand-lockup brand-lockup-lg min-h-11" aria-current={path === "/" ? "page" : undefined}>
+      <span class="sr-only">{site.name}</span>
+      <img src="/mark.svg" alt="" width="56" height="56" class="brand-mark" />
+      <img src="/wordmark.svg" alt="" class="brand-wordmark" />
     </a>
 
     <nav class="hidden items-center gap-6 xl:flex 2xl:gap-7" aria-label="Primary">
