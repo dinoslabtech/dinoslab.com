@@ -21,7 +21,10 @@ const homeSomReady = Boolean(
   <section class="border-b border-line">
     <div class="shell section-hero grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
       <div class="lg:col-span-7">
-        <h1 class="display-hero">{site.name}</h1>
+        <h1 class="display-hero hero-title">
+          <span class="sr-only">{site.name}</span>
+          <img src="/wordmark.svg" alt="" class="hero-wordmark" />
+        </h1>
         <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
           Solder-down modules, designed in Ladispoli, built by Acme Systems.
           <br />
@@ -31,9 +34,9 @@ const homeSomReady = Boolean(
       <figure class="panel overflow-hidden lg:col-span-5">
         <div class="figure-grid px-8 py-10">
           <img
-            src="/logo.svg"
+            src="/mark.svg"
             alt="Dino’s Lab mark: a sauropod with PCB traces along its back"
-            class="mx-auto w-full max-w-sm"
+            class="hero-mark"
           />
         </div>
       </figure>
@@ -62,7 +65,7 @@ const homeSomReady = Boolean(
                   layout="home"
                 />
                 <p class="mt-3">
-                  <a href="/products/dnl-n6" class="text-sm text-lab hover:text-lab-bright">
+                  <a href="/products/dnl-n6" class="text-sm text-lab hover:underline">
                     Inspect in 3D
                   </a>
                 </p>

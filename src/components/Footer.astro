@@ -7,9 +7,9 @@ const year = new Date().getFullYear();
 <footer class="mt-auto border-t border-line bg-void">
   <div class="shell grid gap-8 py-12 sm:gap-10 sm:py-16 md:grid-cols-12">
     <div class="md:col-span-5">
-      <div class="flex items-center gap-3">
-        <img src="/logo-mark.svg" alt="" width="40" height="40" class="h-10 w-10" />
-        <span class="text-lg font-medium tracking-tight">{site.name}</span>
+      <div class="brand-lockup">
+        <img src="/mark.svg" alt="" width="40" height="40" class="brand-mark" />
+        <img src="/wordmark.svg" alt={site.name} class="brand-wordmark" />
       </div>
       <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">
         {site.tagline}
