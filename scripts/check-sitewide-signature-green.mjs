@@ -376,7 +376,7 @@ test("intentional Brand green, OG canvas and syntax roles are kept", () => {
 });
 
 test("canonical 92-pair Palette matrix runs against committed palette.css", () => {
-  const script = "/mnt/work/dev/dinoslab/dinoslab/brand/preview/palette-contrast.py";
+  const script = join(root, "scripts/palette-contrast.py");
   const result = spawnSync(
     "python3",
     [script, "--palette", "src/styles/palette.css", "--fixed-brand"],
