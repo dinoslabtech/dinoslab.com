@@ -6,46 +6,9 @@
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { PALETTE } from "./signature-green-palette.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-
-// Canonical Signature Green (identity spec / ADR 0007). Independent of site CSS.
-const PALETTE = {
-  dark: {
-    canvas: "#121817",
-    panel: "#1C2422",
-    raised: "#29332F",
-    text: "#EDF2EF",
-    textMuted: "#B2BEB8",
-    divider: "#3B4942",
-    controlBorder: "#71847A",
-    highlight: "#71847A",
-    primary: "#2D9282",
-    primaryHover: "#3FA891",
-    primaryActive: "#278C7B",
-    onPrimary: "#07120E",
-    focusRing: "#8FD9C1",
-    danger: "#FFA8A3",
-    success: "#9FD3A5",
-  },
-  light: {
-    canvas: "#E5EBE7",
-    panel: "#F4F7F4",
-    raised: "#FFFFFF",
-    text: "#18251E",
-    textMuted: "#526258",
-    divider: "#C7D2CA",
-    controlBorder: "#71847A",
-    highlight: "#71847A",
-    primary: "#2D9282",
-    primaryHover: "#2A9080",
-    primaryActive: "#278C7B",
-    onPrimary: "#07120E",
-    focusRing: "#0F5F53",
-    danger: "#A12C32",
-    success: "#2D6339",
-  },
-};
 
 const APPLY_COLOR = {
   "border-divider": ["border-color", "var(--color-divider)"],
@@ -199,20 +162,20 @@ function hasSelector(selector) {
 test("field default border uses the control-boundary role in dark", () => {
   const actual = computed(".field", "border-color", "dark");
   if (actual === hex(PALETTE.dark.divider)) {
-    throw new Error(`field border is the decorative divider ${actual}, not control-boundary ${PALETTE.dark.controlBorder}`);
+    throw new Error(`field border is the decorative divider ${actual}, not control-boundary ${PALETTE.dark.control}`);
   }
-  if (actual !== hex(PALETTE.dark.controlBorder)) {
-    throw new Error(`expected ${PALETTE.dark.controlBorder}, got ${actual}`);
+  if (actual !== hex(PALETTE.dark.control)) {
+    throw new Error(`expected ${PALETTE.dark.control}, got ${actual}`);
   }
 });
 
 test("field default border uses the control-boundary role in light", () => {
   const actual = computed(".field", "border-color", "light");
   if (actual === hex(PALETTE.light.divider)) {
-    throw new Error(`field border is the decorative divider ${actual}, not control-boundary ${PALETTE.light.controlBorder}`);
+    throw new Error(`field border is the decorative divider ${actual}, not control-boundary ${PALETTE.light.control}`);
   }
-  if (actual !== hex(PALETTE.light.controlBorder)) {
-    throw new Error(`expected ${PALETTE.light.controlBorder}, got ${actual}`);
+  if (actual !== hex(PALETTE.light.control)) {
+    throw new Error(`expected ${PALETTE.light.control}, got ${actual}`);
   }
 });
 
@@ -246,15 +209,15 @@ test("field fill uses the panel role on the raised form surface in light", () =>
 
 test("field focus border uses the focus-ring role in dark", () => {
   const actual = computed(".field:focus", "border-color", "dark");
-  if (actual !== hex(PALETTE.dark.focusRing)) {
-    throw new Error(`expected ${PALETTE.dark.focusRing}, got ${actual}`);
+  if (actual !== hex(PALETTE.dark.focus)) {
+    throw new Error(`expected ${PALETTE.dark.focus}, got ${actual}`);
   }
 });
 
 test("field focus border uses the focus-ring role in light", () => {
   const actual = computed(".field:focus", "border-color", "light");
-  if (actual !== hex(PALETTE.light.focusRing)) {
-    throw new Error(`expected ${PALETTE.light.focusRing}, got ${actual}`);
+  if (actual !== hex(PALETTE.light.focus)) {
+    throw new Error(`expected ${PALETTE.light.focus}, got ${actual}`);
   }
 });
 
@@ -277,12 +240,12 @@ test("field disabled uses muted text and a non-color cue", () => {
     throw new Error("missing .field:disabled");
   }
   const color = computed(".field:disabled", "color", "dark");
-  if (color !== hex(PALETTE.dark.textMuted)) {
-    throw new Error(`disabled text expected ${PALETTE.dark.textMuted}, got ${color}`);
+  if (color !== hex(PALETTE.dark.muted)) {
+    throw new Error(`disabled text expected ${PALETTE.dark.muted}, got ${color}`);
   }
   const light = computed(".field:disabled", "color", "light");
-  if (light !== hex(PALETTE.light.textMuted)) {
-    throw new Error(`light disabled text expected ${PALETTE.light.textMuted}, got ${light}`);
+  if (light !== hex(PALETTE.light.muted)) {
+    throw new Error(`light disabled text expected ${PALETTE.light.muted}, got ${light}`);
   }
   const opacity = declarations(ruleBody(globalCss, ".field:disabled")).opacity;
   if (!opacity || Number.parseFloat(opacity) >= 1) {
@@ -314,7 +277,7 @@ test("invalid focus keeps the danger role rather than dropping to focus-ring onl
   }
 });
 
-test("primary Send pairs Brand-green fill with on-primary ink", () => {
+test("primary Send pairs primary fill with on-primary ink", () => {
   const fill = computed(".btn-primary", "background-color", "dark");
   const ink = computed(".btn-primary", "color", "dark");
   if (fill !== hex(PALETTE.dark.primary)) {
