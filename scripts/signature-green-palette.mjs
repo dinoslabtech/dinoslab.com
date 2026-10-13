@@ -1,0 +1,61 @@
+/**
+ * Canonical Signature Green hexes from the identity spec.
+ * Independent of site CSS. See docs/adr/0002-signature-green-on-the-site.md.
+ *
+ * Brand green `#2D9282` is artwork ink (Mark, Wordmark, Logo).
+ * `--primary` is the primary-fill role; do not call that role Brand green.
+ */
+export const PALETTE = {
+  dark: {
+    canvas: "#121817",
+    panel: "#1C2422",
+    raised: "#29332F",
+    text: "#EDF2EF",
+    muted: "#B2BEB8",
+    divider: "#3B4942",
+    control: "#71847A",
+    highlight: "#71847A",
+    primary: "#2D9282",
+    primaryHover: "#3FA891",
+    primaryActive: "#278C7B",
+    onPrimary: "#07120E",
+    accent: "#8FD9C1",
+    focus: "#8FD9C1",
+    secondary: "#29332F",
+    onSecondary: "#EDF2EF",
+    secondaryHover: "#35433C",
+    headerBg: "#1C2422",
+    headerText: "#EDF2EF",
+    brand: "#2D9282",
+    danger: "#FFA8A3",
+    warning: "#EDCA7D",
+    success: "#9FD3A5",
+    info: "#A6CAFF",
+  },
+  light: {
+    canvas: "#E5EBE7",
+    panel: "#F4F7F4",
+    raised: "#FFFFFF",
+    text: "#18251E",
+    muted: "#526258",
+    divider: "#C7D2CA",
+    control: "#71847A",
+    highlight: "#71847A",
+    primary: "#2D9282",
+    primaryHover: "#2A9080",
+    primaryActive: "#278C7B",
+    onPrimary: "#07120E",
+    accent: "#0F5F53",
+    focus: "#0F5F53",
+    secondary: "#FFFFFF",
+    onSecondary: "#18251E",
+    secondaryHover: "#E5EBE7",
+    headerBg: "#F4F7F4",
+    headerText: "#18251E",
+    brand: "#2D9282",
+    danger: "#A12C32",
+    warning: "#76540B",
+    success: "#2D6339",
+    info: "#245A93",
+  },
+};

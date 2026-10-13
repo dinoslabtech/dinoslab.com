@@ -7,38 +7,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { PALETTE as SPEC } from "./signature-green-palette.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (rel) => fs.readFileSync(path.join(root, rel), "utf8");
-
-const SPEC = {
-  dark: {
-    canvas: "#121817",
-    panel: "#1c2422",
-    raised: "#29332f",
-    text: "#edf2ef",
-    muted: "#b2beb8",
-    divider: "#3b4942",
-    highlight: "#71847a",
-    accent: "#8fd9c1",
-    warning: "#edca7d",
-    success: "#9fd3a5",
-    info: "#a6caff",
-  },
-  light: {
-    canvas: "#e5ebe7",
-    panel: "#f4f7f4",
-    raised: "#ffffff",
-    text: "#18251e",
-    muted: "#526258",
-    divider: "#c7d2ca",
-    highlight: "#71847a",
-    accent: "#0f5f53",
-    warning: "#76540b",
-    success: "#2d6339",
-    info: "#245a93",
-  },
-};
 
 const failures = [];
 const fail = (message) => failures.push(message);
@@ -157,8 +129,9 @@ function resolved(theme, value) {
 
 function expectResolved(theme, value, expected, label) {
   const actual = resolved(theme, value);
-  if (actual !== expected) {
-    fail(`${theme} ${label}: expected ${expected}, got ${actual ?? value}`);
+  const want = hex(expected);
+  if (actual !== want) {
+    fail(`${theme} ${label}: expected ${want}, got ${actual ?? value}`);
   }
 }
 
