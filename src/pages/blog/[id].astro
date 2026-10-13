@@ -44,7 +44,7 @@ const related = posts
           <ul class="mt-4 grid gap-2 sm:grid-cols-2">
             {related.map((item) => (
               <li>
-                <a class="text-sm text-lab hover:underline" href={`/blog/${item.id}`}>
+                <a class="text-sm text-lab underline underline-offset-2" href={`/blog/${item.id}`}>
                   {item.data.title}
                 </a>
               </li>
@@ -54,7 +54,7 @@ const related = posts
       )
     }
     <p class="mt-10 font-mono text-[11px] uppercase tracking-[0.16em]">
-      <a class="text-lab hover:underline" href="/blog">← All articles</a>
+      <a class="text-lab underline underline-offset-2" href="/blog">← All articles</a>
     </p>
   </article>
 </Layout>
