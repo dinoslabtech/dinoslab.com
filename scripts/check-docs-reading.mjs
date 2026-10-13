@@ -186,9 +186,9 @@ const hexaspi = read("src/content/blog/hexaspi.md");
 expectContains(layout, 'data-theme="dark"', "Layout default theme");
 expectContains(extractRule(globalCss, "body") ?? "", "var(--bg-dark)", "page canvas");
 expectContains(blogIndex, "text-muted", "blog index muted text");
-expectContains(blogIndex, "divide-line", "blog index divider");
+expectContains(blogIndex, "divide-divider", "blog index divider");
 expectContains(docsIndex, "text-muted", "docs index muted text");
-expectContains(docsIndex, "text-lab", "docs index accent-text links");
+expectContains(docsIndex, "text-accent-text", "docs index accent-text links");
 expectContains(docsIndex, "underline", "docs index persistent underline");
 expectContains(article, "prose-lab", "article reading surface");
 expectContains(primer, "| What |", "primer table");
@@ -205,7 +205,7 @@ for (const theme of ["dark", "light"]) {
   expectResolved(theme, "var(--divider)", SPEC[theme].divider, "divider");
 }
 
-expectContains(article, "text-lab underline", "article chrome accent-text underline");
+expectContains(article, "text-accent-text underline", "article chrome accent-text underline");
 expectNotContains(article, "hover:underline", "article chrome hover-only underline");
 expectContains(linkRule, "underline", "prose links persistent underline");
 for (const theme of ["dark", "light"]) {
@@ -260,7 +260,7 @@ if (fs.existsSync(distBlog)) {
   expectContains(pages.primer, "var(--shiki-token-keyword)", "built primer syntax keyword");
   expectContains(pages.hexaspi, "note-example", "built example panel");
   expectContains(pages.hexaspi, "prose-lab", "built article prose");
-  expectContains(pages.hexaspi, "text-lab underline", "built article accent-text underline");
+  expectContains(pages.hexaspi, "text-accent-text underline", "built article accent-text underline");
 }
 
 if (failures.length) {
