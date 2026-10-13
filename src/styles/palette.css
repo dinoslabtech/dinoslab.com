@@ -1,41 +1,74 @@
-/* Dino's Lab Palette. Locked.
-   UI Colors (https://www.iamsajid.com/ui-colors/), hue 180, chroma 0.05.
-   Brand green is the Mark. It is not a role.
-   :root is the dark theme (site and NFC card).
-   [data-theme="light"] is letterhead and other white paper. */
-
+/* Dino’s Lab Palette: Signature Green. Locked by ADR 0007.
+   Fixed #2D9282 artwork on approved dark and light grounds; dark first.
+   sRGB values make the initial contrast checks unambiguous.
+   Roles are deliberately separate: a fill is not its label or a text accent.
+   See docs/adr/0007-signature-green.md and docs/specs/signature-green.md. */
 :root {
-  --brand-green: #0f5f53;
+  --brand-green: #2d9282;
+}
 
-  --bg-dark: oklch(0.1 0.025 180);
-  --bg: oklch(0.15 0.025 180);
-  --bg-light: oklch(0.2 0.025 180);
-  --text: oklch(0.96 0.05 180);
-  --text-muted: oklch(0.76 0.05 180);
-  --highlight: oklch(0.5 0.05 180);
-  --border: oklch(0.4 0.05 180);
-  --border-muted: oklch(0.3 0.05 180);
-  --primary: oklch(0.76 0.1 180);
-  --secondary: oklch(0.76 0.1 0);
-  --danger: oklch(0.7 0.05 30);
-  --warning: oklch(0.7 0.05 100);
-  --success: oklch(0.7 0.05 160);
-  --info: oklch(0.7 0.05 260);
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-dark: #121817;
+  --bg: #1c2422;
+  --bg-light: #29332f;
+  --text: #edf2ef;
+  --text-muted: #b2beb8;
+  --border-muted: #3b4942; /* Decorative dividers only. */
+  --border: #71847a; /* Control boundaries where identification needs contrast. */
+  --highlight: #71847a;
+  --primary: #2d9282;
+  --primary-hover: #3fa891;
+  --primary-active: #278c7b;
+  --on-primary: #07120e;
+  --accent-text: #8fd9c1;
+  --focus-ring: #8fd9c1;
+  --secondary: #29332f; /* Secondary action, not a second brand hue. */
+  --on-secondary: #edf2ef;
+  --secondary-hover: #35433c;
+  --header-bg: #1c2422;
+  --header-text: #edf2ef;
+  --mark-ink: #2d9282; /* Fixed signature ink; no theme recolor. */
+  --danger: #ffa8a3;
+  --warning: #edca7d;
+  --success: #9fd3a5;
+  --info: #a6caff;
 }
 
 [data-theme="light"] {
-  --bg-dark: oklch(0.92 0.025 180);
-  --bg: oklch(0.96 0.025 180);
-  --bg-light: oklch(1 0.025 180);
-  --text: oklch(0.15 0.05 180);
-  --text-muted: oklch(0.4 0.05 180);
-  --highlight: oklch(1 0.05 180);
-  --border: oklch(0.6 0.05 180);
-  --border-muted: oklch(0.7 0.05 180);
-  --primary: oklch(0.4 0.1 180);
-  --secondary: oklch(0.4 0.1 0);
-  --danger: oklch(0.5 0.05 30);
-  --warning: oklch(0.5 0.05 100);
-  --success: oklch(0.5 0.05 160);
-  --info: oklch(0.5 0.05 260);
+  color-scheme: light;
+  --bg-dark: #e5ebe7;
+  --bg: #f4f7f4;
+  --bg-light: #ffffff;
+  --text: #18251e;
+  --text-muted: #526258;
+  --border-muted: #c7d2ca;
+  --border: #71847a;
+  --highlight: #71847a;
+  --primary: #2d9282;
+  --primary-hover: #2a9080;
+  --primary-active: #278c7b;
+  --on-primary: #07120e;
+  --accent-text: #0f5f53;
+  --focus-ring: #0f5f53;
+  --secondary: #ffffff;
+  --on-secondary: #18251e;
+  --secondary-hover: #e5ebe7;
+  --header-bg: #f4f7f4;
+  --header-text: #18251e;
+  --mark-ink: #2d9282;
+  --danger: #a12c32;
+  --warning: #76540b;
+  --success: #2d6339;
+  --info: #245a93;
+}
+
+/* Explicit role names for integration; legacy grounds remain for comparison. */
+:root {
+  --surface-canvas: var(--bg-dark);
+  --surface-panel: var(--bg);
+  --surface-raised: var(--bg-light);
+  --control-border: var(--border);
+  --divider: var(--border-muted);
 }
