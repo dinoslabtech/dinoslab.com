@@ -263,14 +263,13 @@ console.log("no compatibility aliases on product selectors");
 
 const listing = readFileSync(join(root, "src/pages/products/index.astro"), "utf8");
 const detail = readFileSync(join(root, "src/pages/products/[id].astro"), "utf8");
-const card = readFileSync(join(root, "src/components/ProductCard.astro"), "utf8");
 const viewer = readFileSync(join(root, "src/components/ProductViewer.astro"), "utf8");
 const mark = readFileSync(join(root, "public/mark.svg"), "utf8");
 const wordmark = readFileSync(join(root, "public/wordmark.svg"), "utf8");
 
 console.log("product journey markup");
-check("listing renders ProductCard", listing.includes("<ProductCard") ? "yes" : "no", "yes");
-check("product card is a panel", /\bpanel\b/.test(card) ? "yes" : "no", "yes");
+check("listing is blog-style rows", listing.includes("STM32N6 SoM.") && listing.includes("Eval carrier for the DNL-N6.") ? "yes" : "no", "yes");
+check("listing has no ProductCard", listing.includes("ProductCard") ? "yes" : "no", "no");
 check("SKU tabs expose aria-selected", /sku-tab[\s\S]*aria-selected/.test(detail) ? "yes" : "no", "yes");
 check("SKU tabs are tabs", detail.includes('role="tab"') && detail.includes("sku-tab") ? "yes" : "no", "yes");
 check("viewer tabs expose aria-selected", /viewer-tab[\s\S]*aria-selected/.test(viewer) ? "yes" : "no", "yes");
