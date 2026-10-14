@@ -1,37 +1,33 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import PageIntro from "@/components/PageIntro.astro";
 import { site } from "@/data/site";
 ---
 
 <Layout
   title="About"
-  description="Dino’s Lab designs solder-down modules in Ladispoli. Boards are built by Acme Systems."
+  description="Dino's Lab designs solder-down modules in Ladispoli. Boards are built by Acme Systems."
 >
   <div class="shell section">
-    <PageIntro title="About">
-      Solder-down modules, designed in Ladispoli, built by Acme Systems.
-    </PageIntro>
+    <h1 class="title">About</h1>
 
     <div class="mt-10 grid gap-8 lg:grid-cols-12">
       <div class="space-y-5 text-[17px] leading-relaxed text-muted lg:col-span-7">
         <p>
-          Dino’s Lab is the brand. The first board is the DNL-N6, an STM32N6 SoM
-          for a carrier you design, with a DevKit to bring the module up. This
-          site is the technical home: datasheets, pinouts, and notes when they exist.
+          Dino’s Lab designs solder-down modules in Ladispoli. The first board is the DNL-N6, an STM32N6 SoM
+          for a carrier you design, with a{" "}
+          <a class="text-accent-text underline underline-offset-2" href="/products/dnl-n6-dk">DNL-N6 DevKit</a>
+          to bring the module up.
         </p>
         <p>
-          Boards are manufactured by{" "}
+          Boards are built by{" "}
           <a class="text-accent-text underline underline-offset-2" href={site.acme.url}>
             {site.acme.name}
           </a>
           in Ladispoli: SMT pick-and-place, vapour-phase reflow, through-hole
-          completion, and test. When the N6 is for sale, the buy button will go
-          to their shop.
+          completion, and test.
         </p>
         <p>
-          Custom schematic, layout, firmware, and assembly is available on request
-          — a side path, not the product line.{" "}
+          Custom schematic, layout, firmware, and assembly:{" "}
           <a class="text-accent-text underline underline-offset-2" href="/consulting">
             Request a quote
           </a>.
@@ -44,7 +40,7 @@ import { site } from "@/data/site";
           <dd>{site.location}</dd>
         </div>
         <div class="grid grid-cols-[7rem_1fr] gap-4 py-4 text-sm">
-          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Production</dt>
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Acme Systems</dt>
           <dd>
             <a class="text-accent-text underline underline-offset-2" href={site.acme.url}>{site.acme.name}</a>
           </dd>

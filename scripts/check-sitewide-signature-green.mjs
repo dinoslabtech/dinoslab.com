@@ -182,7 +182,7 @@ test("remaining About route uses accent-text links and divider hairlines", () =>
   mustInclude(about, "underline", "About persistent underline");
   mustInclude(about, "divide-divider", "About divider list");
   mustInclude(about, "border-divider", "About divider border");
-  mustInclude(about, "Solder-down modules, designed in Ladispoli", "About copy");
+  mustInclude(about, "Dino’s Lab designs solder-down modules in Ladispoli", "About copy");
   if (LEFTOVER_CLASS.test(about)) {
     throw new Error("About still uses a compatibility color class");
   }
