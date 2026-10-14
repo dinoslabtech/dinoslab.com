@@ -9,7 +9,7 @@ Website for [dinoslab.com](https://dinoslab.com). Solder-down modules, designed 
 - [MDX](https://mdxjs.com) for the blog
 - Hosted on [Netlify](https://www.netlify.com)
 
-No React, no i18n, no monorepo. Forms post to [FormSubmit](https://formsubmit.co) and land in `info@dinoslab.com`. The first submission sends a confirmation link to that inbox — open it once, or later mail is dropped.
+Forms post to [FormSubmit](https://formsubmit.co) and land in `info@dinoslab.com`. The first submission sends a confirmation link to that inbox — open it once, or later mail is dropped.
 
 ## Local
 
@@ -45,18 +45,12 @@ Do not push experiments to `main`.
 
 Version lives in `package.json`. Site releases are tagged `vX.Y.Z` on `main`.
 
-## Contacts
-
-Mock values until the real ones land — edit `src/data/site.ts`.
-
 ## Netlify
 
 `netlify.toml` sets the build. After the first deploy of this tree, confirm in the UI:
 
 1. **Base directory** is the repo root (not `apps/web`).
 2. **Build command** `pnpm build`, **publish** `dist`.
-3. **Form detection** enabled (Forms → Enable form detection).
-4. Optional: enable **branch deploys** for `dev`. Password-protecting those URLs is a plan setting under Visitor access — not available as a free “fake login” in this repo.
 
 ## Content
 
