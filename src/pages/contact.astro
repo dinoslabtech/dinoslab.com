@@ -1,19 +1,16 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import PageIntro from "@/components/PageIntro.astro";
 import ContactForm from "@/components/ContactForm.astro";
 import ContactLinks from "@/components/ContactLinks.astro";
 ---
 
 <Layout
   title="Contact"
-  description="Email Dino’s Lab about a board, production, or a question that is not a product waitlist."
+  description="Email Dino's Lab about a board or production."
 >
   <div class="shell section grid gap-8 lg:grid-cols-12 lg:gap-12">
     <div class="lg:col-span-5">
-      <PageIntro title="Contact">
-        Email about a board, production, or a question that is not a product waitlist. For the DNL-N6 or the DevKit, register interest on the <a class="text-accent-text underline underline-offset-2" href="/products/dnl-n6#interest">product page</a>.
-      </PageIntro>
+      <h1 class="title">Contact</h1>
       <div class="mt-10">
         <ContactLinks github location />
       </div>
