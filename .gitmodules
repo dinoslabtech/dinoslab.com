@@ -2,3 +2,4 @@
 	path = identity
 	url = https://github.com/dinoslabtech/dinoslab.git
 	branch = main
+	update = none

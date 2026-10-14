@@ -12,3 +12,5 @@ The pin tracked identity `dev` while that repository was still integrating Signa
 ## Consequences
 
 A change to the Mark, Wordmark, Logo, or Palette is copied in on purpose and committed here. Publishing `main` does not require a deploy key for the identity repository.
+
+`.gitmodules` sets `update = none` on identity so `git submodule update --init` skips it. Netlify runs that command while preparing the repo, before the build. To check the masters out locally: `git submodule update --init --checkout identity`.
