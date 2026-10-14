@@ -52,6 +52,8 @@ Version lives in `package.json`. Site releases are tagged `vX.Y.Z` on `main` onl
 1. **Base directory** is the repo root (not `apps/web`).
 2. **Build command** `pnpm build`, **publish** `dist`.
 
+The identity submodule is private. `.gitmodules` sets `update = none` so Netlify does not clone it. The production build uses the copies in `public/` and `src/styles`. Locally: `git submodule update --init --checkout identity`.
+
 ## Content
 
 - Products: `src/content/products/`
