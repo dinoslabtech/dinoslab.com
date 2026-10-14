@@ -43,7 +43,7 @@ pnpm preview
 
 Do not push experiments to `main`.
 
-Version lives in `package.json`. Site releases are tagged `vX.Y.Z` on `main`.
+Version lives in `package.json`. Site releases are tagged `vX.Y.Z` on `main` only. Do not tag `dev`.
 
 ## Netlify
 
