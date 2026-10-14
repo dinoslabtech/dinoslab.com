@@ -1,42 +1,23 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import PageIntro from "@/components/PageIntro.astro";
-import ProductCard from "@/components/ProductCard.astro";
-import { getCollection } from "astro:content";
-
-const products = (await getCollection("products")).sort((a, b) => {
-  const order = ["dnl-n6", "dnl-n6-dk"];
-  const rank = (id: string) => {
-    const index = order.indexOf(id);
-    return index === -1 ? order.length : index;
-  };
-  return rank(a.id) - rank(b.id);
-});
 ---
 
-<Layout
-  title="Products"
-  description="DNL-N6 STM32N6 SoM and the DNL-N6 DevKit from Dino’s Lab."
->
+<Layout title="Products" description="DNL-N6 and the DNL-N6 DevKit.">
   <div class="shell section">
-    <PageIntro title="Products">
-      The DNL-N6 SoM and its DevKit. Same PCB, two memory stuffings, order codes DNL-N6-32/64 and DNL-N6-32/64-R.
-    </PageIntro>
-
-    <div class="mt-14 grid gap-6">
-      {
-        products.map((product) => (
-          <ProductCard
-            href={`/products/${product.id}`}
-            category={product.data.category}
-            title={product.data.title}
-            chip={product.data.chip}
-            summary={product.data.summary}
-            status={product.data.status}
-            featured={product.id === "dnl-n6"}
-          />
-        ))
-      }
-    </div>
+    <h1 class="title">Products</h1>
+    <ul class="mt-8 divide-y divide-divider border-y border-divider">
+      <li>
+        <a href="/products/dnl-n6" class="group block py-8">
+          <h2 class="text-xl font-medium tracking-tight group-hover:text-accent-text">DNL-N6</h2>
+          <p class="mt-2 text-sm text-muted">STM32N6 SoM.</p>
+        </a>
+      </li>
+      <li>
+        <a href="/products/dnl-n6-dk" class="group block py-8">
+          <h2 class="text-xl font-medium tracking-tight group-hover:text-accent-text">DNL-N6 DevKit</h2>
+          <p class="mt-2 text-sm text-muted">Eval carrier for the DNL-N6.</p>
+        </a>
+      </li>
+    </ul>
   </div>
 </Layout>
