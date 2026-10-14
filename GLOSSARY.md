@@ -57,4 +57,9 @@ _Avoid_: color stack, brand colors when you mean Brand green
 A Visual Identity candidate that has not been chosen yet.
 
 **Verbal Identity**:
-The written part of the Brand: voice, tagline, and naming. Planned; not in the repo yet.
+The written part of the Brand: Voice, tagline, and naming. Voice and tagline are set; naming follows this glossary.
+_Avoid_: copy, tone as a separate system
+
+**Voice**:
+The way Dino's Lab writes: third person about the boards, “you” for the engineer designing a carrier or evaluating a module, in plain hardware English.
+_Avoid_: company we, mission copy, metaphor, hedging
