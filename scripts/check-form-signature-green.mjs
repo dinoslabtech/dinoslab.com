@@ -374,8 +374,7 @@ test("interest adds intent and hidden SoM fields without requiring message", () 
   mustInclude(formSrc, 'name="quantity"', "quantity");
   mustInclude(formSrc, "js-som-only", "SoM extra fields");
   mustInclude(formSrc, "hidden", "SoM fields start hidden");
-  mustInclude(formSrc, "We email you about this module", "interest supporting copy");
-  mustInclude(formSrc, "text-muted", "supporting copy uses muted text");
+  mustInclude(formSrc, "Choose one", "interest placeholder");
 });
 
 test("contact, quote and interest mounts are preserved", () => {
@@ -386,6 +385,7 @@ test("contact, quote and interest mounts are preserved", () => {
   mustInclude(productPage, 'name="interest"', "interest name");
   mustInclude(productPage, 'variant="interest"', "interest variant");
   mustInclude(productPage, "panel-raised", "interest form surface");
+  mustInclude(productPage, "This is not an order.", "interest lead");
 });
 
 test("thank-you keeps text confirmation and a secondary Home action", () => {
@@ -488,8 +488,8 @@ if (existsSync(distContact)) {
     if (!form.includes("js-som-only")) {
       throw new Error("interest missing SoM extra field hook");
     }
-    if (!form.includes("We email you about this module")) {
-      throw new Error("interest supporting copy missing");
+    if (!interestHtml.includes("This is not an order.")) {
+      throw new Error("interest lead missing");
     }
   });
 

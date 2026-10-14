@@ -97,10 +97,8 @@ specGroups:
 
 The DNL-N6 is a solder- or socket-down SoM. You put it on a carrier with a camera and the connectors you need. It is not a Linux MPU and it is not a finished camera box.
 
-Two BOMs share the same PCB. **DNL-N6-32/64** leaves the FMC RAM unpopulated. **DNL-N6-32/64-R** fits that extra bank. HexaSPI PSRAM and Octo-SPI NOR are on both.
+Two BOMs share the same PCB. DNL-N6-32/64 leaves the FMC RAM unpopulated. DNL-N6-32/64-R fits that extra bank. HexaSPI PSRAM and Octo-SPI NOR are on both.
 
 Eval is the [DNL-N6 DevKit](/products/dnl-n6-dk): a carrier that brings the module’s peripherals out, with magnetics and RJ45 on that board. A bare SoM is for a carrier you already have.
 
-## Documentation
-
-Datasheet pinout, mechanical drawing, power budget, and a bring-up guide ship with the first hardware. Until then this page is the intended module: memories, PHY, power, and the two SKUs.
+Datasheet, pinout, mechanical drawing, power budget, and a bring-up guide ship with the first hardware. This page is the module as it stands: memories, PHY, power, and the two SKUs.
