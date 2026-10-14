@@ -226,11 +226,14 @@ test("Docs empty index, thank-you and 404 use the shared shell and canonical rol
   }
 });
 
-test("homepage leftovers use divider hairlines and persistent accent-text links", () => {
+test("homepage leftovers use divider hairlines and blog-style pointer rows", () => {
   const home = read("src/pages/index.astro");
   mustInclude(home, "border-divider", "homepage divider");
-  mustInclude(home, "text-accent-text", "homepage Inspect accent-text");
-  mustInclude(home, "underline", "homepage Inspect underline");
+  mustInclude(home, "group-hover:text-accent-text", "homepage pointer accent");
+  mustInclude(home, 'href="/products/dnl-n6"', "homepage DNL-N6 pointer");
+  mustInclude(home, 'href="/products/dnl-n6-dk"', "homepage DevKit pointer");
+  mustNotInclude(home, "Inspect in 3D", "homepage Inspect chrome");
+  mustNotInclude(home, "ProductCard", "homepage ProductCard");
   mustNotInclude(home, "hover:underline", "homepage hover-only underline");
   if (LEFTOVER_CLASS.test(home)) {
     throw new Error("homepage still uses a compatibility color class");
