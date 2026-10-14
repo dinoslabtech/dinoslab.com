@@ -73,9 +73,9 @@ const nextUrl = new URL("/thank-you", site.url).href;
         <span class="font-medium">Interest</span>
         <select name="intent" required class="field js-intent">
           <option value="" disabled selected>
-            Select
+            Choose one
           </option>
-          <option value="devkit">DNL-N6 DevKit when available</option>
+          <option value="devkit">DNL-N6 DevKit</option>
           <option value="som">SoM for my carrier</option>
         </select>
       </label>
@@ -115,13 +115,8 @@ const nextUrl = new URL("/thank-you", site.url).href;
   </label>
 
   <button type="submit" class="btn-primary mt-1 justify-self-start">
-    Send
+    {isInterest ? "Register interest" : "Send"}
   </button>
-  {
-    isInterest && (
-      <p class="text-xs text-muted">We email you about this module. We do not sell the list.</p>
-    )
-  }
 </form>
 
 <script>

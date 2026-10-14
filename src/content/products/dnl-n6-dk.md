@@ -42,4 +42,4 @@ specGroups:
 
 The DevKit is how you try the module. It seats a DNL-N6 and brings the edge out to connectors, with magnetics and an RJ45 for the Gigabit PHY that already lives on the SoM.
 
-Buy a bare SoM when you have a carrier. Register interest on this page for the kit, or on the [DNL-N6](/products/dnl-n6) page for a quantity of modules.
+A bare SoM is for a carrier you already have. Register interest on this page for the kit, or on [DNL-N6](/products/dnl-n6) for a quantity of modules.
