@@ -34,3 +34,9 @@
   [headers.values]
     Content-Type = "text/vcard; charset=utf-8"
     Cache-Control = "public, max-age=3600"
+
+# The DevKit has no product page. Old visits land on the module.
+[[redirects]]
+  from = "/products/dnl-n6-dk"
+  to = "/products/dnl-n6"
+  status = 301

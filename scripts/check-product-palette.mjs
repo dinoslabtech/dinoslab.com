@@ -268,7 +268,15 @@ const mark = readFileSync(join(root, "public/mark.svg"), "utf8");
 const wordmark = readFileSync(join(root, "public/wordmark.svg"), "utf8");
 
 console.log("product journey markup");
-check("listing is blog-style rows", listing.includes("STM32N6 SoM.") && listing.includes("Eval carrier for the DNL-N6.") ? "yes" : "no", "yes");
+check(
+  "listing is blog-style rows",
+  listing.includes("STM32N6 SoM.") &&
+    listing.includes('href="/products/dnl-n6"') &&
+    !listing.includes("Eval carrier for the DNL-N6.")
+    ? "yes"
+    : "no",
+  "yes",
+);
 check("listing has no ProductCard", listing.includes("ProductCard") ? "yes" : "no", "no");
 check("SKU tabs expose aria-selected", /sku-tab[\s\S]*aria-selected/.test(detail) ? "yes" : "no", "yes");
 check("SKU tabs are tabs", detail.includes('role="tab"') && detail.includes("sku-tab") ? "yes" : "no", "yes");

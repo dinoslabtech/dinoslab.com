@@ -24,7 +24,6 @@ variants:
     psramMb: 32
     norMb: 64
     fmc: fitted
-relatedProduct: dnl-n6-dk
 viewer:
   som: /models/dnl-n6.glb
   kit: /models/dnl-n6-dk.glb
@@ -99,6 +98,6 @@ The DNL-N6 is a solder- or socket-down SoM. You put it on a carrier with a camer
 
 Two BOMs share the same PCB. DNL-N6-32/64 leaves the FMC RAM unpopulated. DNL-N6-32/64-R fits that extra bank. HexaSPI PSRAM and Octo-SPI NOR are on both.
 
-Eval is the [DNL-N6 DevKit](/products/dnl-n6-dk): a carrier that brings the module’s peripherals out, with magnetics and RJ45 on that board. A bare SoM is for a carrier you already have.
+Eval is the DNL-N6 DevKit: a carrier that brings the module’s peripherals out, with magnetics and RJ45 on that board. A bare SoM is for a carrier you already have.
 
 Datasheet, pinout, mechanical drawing, power budget, and a bring-up guide ship with the first hardware. This page is the module as it stands: memories, PHY, power, and the two SKUs.
