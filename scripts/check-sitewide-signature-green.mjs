@@ -235,12 +235,9 @@ test("homepage keeps a divider and one DNL-N6 coming-soon card", () => {
   mustInclude(home, "productStatusLabel.coming_soon", "homepage coming soon");
   mustInclude(home, 'kind === "som"', "homepage lists modules");
   mustInclude(home, "group-hover:text-accent-text", "homepage pointer accent");
-  mustInclude(row, "group-hover:text-accent-text", "products row pointer accent");
-  mustInclude(product, "Industrial-control and on-site edge-AI module.", "homepage DNL-N6 line");
-  mustNotInclude(home, "ModuleRow", "homepage row");
-  mustNotInclude(home, "facts-grid", "homepage facts");
+  mustInclude(home, 'href="/products/dnl-n6"', "homepage DNL-N6 pointer");
   mustNotInclude(home, 'href="/products/dnl-n6-dk"', "homepage DevKit pointer");
-  mustNotInclude(product, "DNL-N6-32/64", "withdrawn order code");
+  mustNotInclude(home, "DevKit", "homepage DevKit");
   mustNotInclude(home, "Inspect in 3D", "homepage Inspect chrome");
   mustNotInclude(home, "ProductCard", "homepage ProductCard");
   mustNotInclude(home, "hover:underline", "homepage hover-only underline");

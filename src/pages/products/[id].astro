@@ -1,235 +1,187 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import ContactForm from "@/components/ContactForm.astro";
-import SpecTable from "@/components/SpecTable.astro";
 import ProductViewer from "@/components/ProductViewer.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const products = await getCollection("products");
-  return products.map((product) => ({
-    params: { id: product.id },
-    props: { product },
-  }));
+  return products
+    .filter((product) => product.id === "dnl-n6")
+    .map((product) => ({
+      params: { id: product.id },
+      props: { product },
+    }));
 }
 
 const { product } = Astro.props;
-const {
-  highlights,
-  specGroups,
-  variants,
-  relatedProduct,
-  viewer,
-} = product.data;
-const isKit = product.data.kind === "kit";
-const compareLabels = ["MCU", "PSRAM", "NOR", "Input"];
-const compareByCode: Record<string, string[]> = {
-  "DNL-N6-P2x64-F128": [
-    "STM32N6",
-    "2×64 MB",
-    "128 MB octal",
-    "5–24 V",
-  ],
-  "DNL-N6-P1x64-F128": [
-    "STM32N6",
-    "1×64 MB",
-    "128 MB octal",
-    "5–24 V",
-  ],
-};
-const compareSkus =
-  variants &&
-  variants.length > 1 &&
-  variants.every((sku) => compareByCode[sku.code]?.length === compareLabels.length)
-    ? variants
-    : undefined;
-const related = relatedProduct
-  ? (await getCollection("products")).find((item) => item.id === relatedProduct)
-  : undefined;
-const primers = (await getCollection("blog"))
-  .filter((post) => post.data.tags.includes("n6"))
+
+const orderCodes = [
+  {
+    code: "DNL-N6-P2x64-F128",
+    sentence: "Two x16 PSRAM dice, 64 MB each, and one 128 MB octal NOR.",
+    psram: "128 MB",
+  },
+  {
+    code: "DNL-N6-P1x64-F128",
+    sentence: "One x16 PSRAM die, 64 MB, and one 128 MB octal NOR.",
+    psram: "64 MB",
+  },
+];
+
+const figures = [
+  { value: "STM32N657", label: "Cortex-M55 and Neural-ART" },
+  { value: orderCodes[0].psram, label: "x16 PSRAM", psram: true },
+  { value: "128 MB", label: "octal NOR" },
+  { value: "About 5–24 V", label: "from the Carrier" },
+  { value: "Gigabit PHY", label: "on the module" },
+  { value: "CSI-2", label: "two data lanes" },
+];
+
+const onModule = [
+  "the STM32N657 with 4.2 MB SRAM and no on-chip flash",
+  "x16 PSRAM and the octal NOR",
+  "the Gigabit PHY",
+  "3.3 V and 1.8 V made from the Carrier’s supply",
+];
+
+const onCarrier = [
+  "about 5–24 V in",
+  "magnetics, the jack, four MDI pairs, two LED nets, center-tap from the module’s 3.3 V",
+  "a CSI-2 connector",
+  "two USB high-speed ports, one with the USB-C CC pins",
+  "SWD, reset, and BOOT0",
+  "the rest of the I/O when the interconnect is accepted",
+];
+
+const notes = (await getCollection("blog"))
+  .filter((post) => post.data.tags.includes("n6") && post.id !== "systemctl-tutorial")
   .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
-const showPrimers = product.id === "dnl-n6" && primers.length > 0;
-const pageDescription =
-  product.id === "dnl-n6"
-    ? "DNL-N6, an STM32N657X0 module for a carrier you design."
-    : product.data.summary;
-const specLead = isKit
-  ? "Kit figures. Connectors and mechanics wait for the design release."
-  : "Closed figures. The outline and the interconnect are not published yet.";
 ---
 
-<Layout title={product.data.title} description={pageDescription}>
-  <article>
-    <header>
-      <div class="shell section">
-        <div class="product-hero">
-          <div>
-        <p class="eyebrow">{product.data.category}</p>
-        <h1 class="title mt-3">{product.data.title}</h1>
-        <p class="mt-3 font-mono text-sm text-muted">{product.data.chip}</p>
-        <p class="lead mt-4 max-w-3xl">{product.data.summary}</p>
-
+<Layout title={product.data.title} description={product.data.summary}>
+  <article class="shell product-stack">
+    <header class="measure flex flex-col items-start gap-3">
+      <h1 class="title">DNL-N6</h1>
+      <p>{product.data.summary}</p>
+      <p class="text-muted">Not for sale yet.</p>
+      <a href="#interest" class="btn-primary mt-3">Register interest</a>
+      <fieldset class="mt-3 grid gap-1 border-0 p-0">
+        <legend class="sr-only">Order code</legend>
         {
-          compareSkus && (
-            <div class="compare mt-10" data-sku-switch>
-              <table class="compare-table">
-                <caption class="sr-only">Order codes</caption>
-                <colgroup>
-                  <col class="compare-figure" />
-                  <col />
-                  <col />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th scope="col">
-                      <span class="sr-only">Figure</span>
-                    </th>
-                    {compareSkus.map((sku, index) => (
-                      <th scope="col">
-                        <button
-                          type="button"
-                          class="compare-pick"
-                          data-code={sku.code}
-                          aria-pressed={index === 0 ? "true" : "false"}
-                        >
-                          <span class="compare-code">{sku.code}</span>
-                          <span class="compare-note">{index === 0 ? "Default" : ""}</span>
-                        </button>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {compareLabels.map((label, row) => (
-                    <tr>
-                      <th scope="row">{label}</th>
-                      {compareSkus.map((sku) => (
-                        <td>{compareByCode[sku.code][row]}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )
+          orderCodes.map((item, index) => (
+            <label class="flex min-h-11 items-center gap-3">
+              <input
+                type="radio"
+                name="order-code-pick"
+                value={item.code}
+                checked={index === 0}
+                data-sentence={item.sentence}
+                data-psram={item.psram}
+              />
+              <span class="order-code">{item.code}</span>
+            </label>
+          ))
         }
-
-        <p class="mt-8 text-sm text-muted">Not for sale yet.</p>
-
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#interest" class="btn-primary">Register interest</a>
-          {
-            related && (
-              <a href={`/products/${related.id}`} class="btn-secondary">
-                {related.data.shortName}
-              </a>
-            )
-          }
-        </div>
-          </div>
-          {
-            viewer && (
-              <div class="product-hero-viewer">
-                <ProductViewer
-                  som={viewer.som}
-                  kit={viewer.kit}
-                  combined={viewer.combined}
-                  defaultMode={isKit ? "kit" : "som"}
-                />
-              </div>
-            )
-          }
-        </div>
-      </div>
+      </fieldset>
+      <p data-stuffing aria-live="polite">{orderCodes[0].sentence}</p>
     </header>
 
-    {
-      !compareSkus && highlights && highlights.length > 0 && (
-        <section aria-label="Key figures">
-          <div class="shell">
-            <div class:list={["facts-grid", isKit && "facts-grid-kit"]}>
-              {highlights.map((item) => (
-                <div class="facts-cell">
-                  <p class="facts-value">{item.value}</p>
-                  <p class="facts-label">{item.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )
-    }
+    <ProductViewer src="/models/dnl-n6.glb" />
 
-    {
-      specGroups && specGroups.length > 0 && (
-        <section id="specifications" class="border-t border-divider">
-          <div class="shell section">
-            <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Specifications</h2>
-            <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-              {specLead}
+    <section class="figures" aria-label="Figures">
+      {
+        figures.map((item) => (
+          <div>
+            <p class="figure-value" data-psram-value={item.psram ? "yes" : undefined} aria-live={item.psram ? "polite" : undefined}>
+              {item.value}
             </p>
-            <div class="mt-8">
-              <SpecTable groups={specGroups} />
-            </div>
+            <p class="figure-label">{item.label}</p>
           </div>
-        </section>
-      )
-    }
+        ))
+      }
+    </section>
 
-    {
-      showPrimers && (
-        <section>
-          <div class="shell section pt-0">
-            <ul class="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-              {primers.map((item) => (
-                <li>
-                  <a href={`/blog/${item.id}`} class="text-sm text-accent-text underline underline-offset-2">
-                    {item.data.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      )
-    }
+    <section class="place-split">
+      <div>
+        <h2 class="title">On the module</h2>
+        <ul class="stack-list">
+          {onModule.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="title">On the Carrier</h2>
+        <ul class="stack-list">
+          {onCarrier.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
 
-    <section id="interest" class="border-t border-divider">
-      <div class="shell section">
-        <div class="panel-raised max-w-xl">
-          <div class="p-5 sm:p-6">
-            <h2 class="text-xl font-medium tracking-tight">Register interest</h2>
-            <p class="mt-2 text-sm text-muted">This is not an order.</p>
-            <div class="mt-6">
-              <ContactForm
-                name="interest"
-                variant="interest"
-                product={product.data.shortName}
-                skus={variants}
-              />
-            </div>
-          </div>
-        </div>
+    <section class="measure">
+      <h2 class="title">Open.</h2>
+      <div class="mt-3 grid gap-1">
+        <p>Interconnect</p>
+        <p>Outline</p>
+      </div>
+    </section>
+
+    <section class="measure">
+      <h2 class="title">Notes.</h2>
+      <ul class="mt-3 grid gap-2">
+        {
+          notes.map((item) => (
+            <li>
+              <a class="text-accent-text underline underline-offset-[0.18em]" href={`/blog/${item.id}`}>
+                {item.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="interest" class="measure">
+      <h2 class="title">Register interest.</h2>
+      <p class="mt-2 text-base leading-[1.45] text-muted">This is not an order.</p>
+      <div class="panel-raised mt-6 p-5 sm:p-6">
+        <ContactForm
+          name="interest"
+          variant="interest"
+          product={product.data.shortName}
+          skus={orderCodes.map((item) => ({ code: item.code, title: item.code }))}
+        />
       </div>
     </section>
   </article>
 </Layout>
 
-{
-  variants && variants.length > 0 && (
-    <script>
-      const root = document.querySelector("[data-sku-switch]");
-      const picks = root?.querySelectorAll<HTMLButtonElement>(".compare-pick");
+<script>
+  const sentence = document.querySelector("[data-stuffing]");
+  const psram = document.querySelector("[data-psram-value]");
+  const radios = [...document.querySelectorAll('input[name="order-code-pick"]')];
+  const select = document.querySelector('select[name="order-code"]');
 
-      picks?.forEach((pick) => {
-        pick.addEventListener("click", () => {
-          const value = pick.dataset.code;
-          if (!value) return;
-          picks.forEach((item) => item.setAttribute("aria-pressed", String(item === pick)));
-          window.dispatchEvent(new CustomEvent("dnl-sku", { detail: value }));
-        });
-      });
-    </script>
-  )
-}
+  function apply(radio: HTMLInputElement) {
+    if (!sentence || !psram) return;
+    sentence.textContent = radio.dataset.sentence ?? "";
+    psram.textContent = radio.dataset.psram ?? "";
+    for (const item of radios) {
+      if (item instanceof HTMLInputElement) item.checked = item === radio;
+    }
+    if (select instanceof HTMLSelectElement && select.value !== radio.value) {
+      select.value = radio.value;
+    }
+  }
+
+  for (const radio of radios) {
+    radio.addEventListener("change", () => {
+      if (radio instanceof HTMLInputElement && radio.checked) apply(radio);
+    });
+  }
+
+  select?.addEventListener("change", () => {
+    if (!(select instanceof HTMLSelectElement)) return;
+    const radio = radios.find((item) => item instanceof HTMLInputElement && item.value === select.value);
+    if (radio instanceof HTMLInputElement) apply(radio);
+  });
+</script>

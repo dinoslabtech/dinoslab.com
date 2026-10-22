@@ -366,16 +366,14 @@ test("contact fields keep name, email and required message", () => {
   }
 });
 
-test("interest adds intent and hidden SoM fields without requiring message", () => {
-  mustInclude(formSrc, 'name="intent"', "intent");
-  mustInclude(formSrc, 'value="som"', "SoM intent");
-  mustInclude(formSrc, "DNL-N6 SoM", "SoM interest label");
-  if (formSrc.includes('value="devkit"')) {
-    throw new Error("DevKit is still an interest choice");
+test("interest asks for an order code and quantity, not a DevKit", () => {
+  if (formSrc.includes('value="devkit"') || formSrc.includes('name="intent"')) {
+    throw new Error("interest still offers a DevKit choice");
   }
-  mustInclude(formSrc, 'name="sku"', "order code");
+  mustInclude(formSrc, 'name="order-code"', "order code");
   mustInclude(formSrc, 'name="quantity"', "quantity");
-  mustInclude(formSrc, "js-som-only", "SoM extra fields");
+  mustInclude(formSrc, "1–5", "quantity bands");
+  mustInclude(formSrc, "100+", "quantity bands");
 });
 
 test("contact, quote and interest mounts are preserved", () => {
@@ -479,15 +477,19 @@ if (existsSync(distContact)) {
     });
   });
 
-  test("built interest journey keeps SoM extras and optional message", () => {
+  test("built interest journey keeps order code, quantity, and optional message", () => {
     checkBuiltForm(interestHtml, {
       name: "interest",
-      required: ["name", "email", "intent"],
-      optional: ["message", "sku", "quantity"],
+      required: ["name", "email", "order-code", "quantity"],
+      optional: ["message"],
+      forbidden: ["intent", "sku"],
     });
     const form = pageForm(interestHtml, "interest");
-    if (!form.includes("js-som-only")) {
-      throw new Error("interest missing SoM extra field hook");
+    if (!form.includes("DNL-N6-P2x64-F128") || !form.includes("DNL-N6-P1x64-F128")) {
+      throw new Error("interest missing the two order codes");
+    }
+    if (form.includes("devkit") || form.includes("DevKit")) {
+      throw new Error("interest still offers a DevKit");
     }
     if (!interestHtml.includes("This is not an order.")) {
       throw new Error("interest lead missing");
