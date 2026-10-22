@@ -6,6 +6,8 @@ export const site = {
     "Modules, designed in Ladispoli, built by Acme Systems. First module: DNL-N6, an STM32N657X0 module.",
   tagline: "Modules, designed in Ladispoli, built by Acme Systems.",
   email: "info@dinoslab.com",
+  telegram: "https://t.me/dinoslab",
+  telegramHandle: "@dinoslab",
   github: "https://github.com/dinoslabtech",
   githubHandle: "dinoslabtech",
   location: "Ladispoli (Rome), Italy",
