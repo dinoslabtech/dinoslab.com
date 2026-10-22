@@ -164,6 +164,13 @@ textarea:focus-visible {
   @apply text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] sm:text-4xl md:text-5xl lg:text-[3.35rem] lg:leading-[1.08];
 }
 
+@media (max-width: 639px) {
+  .section-hero .display {
+    /* 7.6vw keeps "Modules for your carrier." on one line from a 320px screen. */
+    font-size: clamp(1.5rem, 7.6vw, 2rem);
+  }
+}
+
 .title {
   @apply text-[1.75rem] font-medium leading-[1.15] tracking-[-0.03em] sm:text-3xl md:text-4xl;
 }
@@ -224,7 +231,7 @@ textarea:focus-visible {
 }
 
 /* Raised allowlist: ProductViewer, interest/contact/quote forms,
-   .diagram (N6 figure), .note-example (blog-only). Do not grow it. */
+   .note-example (blog-only). Do not grow it. */
 .panel-raised {
   background: var(--surface-raised);
   border: 1px solid var(--divider);
@@ -403,7 +410,7 @@ textarea:focus-visible {
 
 .hero-logo {
   display: block;
-  width: min(16rem, 72vw);
+  width: min(32rem, 100%);
   height: auto;
 }
 
@@ -737,77 +744,6 @@ textarea:focus-visible {
     min-height: 22rem;
     height: 22rem;
   }
-}
-
-.diagram {
-  border: 1px solid var(--divider);
-  border-top-color: var(--highlight);
-  border-radius: var(--radius-md);
-  background: var(--surface-raised);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-
-.diagram-row {
-  display: grid;
-  gap: 0.75rem;
-  padding: 1.1rem 1.25rem;
-  border-bottom: 1px solid var(--divider);
-}
-
-.diagram-row:last-child {
-  border-bottom: none;
-}
-
-@media (min-width: 640px) {
-  .diagram-row {
-    grid-template-columns: 7.5rem 1fr;
-    gap: 1.5rem;
-    padding: 1.25rem 1.5rem;
-  }
-}
-
-.diagram-kicker {
-  @apply font-mono text-[11px] uppercase tracking-[0.16em];
-  color: var(--text-muted);
-}
-
-.diagram-flow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem 0.75rem;
-}
-
-.diagram-stack {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.diagram-box {
-  @apply font-mono text-[13px];
-  background: var(--surface-panel);
-  border: 1px solid var(--divider);
-  border-radius: var(--radius-sm);
-  padding: 0.45rem 0.7rem;
-}
-
-.diagram-box-core {
-  color: var(--accent-text);
-}
-
-.diagram-arrow {
-  color: var(--text-muted);
-}
-
-.diagram-line {
-  @apply text-sm;
-  color: var(--text-muted);
-}
-
-.diagram-bus {
-  @apply mr-2 font-mono text-[11px] uppercase tracking-[0.12em];
-  color: var(--accent-text);
 }
 
 .prose-lab table {

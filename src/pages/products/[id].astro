@@ -3,7 +3,6 @@ import Layout from "@/layouts/Layout.astro";
 import ContactForm from "@/components/ContactForm.astro";
 import SpecTable from "@/components/SpecTable.astro";
 import ProductViewer from "@/components/ProductViewer.astro";
-import N6BlockDiagram from "@/components/N6BlockDiagram.astro";
 import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
@@ -168,22 +167,6 @@ const specLead = isKit
         </section>
       )
     }
-
-    <div class="shell section">
-      {
-        product.id === "dnl-n6" && (
-          <section id="block-diagram">
-            <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Block diagram</h2>
-            <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-              Power and memory stay on the module.
-            </p>
-            <div class="mt-8">
-              <N6BlockDiagram />
-            </div>
-          </section>
-        )
-      }
-    </div>
 
     {
       specGroups && specGroups.length > 0 && (

@@ -226,16 +226,19 @@ test("Docs empty index, thank-you and 404 use the shared shell and canonical rol
   }
 });
 
-test("homepage keeps a divider and one DNL-N6 row", () => {
+test("homepage keeps a divider and one DNL-N6 coming-soon card", () => {
   const home = read("src/pages/index.astro");
   const row = read("src/components/ModuleRow.astro");
   const product = read("src/content/products/dnl-n6.md");
   mustInclude(home, "border-divider", "homepage divider");
   mustInclude(home, "hero-logo", "homepage Logo");
-  mustInclude(home, "ModuleRow", "homepage row");
+  mustInclude(home, "productStatusLabel.coming_soon", "homepage coming soon");
   mustInclude(home, 'kind === "som"', "homepage lists modules");
-  mustInclude(row, "group-hover:text-accent-text", "homepage pointer accent");
+  mustInclude(home, "group-hover:text-accent-text", "homepage pointer accent");
+  mustInclude(row, "group-hover:text-accent-text", "products row pointer accent");
   mustInclude(product, "Industrial-control and on-site edge-AI module.", "homepage DNL-N6 line");
+  mustNotInclude(home, "ModuleRow", "homepage row");
+  mustNotInclude(home, "facts-grid", "homepage facts");
   mustNotInclude(home, 'href="/products/dnl-n6-dk"', "homepage DevKit pointer");
   mustNotInclude(product, "DNL-N6-32/64", "withdrawn order code");
   mustNotInclude(home, "Inspect in 3D", "homepage Inspect chrome");
