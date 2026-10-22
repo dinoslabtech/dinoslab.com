@@ -231,7 +231,7 @@ test("homepage leftovers use divider hairlines and blog-style pointer rows", () 
   mustInclude(home, "border-divider", "homepage divider");
   mustInclude(home, "group-hover:text-accent-text", "homepage pointer accent");
   mustInclude(home, 'href="/products/dnl-n6"', "homepage DNL-N6 pointer");
-  mustInclude(home, 'href="/products/dnl-n6-dk"', "homepage DevKit pointer");
+  mustNotInclude(home, 'href="/products/dnl-n6-dk"', "homepage DevKit pointer");
   mustNotInclude(home, "Inspect in 3D", "homepage Inspect chrome");
   mustNotInclude(home, "ProductCard", "homepage ProductCard");
   mustNotInclude(home, "hover:underline", "homepage hover-only underline");
