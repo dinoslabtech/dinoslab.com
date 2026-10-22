@@ -1,47 +1,45 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { site } from "@/data/site";
+import { productStatusLabel, site } from "@/data/site";
+import { getCollection } from "astro:content";
+
+const products = (await getCollection("products")).filter(
+  (product) => product.data.kind === "som" && product.data.status === "coming_soon",
+);
 ---
 
-<Layout description="DNL-N6, an STM32N6 SoM, and the DNL-N6 DevKit. Dino's Lab, Ladispoli.">
+<Layout description={site.description}>
   <section class="border-b border-divider">
-    <div class="shell section-hero grid items-center gap-8 lg:grid-cols-12 lg:gap-10">
-      <div class="lg:col-span-7">
-        <h1 class="display-hero hero-title">
-          <span class="sr-only">{site.name}</span>
-          <img src="/wordmark.svg" alt="" class="hero-wordmark" />
+    <div class="shell section-hero">
+      <div class="grid items-center gap-12 lg:grid-cols-[minmax(0,32rem)_auto] lg:gap-16">
+        <h1 class="min-w-0">
+          <img src="/logo.svg" alt={site.name} class="hero-logo" />
         </h1>
-        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-muted">
-          Solder-down modules, designed in Ladispoli, built by Acme Systems.
-          <br />
-          First board: DNL-N6.
+        <p class="display">
+          <span class="block whitespace-nowrap">Electronic Products.</span>
+          <span class="block whitespace-nowrap">Modules for your carrier.</span>
         </p>
       </div>
-      <figure class="panel overflow-hidden lg:col-span-5">
-        <div class="figure-grid px-8 py-10">
-          <img
-            src="/mark.svg"
-            alt="Dino’s Lab mark: a sauropod with PCB traces along its back"
-            class="hero-mark"
-          />
+    </div>
+  </section>
+
+  {
+    products.length > 0 && (
+      <section>
+        <div class="shell pb-16 pt-10 sm:pb-20 sm:pt-12">
+          <h2 class="title">{productStatusLabel.coming_soon}</h2>
+          {products.map((product) => {
+            const device = product.data.chip.split(" · ")[0].replace(/H3Q$/, "");
+            return (
+              <a href={`/products/${product.id}`} class="group mt-8 block max-w-xl border border-divider p-6 sm:p-8">
+                <h3 class="text-2xl font-medium tracking-tight group-hover:text-accent-text">{product.data.title}</h3>
+                <p class="mt-2 text-muted">{product.data.summary}</p>
+                <p class="mt-4 font-mono text-sm text-muted">{device}</p>
+              </a>
+            );
+          })}
         </div>
-      </figure>
-    </div>
-  </section>
-
-  <section class="border-b border-divider">
-    <div class="shell">
-      <a href="/products/dnl-n6" class="group block py-8">
-        <h2 class="text-xl font-medium tracking-tight group-hover:text-accent-text">DNL-N6</h2>
-      </a>
-    </div>
-  </section>
-
-  <section>
-    <div class="shell">
-      <a href="/products/dnl-n6-dk" class="group block py-8">
-        <h2 class="text-xl font-medium tracking-tight group-hover:text-accent-text">DNL-N6 DevKit</h2>
-      </a>
-    </div>
-  </section>
+      </section>
+    )
+  }
 </Layout>
