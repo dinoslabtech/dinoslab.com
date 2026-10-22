@@ -63,3 +63,9 @@ _Avoid_: copy, tone as a separate system
 **Voice**:
 The way Dino's Lab writes: third person about the boards, “you” for the engineer designing a carrier or evaluating a module, in plain hardware English.
 _Avoid_: company we, mission copy, metaphor, hedging
+
+## Products
+
+**DNL-N6 DevKit**:
+Dino's Lab's evaluation carrier for the DNL-N6.
+_Avoid_: product page, a carrier the customer designs
