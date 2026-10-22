@@ -226,11 +226,13 @@ test("Docs empty index, thank-you and 404 use the shared shell and canonical rol
   }
 });
 
-test("homepage leftovers use divider hairlines and blog-style pointer rows", () => {
+test("homepage keeps a divider and one DNL-N6 card", () => {
   const home = read("src/pages/index.astro");
   mustInclude(home, "border-divider", "homepage divider");
   mustInclude(home, "group-hover:text-accent-text", "homepage pointer accent");
   mustInclude(home, 'href="/products/dnl-n6"', "homepage DNL-N6 pointer");
+  mustInclude(home, 'class="panel group', "homepage DNL-N6 card");
+  mustInclude(home, "STM32N6 SoM.", "homepage DNL-N6 line");
   mustNotInclude(home, 'href="/products/dnl-n6-dk"', "homepage DevKit pointer");
   mustNotInclude(home, "Inspect in 3D", "homepage Inspect chrome");
   mustNotInclude(home, "ProductCard", "homepage ProductCard");
