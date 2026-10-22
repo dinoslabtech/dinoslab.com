@@ -1,24 +1,27 @@
 ---
 interface Props {
-  title: string;
-  rows: [string, string][];
+  groups: { title: string; rows: [string, string][] }[];
 }
 
-const { title, rows } = Astro.props;
+const { groups } = Astro.props;
 ---
 
-<section class="spec-block">
-  <h3 class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">{title}</h3>
-  <table class="spec-table mt-4">
-    <tbody>
-      {
-        rows.map(([key, value]) => (
+<table class="spec-table spec-groups">
+  {
+    groups.map((group) => (
+      <tbody>
+        <tr>
+          <th class="spec-group" colspan="2" scope="rowgroup">
+            {group.title}
+          </th>
+        </tr>
+        {group.rows.map(([key, value]) => (
           <tr>
             <th scope="row">{key}</th>
             <td>{value}</td>
           </tr>
-        ))
-      }
-    </tbody>
-  </table>
-</section>
+        ))}
+      </tbody>
+    ))
+  }
+</table>
