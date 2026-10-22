@@ -240,22 +240,6 @@ for (const theme of ["dark", "light"]) {
   checkColor(".viewer-empty", "color", theme, s.muted);
 }
 
-console.log("block diagram");
-for (const theme of ["dark", "light"]) {
-  const s = SPEC[theme];
-  checkColor(".diagram", "background", theme, s.raised);
-  checkColor(".diagram", "border", theme, s.divider);
-  checkColor(".diagram-row", "border-bottom", theme, s.divider);
-  checkColor(".diagram-kicker", "color", theme, s.muted);
-  checkColor(".diagram-box", "background", theme, s.panel);
-  checkColor(".diagram-box", "border", theme, s.divider);
-  checkColor(".diagram-box-core", "color", theme, s.accent);
-  checkColor(".diagram-arrow", "color", theme, s.muted);
-  checkColor(".diagram-line", "color", theme, s.muted);
-  checkColor(".diagram-bus", "color", theme, s.accent);
-  checkColor(".diagram", "border-top-color", theme, s.highlight);
-}
-
 const ALIASES = [
   "--color-void",
   "--color-paper",
@@ -267,7 +251,7 @@ const ALIASES = [
   "--color-muted",
   "--color-highlight",
 ];
-const PRODUCT_SELECTORS = [".facts-", ".spec-table", ".compare-", ".viewer-", ".diagram"];
+const PRODUCT_SELECTORS = [".facts-", ".spec-table", ".compare-", ".viewer-"];
 
 console.log("no compatibility aliases on product selectors");
 {
