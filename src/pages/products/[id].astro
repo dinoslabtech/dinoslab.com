@@ -3,8 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import ContactForm from "@/components/ContactForm.astro";
 import SpecTable from "@/components/SpecTable.astro";
 import ProductViewer from "@/components/ProductViewer.astro";
-import N6BlockDiagram from "@/components/N6BlockDiagram.astro";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const products = await getCollection("products");
@@ -15,20 +14,35 @@ export async function getStaticPaths() {
 }
 
 const { product } = Astro.props;
-const { Content } = await render(product);
 const {
   highlights,
   specGroups,
   variants,
   relatedProduct,
   viewer,
-  onModule,
-  onCarrier,
-  frozen,
-  open,
 } = product.data;
 const isKit = product.data.kind === "kit";
-const defaultSku = variants?.[0];
+const compareLabels = ["MCU", "PSRAM", "NOR", "Input"];
+const compareByCode: Record<string, string[]> = {
+  "DNL-N6-P2x64-F128": [
+    "STM32N657X0H3Q",
+    "2×64 MB",
+    "128 MB octal",
+    "About 5–24 V",
+  ],
+  "DNL-N6-P1x64-F128": [
+    "STM32N657X0H3Q",
+    "1×64 MB",
+    "128 MB octal",
+    "About 5–24 V",
+  ],
+};
+const compareSkus =
+  variants &&
+  variants.length > 1 &&
+  variants.every((sku) => compareByCode[sku.code]?.length === compareLabels.length)
+    ? variants
+    : undefined;
 const related = relatedProduct
   ? (await getCollection("products")).find((item) => item.id === relatedProduct)
   : undefined;
@@ -38,11 +52,11 @@ const primers = (await getCollection("blog"))
 const showPrimers = product.id === "dnl-n6" && primers.length > 0;
 const pageDescription =
   product.id === "dnl-n6"
-    ? "DNL-N6, an STM32N6 SoM for a carrier you design."
+    ? "DNL-N6, an STM32N657X0 module for a carrier you design."
     : product.data.summary;
 const specLead = isKit
   ? "Kit figures. Connectors and mechanics wait for the design release."
-  : "Module figures. Silicon that still depends on the STM32N6 device waits for hardware freeze.";
+  : "Closed figures. The outline and the interconnect are not published yet.";
 ---
 
 <Layout title={product.data.title} description={pageDescription}>
@@ -55,25 +69,54 @@ const specLead = isKit
         <p class="lead mt-4 max-w-3xl">{product.data.summary}</p>
 
         {
-          variants && variants.length > 0 && (
-            <div class="mt-8" data-sku-switch>
-              <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-muted">Order code</p>
-              <div class="mt-3 flex flex-wrap gap-2" role="tablist" aria-label="SKU">
-                {variants.map((sku, index) => (
-                  <button
-                    type="button"
-                    class="sku-tab"
-                    role="tab"
-                    data-code={sku.code}
-                    aria-selected={index === 0 ? "true" : "false"}
-                  >
-                    {sku.title}
-                  </button>
-                ))}
-              </div>
-              <p class="sku-code mt-3 font-mono text-sm text-accent-text" data-sku-code>
-                {defaultSku?.code}
-              </p>
+          compareSkus && (
+            <div class="compare mt-10" data-sku-switch>
+              <table class="compare-table">
+                <caption class="sr-only">Order codes</caption>
+                <colgroup>
+                  <col class="compare-figure" />
+                  <col />
+                  <col />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <span class="sr-only">Figure</span>
+                    </th>
+                    {compareSkus.map((sku, index) => (
+                      <th scope="col">
+                        <button
+                          type="button"
+                          class="compare-pick"
+                          data-code={sku.code}
+                          aria-pressed={index === 0 ? "true" : "false"}
+                        >
+                          <span class="compare-code">{sku.code}</span>
+                          <span class="compare-note">{index === 0 ? "Default" : ""}</span>
+                        </button>
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {compareLabels.map((label, row) => (
+                    <tr>
+                      <th scope="row">{label}</th>
+                      {compareSkus.map((sku) => (
+                        <td>
+                          {label === "MCU" ? (
+                            <>
+                              STM32<wbr />N657X0H3Q
+                            </>
+                          ) : (
+                            compareByCode[sku.code][row]
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )
         }
@@ -109,7 +152,7 @@ const specLead = isKit
     }
 
     {
-      highlights && highlights.length > 0 && (
+      !compareSkus && highlights && highlights.length > 0 && (
         <section aria-label="Key figures">
           <div class="shell">
             <div class:list={["facts-grid", isKit && "facts-grid-kit"]}>
@@ -125,70 +168,6 @@ const specLead = isKit
       )
     }
 
-    <div class="shell section space-y-12">
-      {
-        (frozen || open) && (
-          <section>
-            <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Frozen and still open</h2>
-            <div class="mt-6 grid gap-8 sm:grid-cols-2">
-              {frozen && frozen.length > 0 && (
-                <SpecTable title="Frozen" rows={frozen} />
-              )}
-              {open && open.length > 0 && (
-                <SpecTable title="Still open" rows={open} />
-              )}
-            </div>
-          </section>
-        )
-      }
-
-      {
-        (onModule || onCarrier) && (
-          <section>
-            <h2 class="text-2xl font-medium tracking-tight md:text-3xl">
-              {isKit ? "On the kit vs on the SoM" : "SoM and carrier"}
-            </h2>
-            <div class="mt-6 grid gap-8 sm:grid-cols-2">
-              {onModule && (
-                <div>
-                  <h3 class="font-medium tracking-tight">{isKit ? "On the SoM" : "On the module"}</h3>
-                  <ul class="mt-4 space-y-2 text-sm leading-relaxed text-muted">
-                    {onModule.map((item) => (
-                      <li>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-              {onCarrier && (
-                <div>
-                  <h3 class="font-medium tracking-tight">{isKit ? "On the kit" : "On your carrier"}</h3>
-                  <ul class="mt-4 space-y-2 text-sm leading-relaxed text-muted">
-                    {onCarrier.map((item) => (
-                      <li>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </section>
-        )
-      }
-
-      {
-        product.id === "dnl-n6" && (
-          <section id="block-diagram">
-            <h2 class="text-2xl font-medium tracking-tight md:text-3xl">Block diagram</h2>
-            <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-              Power and PHY on the module. MDI, CSI-2, and the rest of the I/O at the edge.
-            </p>
-            <div class="mt-8">
-              <N6BlockDiagram />
-            </div>
-          </section>
-        )
-      }
-    </div>
-
     {
       specGroups && specGroups.length > 0 && (
         <section id="specifications" class="border-t border-divider">
@@ -197,21 +176,13 @@ const specLead = isKit
             <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
               {specLead}
             </p>
-            <div class="mt-8 grid gap-8 lg:grid-cols-2">
-              {specGroups.map((group) => (
-                <SpecTable title={group.title} rows={group.rows} />
-              ))}
+            <div class="mt-8">
+              <SpecTable groups={specGroups} />
             </div>
           </div>
         </section>
       )
     }
-
-    <div class="shell section">
-      <div class="prose-lab max-w-3xl">
-        <Content />
-      </div>
-    </div>
 
     {
       showPrimers && (
@@ -256,15 +227,13 @@ const specLead = isKit
   variants && variants.length > 0 && (
     <script>
       const root = document.querySelector("[data-sku-switch]");
-      const tabs = root?.querySelectorAll<HTMLButtonElement>("[data-code]");
-      const code = root?.querySelector("[data-sku-code]");
+      const picks = root?.querySelectorAll<HTMLButtonElement>(".compare-pick");
 
-      tabs?.forEach((tab) => {
-        tab.addEventListener("click", () => {
-          const value = tab.dataset.code;
+      picks?.forEach((pick) => {
+        pick.addEventListener("click", () => {
+          const value = pick.dataset.code;
           if (!value) return;
-          tabs.forEach((item) => item.setAttribute("aria-selected", String(item === tab)));
-          if (code) code.textContent = value;
+          picks.forEach((item) => item.setAttribute("aria-pressed", String(item === pick)));
           window.dispatchEvent(new CustomEvent("dnl-sku", { detail: value }));
         });
       });

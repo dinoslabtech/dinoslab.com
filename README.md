@@ -1,6 +1,6 @@
 # Dino's Lab
 
-Website for [dinoslab.com](https://dinoslab.com). Solder-down modules, designed in Ladispoli, built by [Acme Systems](https://www.acmesystems.it). First board: DNL-N6.
+Website for [dinoslab.com](https://dinoslab.com). Modules, designed in Ladispoli, built by [Acme Systems](https://www.acmesystems.it). First module: DNL-N6.
 
 ## Stack
 
@@ -60,7 +60,7 @@ The identity submodule is private. `.gitmodules` sets `update = none` so Netlify
 - Blog: `src/content/blog/`
 - Brand assets: `resources/` (source) and `public/` (what the site serves)
 
-SoM order codes: `DNL-N6-{PSRAM_MB}/{NOR_MB}[-R[{FMC_MB}]]`. First SKUs are `DNL-N6-32/64` and `DNL-N6-32/64-R`.
+Order codes: `DNL-N6-P{k}x{m}-F{n}`. Stock codes are `DNL-N6-P2x64-F128` (default) and `DNL-N6-P1x64-F128`.
 
 CAD GLBs for the product viewer go in `public/models/`:
 
