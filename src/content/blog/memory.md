@@ -9,7 +9,7 @@ order: 5
 
 <aside class="note-example">
 <p class="eyebrow">Example</p>
-<p><a href="/products/dnl-n6">DNL-N6</a> — on-chip SRAM, 32 MB HexaSPI PSRAM for frames, 64 MB Octo-SPI NOR for boot and weights. Extra FMC RAM is a stuffing option (DNL-N6-32/64-R).</p>
+<p><a href="/products/dnl-n6">DNL-N6</a> — 4.2 MB on-chip SRAM, x16 PSRAM for frames (two 64 MB dice on the default order code, one on DNL-N6-P1x64-F128), and 128 MB octal NOR for boot and weights.</p>
 </aside>
 
 A board does not have one “RAM” and one “disk”. It mixes several technologies because each one wins a different argument: speed, density, persistence, pin count, price.
