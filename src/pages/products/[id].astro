@@ -39,9 +39,7 @@ const showPrimers = product.id === "dnl-n6" && primers.length > 0;
 const pageDescription =
   product.id === "dnl-n6"
     ? "DNL-N6, an STM32N6 SoM for a carrier you design."
-    : product.id === "dnl-n6-dk"
-      ? "DNL-N6 DevKit, eval carrier for the DNL-N6."
-      : product.data.summary;
+    : product.data.summary;
 const specLead = isKit
   ? "Kit figures. Connectors and mechanics wait for the design release."
   : "Module figures. Silicon that still depends on the STM32N6 device waits for hardware freeze.";
