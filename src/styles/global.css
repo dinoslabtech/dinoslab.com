@@ -164,8 +164,11 @@ textarea:focus-visible {
   @apply text-[2rem] font-medium leading-[1.1] tracking-[-0.03em] sm:text-4xl md:text-5xl lg:text-[3.35rem] lg:leading-[1.08];
 }
 
-.display-hero {
-  @apply text-[2.75rem] font-medium leading-[1.05] tracking-[-0.035em] sm:text-5xl md:text-6xl lg:text-[4.5rem] lg:leading-[1.02];
+@media (max-width: 639px) {
+  .section-hero .display {
+    /* 7.6vw keeps "Modules for your carrier." on one line from a 320px screen. */
+    font-size: clamp(1.5rem, 7.6vw, 2rem);
+  }
 }
 
 .title {
@@ -228,7 +231,7 @@ textarea:focus-visible {
 }
 
 /* Raised allowlist: ProductViewer, interest/contact/quote forms,
-   .diagram (N6 figure), .note-example (blog-only). Do not grow it. */
+   .note-example (blog-only). Do not grow it. */
 .panel-raised {
   background: var(--surface-raised);
   border: 1px solid var(--divider);
@@ -368,14 +371,6 @@ textarea:focus-visible {
   box-shadow: inset 3px 0 0 var(--accent-text);
 }
 
-.figure-grid {
-  background-color: var(--surface-canvas);
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--accent-text) 16%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--accent-text) 16%, transparent) 1px, transparent 1px);
-  background-size: 1.25rem 1.25rem;
-}
-
 /* Mark and Wordmark use the Brand green in the SVG files. */
 .brand-lockup {
   display: inline-flex;
@@ -413,24 +408,10 @@ textarea:focus-visible {
   }
 }
 
-.hero-mark {
+.hero-logo {
   display: block;
-  width: 100%;
-  max-width: 24rem;
+  width: min(32rem, 100%);
   height: auto;
-  margin-inline: auto;
-}
-
-.display-hero.hero-title {
-  font-size: 0;
-  line-height: 0;
-}
-
-.hero-wordmark {
-  display: block;
-  height: clamp(2.35rem, 6.5vw, 4.1rem);
-  width: auto;
-  max-width: 100%;
 }
 
 .facts-grid {
@@ -480,7 +461,7 @@ textarea:focus-visible {
 .facts-value {
   @apply font-mono text-xl tracking-tight;
   color: var(--text);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .facts-label {
@@ -504,10 +485,35 @@ textarea:focus-visible {
 .spec-table th {
   @apply w-[11rem] pr-4 text-left font-mono text-[11px] font-medium uppercase tracking-[0.14em] sm:w-[13rem];
   color: var(--text-muted);
+  overflow-wrap: anywhere;
 }
 
 .spec-table td {
   color: var(--text);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.spec-table th.spec-group {
+  width: auto;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+  text-transform: none;
+  color: var(--text);
+}
+
+@media (min-width: 640px) {
+  .spec-table th.spec-group {
+    padding-top: 1.5rem;
+    border-bottom-color: transparent;
+  }
+
+  .spec-groups > tbody:first-of-type > tr:first-child > th.spec-group {
+    padding-top: 0.75rem;
+  }
 }
 
 @media (max-width: 639px) {
@@ -528,9 +534,129 @@ textarea:focus-visible {
     border: none;
     padding: 0;
   }
+
+  .spec-groups > tbody:not(:first-of-type) > tr:first-child {
+    padding-top: 1.15rem;
+  }
 }
 
-.sku-tab,
+.compare-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 0.9rem 0.65rem;
+  vertical-align: top;
+  border-bottom: 1px solid var(--divider);
+}
+
+.compare-table thead th {
+  padding: 0;
+  vertical-align: top;
+  border-top: 2px solid var(--divider);
+  border-bottom: 1px solid var(--divider);
+}
+
+.compare-table thead th:has([aria-pressed="true"]) {
+  border-top-color: var(--accent-text);
+}
+
+.compare-figure {
+  width: 7.5rem;
+}
+
+.compare-table th[scope="row"] {
+  padding-left: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.compare-table td {
+  color: var(--text);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.compare-pick {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.85rem 0.5rem 1rem;
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.compare-pick:hover {
+  color: var(--text);
+}
+
+.compare-pick[aria-pressed="true"] {
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 639px) {
+  .compare-figure {
+    width: 4.75rem;
+  }
+
+  .compare-table th,
+  .compare-table td {
+    padding: 0.75rem 0.4rem;
+  }
+
+  .compare-table th[scope="row"] {
+    padding-right: 0.35rem;
+  }
+
+  .compare-pick {
+    padding-inline: 0.4rem;
+  }
+}
+
+.compare-code {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
+}
+
+.compare-pick[aria-pressed="true"] .compare-code {
+  font-weight: 600;
+}
+
+@media (max-width: 639px) {
+  .compare-code {
+    font-size: 1rem;
+  }
+}
+
+.compare-note {
+  display: block;
+  min-height: 1.3em;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  color: var(--text-muted);
+}
+
 .viewer-tab {
   @apply min-h-11 px-3 py-2 font-mono text-[12px] tracking-tight;
   color: var(--text-muted);
@@ -538,12 +664,10 @@ textarea:focus-visible {
   border-radius: var(--radius-sm);
 }
 
-.sku-tab:hover,
 .viewer-tab:hover {
   color: var(--text);
 }
 
-.sku-tab[aria-selected="true"],
 .viewer-tab[aria-selected="true"] {
   color: var(--text);
   background: var(--surface-raised);
@@ -552,7 +676,6 @@ textarea:focus-visible {
   box-shadow: var(--shadow-sm);
 }
 
-.sku-tab:disabled,
 .viewer-tab:disabled {
   opacity: 0.55;
 }
@@ -621,77 +744,6 @@ textarea:focus-visible {
     min-height: 22rem;
     height: 22rem;
   }
-}
-
-.diagram {
-  border: 1px solid var(--divider);
-  border-top-color: var(--highlight);
-  border-radius: var(--radius-md);
-  background: var(--surface-raised);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
-}
-
-.diagram-row {
-  display: grid;
-  gap: 0.75rem;
-  padding: 1.1rem 1.25rem;
-  border-bottom: 1px solid var(--divider);
-}
-
-.diagram-row:last-child {
-  border-bottom: none;
-}
-
-@media (min-width: 640px) {
-  .diagram-row {
-    grid-template-columns: 7.5rem 1fr;
-    gap: 1.5rem;
-    padding: 1.25rem 1.5rem;
-  }
-}
-
-.diagram-kicker {
-  @apply font-mono text-[11px] uppercase tracking-[0.16em];
-  color: var(--text-muted);
-}
-
-.diagram-flow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.6rem 0.75rem;
-}
-
-.diagram-stack {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.diagram-box {
-  @apply font-mono text-[13px];
-  background: var(--surface-panel);
-  border: 1px solid var(--divider);
-  border-radius: var(--radius-sm);
-  padding: 0.45rem 0.7rem;
-}
-
-.diagram-box-core {
-  color: var(--accent-text);
-}
-
-.diagram-arrow {
-  color: var(--text-muted);
-}
-
-.diagram-line {
-  @apply text-sm;
-  color: var(--text-muted);
-}
-
-.diagram-bus {
-  @apply mr-2 font-mono text-[11px] uppercase tracking-[0.12em];
-  color: var(--accent-text);
 }
 
 .prose-lab table {

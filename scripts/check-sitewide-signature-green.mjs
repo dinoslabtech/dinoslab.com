@@ -182,7 +182,7 @@ test("remaining About route uses accent-text links and divider hairlines", () =>
   mustInclude(about, "underline", "About persistent underline");
   mustInclude(about, "divide-divider", "About divider list");
   mustInclude(about, "border-divider", "About divider border");
-  mustInclude(about, "Dino’s Lab designs solder-down modules in Ladispoli", "About copy");
+  mustInclude(about, "designs modules in Ladispoli", "About copy");
   if (LEFTOVER_CLASS.test(about)) {
     throw new Error("About still uses a compatibility color class");
   }
@@ -226,12 +226,21 @@ test("Docs empty index, thank-you and 404 use the shared shell and canonical rol
   }
 });
 
-test("homepage leftovers use divider hairlines and blog-style pointer rows", () => {
+test("homepage keeps a divider and one DNL-N6 coming-soon card", () => {
   const home = read("src/pages/index.astro");
+  const row = read("src/components/ModuleRow.astro");
+  const product = read("src/content/products/dnl-n6.md");
   mustInclude(home, "border-divider", "homepage divider");
+  mustInclude(home, "hero-logo", "homepage Logo");
+  mustInclude(home, "productStatusLabel.coming_soon", "homepage coming soon");
+  mustInclude(home, 'kind === "som"', "homepage lists modules");
   mustInclude(home, "group-hover:text-accent-text", "homepage pointer accent");
-  mustInclude(home, 'href="/products/dnl-n6"', "homepage DNL-N6 pointer");
-  mustInclude(home, 'href="/products/dnl-n6-dk"', "homepage DevKit pointer");
+  mustInclude(row, "group-hover:text-accent-text", "products row pointer accent");
+  mustInclude(product, "Industrial-control and on-site edge-AI module.", "homepage DNL-N6 line");
+  mustNotInclude(home, "ModuleRow", "homepage row");
+  mustNotInclude(home, "facts-grid", "homepage facts");
+  mustNotInclude(home, 'href="/products/dnl-n6-dk"', "homepage DevKit pointer");
+  mustNotInclude(product, "DNL-N6-32/64", "withdrawn order code");
   mustNotInclude(home, "Inspect in 3D", "homepage Inspect chrome");
   mustNotInclude(home, "ProductCard", "homepage ProductCard");
   mustNotInclude(home, "hover:underline", "homepage hover-only underline");
