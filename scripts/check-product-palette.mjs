@@ -190,8 +190,29 @@ function selectedCue(selector) {
   return (Number.isFinite(weight) && weight >= 500) || underlined;
 }
 
-console.log("SKU / viewer tabs");
-for (const tab of [".sku-tab", ".viewer-tab"]) {
+console.log("order-code columns");
+for (const theme of ["dark", "light"]) {
+  const s = SPEC[theme];
+  checkColor(".compare-table thead th", "border-top", theme, s.divider);
+  checkColor(".compare-table thead th", "border-bottom", theme, s.divider);
+  checkColor(".compare-table th", "border-bottom", theme, s.divider);
+  checkColor(".compare-table td", "border-bottom", theme, s.divider);
+  checkColor('.compare-table thead th:has([aria-pressed="true"])', "border-top-color", theme, s.accent);
+  checkColor('.compare-table th[scope="row"]', "color", theme, s.muted);
+  checkColor(".compare-table td", "color", theme, s.text);
+  checkColor(".compare-pick", "color", theme, s.muted);
+  checkColor(".compare-pick:hover", "color", theme, s.text);
+  checkColor('.compare-pick[aria-pressed="true"]', "color", theme, s.text);
+  checkColor(".compare-note", "color", theme, s.muted);
+}
+check(
+  '.compare-pick[aria-pressed="true"] non-color cue',
+  selectedCue('.compare-pick[aria-pressed="true"]') ? "present" : "missing",
+  "present",
+);
+
+console.log("viewer tabs");
+for (const tab of [".viewer-tab"]) {
   for (const theme of ["dark", "light"]) {
     const s = SPEC[theme];
     checkColor(tab, "color", theme, s.muted);
@@ -246,7 +267,7 @@ const ALIASES = [
   "--color-muted",
   "--color-highlight",
 ];
-const PRODUCT_SELECTORS = [".facts-", ".spec-table", ".sku-tab", ".viewer-", ".diagram"];
+const PRODUCT_SELECTORS = [".facts-", ".spec-table", ".compare-", ".viewer-", ".diagram"];
 
 console.log("no compatibility aliases on product selectors");
 {
@@ -262,6 +283,7 @@ console.log("no compatibility aliases on product selectors");
 }
 
 const listing = readFileSync(join(root, "src/pages/products/index.astro"), "utf8");
+const product = readFileSync(join(root, "src/content/products/dnl-n6.md"), "utf8");
 const detail = readFileSync(join(root, "src/pages/products/[id].astro"), "utf8");
 const viewer = readFileSync(join(root, "src/components/ProductViewer.astro"), "utf8");
 const mark = readFileSync(join(root, "public/mark.svg"), "utf8");
@@ -270,16 +292,25 @@ const wordmark = readFileSync(join(root, "public/wordmark.svg"), "utf8");
 console.log("product journey markup");
 check(
   "listing is blog-style rows",
-  listing.includes("STM32N6 SoM.") &&
-    listing.includes('href="/products/dnl-n6"') &&
-    !listing.includes("Eval carrier for the DNL-N6.")
+  listing.includes("ModuleRow") &&
+    listing.includes('kind === "som"') &&
+    product.includes("Industrial-control and on-site edge-AI module.") &&
+    !product.includes("Eval carrier for the DNL-N6.")
     ? "yes"
     : "no",
   "yes",
 );
 check("listing has no ProductCard", listing.includes("ProductCard") ? "yes" : "no", "no");
-check("SKU tabs expose aria-selected", /sku-tab[\s\S]*aria-selected/.test(detail) ? "yes" : "no", "yes");
-check("SKU tabs are tabs", detail.includes('role="tab"') && detail.includes("sku-tab") ? "yes" : "no", "yes");
+check(
+  "order-code column exposes aria-pressed",
+  /compare-pick[\s\S]*aria-pressed/.test(detail) ? "yes" : "no",
+  "yes",
+);
+check(
+  "order-code column is a button",
+  detail.includes('class="compare-pick"') && detail.includes('type="button"') ? "yes" : "no",
+  "yes",
+);
 check("viewer tabs expose aria-selected", /viewer-tab[\s\S]*aria-selected/.test(viewer) ? "yes" : "no", "yes");
 check("viewer empty copy", viewer.includes("CAD not exported yet") ? "yes" : "no", "yes");
 check("viewer camera-controls", viewer.includes("camera-controls") ? "yes" : "no", "yes");
