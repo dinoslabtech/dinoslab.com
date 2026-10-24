@@ -4,6 +4,21 @@ interface Props {
 }
 
 const { groups } = Astro.props;
+
+function parts(value: string) {
+  const re = /\[([^\]]+)\]\((https:\/\/[^)\s]+)\)/g;
+  const out: { text: string; href?: string }[] = [];
+  let last = 0;
+  for (const match of value.matchAll(re)) {
+    const index = match.index ?? 0;
+    if (index > last) out.push({ text: value.slice(last, index) });
+    out.push({ text: match[1], href: match[2] });
+    last = index + match[0].length;
+  }
+  if (last === 0) return null;
+  if (last < value.length) out.push({ text: value.slice(last) });
+  return out;
+}
 ---
 
 <table class="spec-table spec-groups">
@@ -18,7 +33,19 @@ const { groups } = Astro.props;
         {group.rows.map(([key, value]) => (
           <tr>
             <th scope="row">{key}</th>
-            <td>{value}</td>
+            <td>
+              {
+                parts(value)?.map((part) =>
+                  part.href ? (
+                    <a class="text-accent-text underline underline-offset-2" href={part.href}>
+                      {part.text}
+                    </a>
+                  ) : (
+                    part.text
+                  ),
+                ) ?? value
+              }
+            </td>
           </tr>
         ))}
       </tbody>
