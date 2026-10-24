@@ -42,7 +42,7 @@ const showCaption = !isHome && anyReady && missing.length > 0;
   data-empty={!isHome && !anyReady ? "true" : undefined}
 >
   {
-    !isHome && (
+    !isHome && anyReady && (
       <div class="flex flex-wrap items-center justify-between gap-3 border-b border-divider px-4 py-3 sm:px-5">
         <div class="flex flex-wrap gap-1" role="tablist" aria-label="3D model">
           {

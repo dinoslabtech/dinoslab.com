@@ -9,24 +9,22 @@ interface Props {
 
 const { product, heading = "h2" } = Astro.props;
 const Heading = heading;
-const { highlights, variants, summary, title, status } = product.data;
+const { highlights, summary, title, status } = product.data;
+const infos = highlights ?? [];
 ---
 
-<a href={`/products/${product.id}`} class="group block border-y border-divider py-8">
-  <p class="eyebrow">{productStatusLabel[status]}</p>
-  <Heading class="mt-3 text-2xl font-medium tracking-tight group-hover:text-accent-text">
-    {title}
-  </Heading>
-  <p class="mt-2 max-w-2xl text-muted">{summary}</p>
+<a href={`/products/${product.id}`} class="panel group block overflow-hidden">
+  <div class="p-6 sm:p-8">
+    <p class="eyebrow">{productStatusLabel[status]}</p>
+    <Heading class="mt-3 text-2xl font-medium tracking-tight group-hover:text-accent-text">
+      {title}
+    </Heading>
+    <p class="mt-2 max-w-2xl text-muted">{summary}</p>
+  </div>
   {
-    variants && variants.length > 0 && (
-      <p class="mt-4 font-mono text-sm text-muted">{variants.map((sku) => sku.code).join(" · ")}</p>
-    )
-  }
-  {
-    highlights && highlights.length > 0 && (
-      <div class="facts-grid mt-8">
-        {highlights.map((item) => (
+    infos.length > 0 && (
+      <div class="grid grid-cols-2 gap-px border-t border-divider bg-divider sm:grid-cols-3 lg:grid-cols-6">
+        {infos.map((item) => (
           <div class="facts-cell">
             <p class="facts-value">{item.value}</p>
             <p class="facts-label">{item.label}</p>

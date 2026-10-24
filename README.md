@@ -1,6 +1,6 @@
 # Dino's Lab
 
-Website for [dinoslab.com](https://dinoslab.com). Modules, designed in Ladispoli, built by [Acme Systems](https://www.acmesystems.it). First module: DNL-N6.
+Website for [dinoslab.com](https://dinoslab.com). Electronic Products, built by [Acme Systems](https://www.acmesystems.it). First module: DNL-N6.
 
 ## Stack
 

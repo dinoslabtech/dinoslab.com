@@ -75,11 +75,15 @@ An electronics assembly Dino's Lab designs. The customer designs the carrier it 
 _Avoid_: electronic product, DevKit, solder-down until the interconnect is picked
 
 **Tagline**:
-“Modules, designed in Ladispoli, built by Acme Systems.”
+“Electronic Products, built by Acme Systems.”
 _Avoid_: solder-down until the interconnect is picked, a Module name in the Tagline
 
+**Electronic Products**:
+The category named by the Tagline. It is not a Module.
+_Avoid_: using it as the name of the DNL-N6
+
 **Brand presentation**:
-The first block on the homepage: the Logo, then the Tagline. It does not name a Module.
+The first block on the homepage: the Logo, then the Tagline as two lines, “Electronic Products.” and “Built by Acme Systems.” It does not name a Module.
 _Avoid_: mission copy, a product hero
 
 **Interest**:
