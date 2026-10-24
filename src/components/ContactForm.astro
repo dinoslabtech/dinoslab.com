@@ -72,11 +72,7 @@ const nextUrl = new URL("/thank-you", site.url).href;
       <label class="grid gap-1.5 text-[13px]">
         <span class="font-medium">Interest</span>
         <select name="intent" required class="field js-intent">
-          <option value="" disabled selected>
-            Choose one
-          </option>
-          <option value="devkit">DNL-N6 DevKit</option>
-          <option value="som">SoM for my carrier</option>
+          <option value="som" selected>DNL-N6 SoM</option>
         </select>
       </label>
     )
@@ -84,7 +80,7 @@ const nextUrl = new URL("/thank-you", site.url).href;
 
   {
     isInterest && skus.length > 0 && (
-      <label class="js-som-only grid hidden gap-1.5 text-[13px]">
+      <label class="js-som-only grid gap-1.5 text-[13px]">
         <span class="font-medium">Order code</span>
         <select name="sku" class="field js-sku">
           {skus.map((sku) => (
@@ -97,7 +93,7 @@ const nextUrl = new URL("/thank-you", site.url).href;
 
   {
     isInterest && (
-      <label class="js-som-only grid hidden gap-1.5 text-[13px]">
+      <label class="js-som-only grid gap-1.5 text-[13px]">
         <span class="font-medium">Quantity</span>
         <select name="quantity" class="field">
           <option value="1-5">1–5</option>
