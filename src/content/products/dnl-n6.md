@@ -39,9 +39,9 @@ specGroups:
       - ["CPU clock", "Up to 800 MHz"]
       - ["NPU", "Neural-ART, up to 600 GOPS"]
       - ["On-chip SRAM", "4.2 MB"]
-      - ["Toolchain", "STM32CubeN6, CubeMX, CubeIDE, ST Edge AI Suite"]
+      - ["Toolchain", "[STM32CubeN6](https://www.st.com/en/embedded-software/stm32cuben6.html), [CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html), [CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html), [ST Edge AI Suite](https://www.st.com/content/st_com/en/st-edge-ai-suite.html)"]
   - title: Memory
     rows:
-      - ["PSRAM", "Two x16 lands. Default stuffs both, 64 MB each. DNL-N6-P1x64-F128 stuffs one."]
+      - ["PSRAM", "Two x16 lands, 64 MB each. Default uses both. DNL-N6-P1x64-F128 uses one."]
       - ["NOR", "128 MB octal, both stock codes. Boot flash."]
 ---
