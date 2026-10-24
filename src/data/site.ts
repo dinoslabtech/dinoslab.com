@@ -3,8 +3,8 @@ export const site = {
   legalName: "Dino's Lab",
   url: "https://dinoslab.com",
   description:
-    "Modules, designed in Ladispoli, built by Acme Systems. First module: DNL-N6, an STM32N657X0 module.",
-  tagline: "Modules, designed in Ladispoli, built by Acme Systems.",
+    "Electronic Products, built by Acme Systems. First module: DNL-N6, an STM32N657X0 module.",
+  tagline: "Electronic Products, built by Acme Systems.",
   email: "info@dinoslab.com",
   telegram: "https://t.me/dinoslab",
   telegramHandle: "@dinoslab",
