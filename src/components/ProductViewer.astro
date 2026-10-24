@@ -42,7 +42,7 @@ const showCaption = !isHome && anyReady && missing.length > 0;
   data-empty={!isHome && !anyReady ? "true" : undefined}
 >
   {
-    !isHome && (
+    !isHome && anyReady && (
       <div class="flex flex-wrap items-center justify-between gap-3 border-b border-divider px-4 py-3 sm:px-5">
         <div class="flex flex-wrap gap-1" role="tablist" aria-label="3D model">
           {
@@ -79,7 +79,10 @@ const showCaption = !isHome && anyReady && missing.length > 0;
           alt={initial.alt}
           camera-controls
           touch-action="pan-y"
-          camera-orbit="0deg 75deg 105%"
+          camera-orbit="25deg 72deg 130%"
+          orientation="0deg 65deg 0deg"
+          auto-rotate
+          rotation-per-second="6deg"
           interaction-prompt="none"
           shadow-intensity="0.4"
           exposure="0.9"
@@ -118,7 +121,7 @@ const showCaption = !isHome && anyReady && missing.length > 0;
 
     const tabs = root.querySelectorAll<HTMLButtonElement>("[data-mode]");
     const reset = root.querySelector<HTMLButtonElement>("[data-reset]");
-    const defaultOrbit = "0deg 75deg 105%";
+    const defaultOrbit = "25deg 72deg 130%";
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {

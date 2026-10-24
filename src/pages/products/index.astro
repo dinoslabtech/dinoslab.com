@@ -9,7 +9,7 @@ const products = (await getCollection("products")).filter((product) => product.d
 <Layout title="Products" description="DNL-N6, an STM32N657X0 module.">
   <div class="shell section">
     <h1 class="title">Products</h1>
-    <div class="mt-8">
+    <div class="mt-8 grid gap-6">
       {products.map((product) => <ModuleRow product={product} />)}
     </div>
   </div>

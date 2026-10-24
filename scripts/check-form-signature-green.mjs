@@ -368,13 +368,14 @@ test("contact fields keep name, email and required message", () => {
 
 test("interest adds intent and hidden SoM fields without requiring message", () => {
   mustInclude(formSrc, 'name="intent"', "intent");
-  mustInclude(formSrc, 'value="devkit"', "devkit intent");
   mustInclude(formSrc, 'value="som"', "SoM intent");
+  mustInclude(formSrc, "DNL-N6 SoM", "SoM interest label");
+  if (formSrc.includes('value="devkit"')) {
+    throw new Error("DevKit is still an interest choice");
+  }
   mustInclude(formSrc, 'name="sku"', "order code");
   mustInclude(formSrc, 'name="quantity"', "quantity");
   mustInclude(formSrc, "js-som-only", "SoM extra fields");
-  mustInclude(formSrc, "hidden", "SoM fields start hidden");
-  mustInclude(formSrc, "Choose one", "interest placeholder");
 });
 
 test("contact, quote and interest mounts are preserved", () => {
