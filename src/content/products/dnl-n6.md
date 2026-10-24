@@ -4,15 +4,15 @@ shortName: DNL-N6
 status: coming_soon
 kind: som
 summary: "Industrial-control and on-site edge-AI module."
-chip: STM32N657X0H3Q · Cortex-M55 · Neural-ART
+chip: STM32N6 · Cortex-M55 · Neural-ART
 category: Module
 highlights:
-  - { value: "N657X0", label: "STM32N657X0H3Q" }
-  - { value: "5–24 V", label: "Input" }
-  - { value: "2×64 MB", label: "PSRAM, default" }
-  - { value: "128 MB", label: "Octal NOR" }
-  - { value: "GbE PHY", label: "MDI to the carrier" }
-  - { value: "Camera", label: "On the carrier" }
+  - { value: "STM32N6", label: "MCU" }
+  - { value: "5-24V", label: "Input power" }
+  - { value: "2x64 MB", label: "PSRAM" }
+  - { value: "128 MB", label: "NOR Flash" }
+  - { value: "600", label: "GOPS" }
+  - { value: "GbE", label: "Gigabit Ethernet" }
 variants:
   - code: DNL-N6-P2x64-F128
     title: DNL-N6-P2x64-F128
@@ -22,15 +22,19 @@ variants:
     title: DNL-N6-P1x64-F128
     psramMb: 64
     norMb: 128
+viewer:
+  som: /models/dnl-n6.glb
+  kit: /models/dnl-n6-dk.glb
+  combined: /models/dnl-n6-on-dk.glb
 specGroups:
   - title: Power
     rows:
-      - ["Input", "About 5–24 V"]
+      - ["Input", "5–24 V"]
       - ["3.3 V", "Made on the module, for the MCU"]
       - ["1.8 V", "Made on the module, for the PSRAM and the NOR"]
   - title: Processor
     rows:
-      - ["Device", "STM32N657X0H3Q"]
+      - ["Device", "STM32N6"]
       - ["Core", "Arm Cortex-M55"]
       - ["CPU clock", "Up to 800 MHz"]
       - ["NPU", "Neural-ART, up to 600 GOPS"]
