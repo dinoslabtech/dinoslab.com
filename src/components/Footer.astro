@@ -2,36 +2,35 @@
 import { site, nav } from "@/data/site";
 import ContactLinks from "@/components/ContactLinks.astro";
 const year = new Date().getFullYear();
+const [taglineBefore, taglineAfter] = site.tagline.split(site.acme.name);
 ---
 
 <footer class="mt-auto border-t border-divider bg-canvas">
-  <div class="shell grid gap-8 py-12 sm:gap-10 sm:py-16 md:grid-cols-12">
-    <div class="md:col-span-5">
-      <div class="brand-lockup">
+  <div class="shell flex flex-col gap-8 py-10 md:flex-row md:items-start md:justify-between md:gap-12 md:py-12">
+    <div class="max-w-sm">
+      <a href="/" class="brand-lockup">
+        <span class="sr-only">{site.name}</span>
         <img src="/mark.svg" alt="" width="40" height="40" class="brand-mark" />
-        <img src="/wordmark.svg" alt={site.name} class="brand-wordmark" />
-      </div>
-      <p class="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-        {site.tagline}
+        <img src="/wordmark.svg" alt="" class="brand-wordmark" />
+      </a>
+      <p class="mt-4 text-sm leading-relaxed text-muted">
+        {taglineBefore}<a class="text-accent-text underline underline-offset-2" href={site.acme.url}>{site.acme.name}</a>{taglineAfter}
       </p>
     </div>
 
-    <div class="md:col-span-3">
-      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Site</p>
-      <ul class="mt-4 space-y-0 text-sm text-muted">
-        {nav.map((item) => (
+    <div class="flex flex-col gap-4 sm:flex-row sm:gap-12">
+      <nav aria-label="Footer">
+        <ul class="flex flex-wrap gap-x-5 text-sm text-muted">
+          {nav.map((item) => (
+            <li>
+              <a class="inline-flex min-h-11 items-center hover:text-ink" href={item.href}>{item.label}</a>
+            </li>
+          ))}
           <li>
-            <a class="inline-flex min-h-11 items-center hover:text-ink" href={item.href}>{item.label}</a>
+            <a class="inline-flex min-h-11 items-center hover:text-ink" href="/contact">Contact</a>
           </li>
-        ))}
-        <li>
-          <a class="inline-flex min-h-11 items-center hover:text-ink" href="/contact">Contact</a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="md:col-span-4">
-      <p class="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Contact</p>
+        </ul>
+      </nav>
       <ContactLinks github compact />
     </div>
   </div>

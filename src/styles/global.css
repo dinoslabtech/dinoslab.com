@@ -166,7 +166,7 @@ textarea:focus-visible {
 
 @media (max-width: 639px) {
   .section-hero .display {
-    /* 7.6vw keeps "Modules for your carrier." on one line from a 320px screen. */
+    /* 7.6vw keeps "Built by Acme Systems." on one line from a 320px screen. */
     font-size: clamp(1.5rem, 7.6vw, 2rem);
   }
 }
@@ -386,6 +386,11 @@ textarea:focus-visible {
 .brand-wordmark {
   height: 1.125rem;
   width: auto;
+}
+
+/* Identity header study: a 32px Mark beside a 130px-wide Wordmark. */
+footer .brand-wordmark {
+  height: calc(2.5rem * (130 / 32) / (2077.1 / 375.1));
 }
 
 .site-header .brand-mark {
@@ -743,6 +748,44 @@ textarea:focus-visible {
   .viewer[data-layout="home"] .viewer-canvas {
     min-height: 22rem;
     height: 22rem;
+  }
+}
+
+/* shortcut: header split is a prototype, revisit when a GLB exists */
+.product-hero {
+  display: grid;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .product-hero {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    align-items: stretch;
+  }
+
+  .product-hero .compare-code {
+    font-size: 1rem;
+  }
+
+  .product-hero-viewer {
+    display: flex;
+    min-height: 100%;
+  }
+
+  .product-hero-viewer .viewer {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+    min-height: 18rem;
+  }
+
+  .product-hero-viewer .viewer-stage,
+  .product-hero-viewer .viewer[data-empty="true"] .viewer-stage,
+  .product-hero-viewer .viewer[data-empty="true"] .viewer-empty {
+    flex: 1;
+    height: auto;
+    min-height: 18rem;
   }
 }
 
