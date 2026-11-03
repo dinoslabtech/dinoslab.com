@@ -1,5 +1,5 @@
 [submodule "identity"]
 	path = identity
-	url = https://github.com/dinoslabtech/dinoslab.git
+	url = https://github.com/dinoslabtech/identity.git
 	branch = main
 	update = none
