@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dinoslab.com/sitemap-index.xml

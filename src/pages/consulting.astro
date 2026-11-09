@@ -1,0 +1,94 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageIntro from "@/components/PageIntro.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import ContactLinks from "@/components/ContactLinks.astro";
+import { site } from "@/data/site";
+
+const steps = [
+  {
+    title: "Schematic",
+    body: "Requirements, architecture, and component selection. The schematic is drawn for manufacture, not only for the bench.",
+  },
+  {
+    title: "Layout",
+    body: "PCB layout including RF, power distribution, and fine-pitch BGAs where the design requires it.",
+  },
+  {
+    title: "Firmware and software",
+    body: "Bring-up, drivers, and application software — a Linux image, a service, or a user interface as needed.",
+  },
+  {
+    title: "Prototype",
+    body: "A first assembled lot for bring-up and revision.",
+  },
+  {
+    title: "Series production",
+    body: "Assembly through Acme Systems. Prototype quantities through tens of thousands per month.",
+  },
+];
+---
+
+<Layout
+  title="Consulting"
+  description="Schematic, PCB layout, firmware, and board assembly from prototype to series production."
+>
+  <div class="shell section">
+    <PageIntro title="Consulting">
+      Custom work on request — schematic, layout, firmware, and assembled
+      boards. The product line is the DNL-N6.
+    </PageIntro>
+  </div>
+
+  <section class="border-y border-divider bg-canvas">
+    <div class="shell section">
+      <h2 class="text-3xl font-medium tracking-tight">From schematic to assembled board</h2>
+      <ol class="mt-8 divide-y divide-divider border-y border-divider">
+        {
+          steps.map((step, i) => (
+            <li class="grid gap-2 py-6 md:grid-cols-[5rem_1fr] md:gap-10">
+              <span class="font-mono text-sm text-accent-text">{String(i + 1).padStart(2, "0")}</span>
+              <div>
+                <h3 class="font-medium tracking-tight">{step.title}</h3>
+                <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">{step.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="border-b border-divider">
+    <div class="shell section grid gap-8 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <h2 class="text-3xl font-medium tracking-tight">Assembly</h2>
+      </div>
+      <p class="max-w-2xl text-[17px] leading-relaxed text-muted lg:col-span-8">
+        Boards are assembled under a production agreement with{" "}
+        <a class="text-accent-text underline underline-offset-2" href={site.acme.url}>
+          {site.acme.name}
+        </a>
+        . SMT pick-and-place, vapour-phase reflow, through-hole, and test.
+        Quantities from first prototypes to tens of thousands per month.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell section grid gap-8 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5">
+        <h2 class="text-3xl font-medium tracking-tight">Request a quote</h2>
+        <p class="mt-4 text-sm leading-relaxed text-muted">
+          Function, estimated quantity, and target date. Reply by email.
+        </p>
+        <div class="mt-8">
+          <ContactLinks />
+        </div>
+      </div>
+      <div class="panel-raised p-6 sm:p-8 lg:col-span-7">
+        <ContactForm name="quote" />
+      </div>
+    </div>
+  </section>
+</Layout>

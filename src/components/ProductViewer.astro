@@ -1,0 +1,73 @@
+---
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+interface Props {
+  src: string;
+}
+
+const { src } = Astro.props;
+const ready = existsSync(join(process.cwd(), "public", src.replace(/^\//, "")));
+---
+
+<div class="viewer panel-raised relative" data-viewer>
+  {
+    ready && (
+      <button type="button" class="btn-ghost absolute top-3 right-3 z-10" data-reset>
+        Reset
+      </button>
+    )
+  }
+  <div class="viewer-stage">
+    {
+      ready ? (
+        <model-viewer
+          class="viewer-canvas"
+          src={src}
+          alt="DNL-N6 module"
+          camera-controls
+          touch-action="pan-y"
+          camera-orbit="25deg 72deg 130%"
+          orientation="0deg 65deg 0deg"
+          auto-rotate
+          rotation-per-second="6deg"
+          interaction-prompt="none"
+          shadow-intensity="0.4"
+          exposure="0.9"
+        />
+      ) : (
+        <p class="viewer-empty">CAD in progress.</p>
+      )
+    }
+  </div>
+</div>
+
+<script>
+  type ViewerEl = HTMLElement & {
+    cameraOrbit: string;
+    cameraTarget: string;
+    jumpCameraToGoal: () => void;
+  };
+
+  async function initViewer(root: Element) {
+    const viewer = root.querySelector("model-viewer") as ViewerEl | null;
+    if (!viewer) return;
+
+    await import("@google/model-viewer");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      viewer.removeAttribute("camera-controls");
+    }
+
+    const reset = root.querySelector("[data-reset]");
+    reset?.addEventListener("click", () => {
+      viewer.cameraOrbit = "0deg 75deg 105%";
+      viewer.cameraTarget = "auto auto auto";
+      viewer.jumpCameraToGoal();
+    });
+  }
+
+  document.querySelectorAll("[data-viewer]").forEach((root) => {
+    void initViewer(root);
+  });
+</script>

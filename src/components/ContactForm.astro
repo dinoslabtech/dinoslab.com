@@ -1,0 +1,114 @@
+---
+import { site } from "@/data/site";
+
+interface Sku {
+  code: string;
+  title: string;
+}
+
+interface Props {
+  name?: string;
+  heading?: string;
+  product?: string;
+  variant?: "contact" | "interest";
+  skus?: Sku[];
+}
+
+const {
+  name = "contact",
+  heading,
+  product,
+  variant = "contact",
+  skus = [],
+} = Astro.props;
+
+const isInterest = variant === "interest";
+
+const subjects: Record<string, string> = {
+  contact: `${site.name} — contact`,
+  quote: `${site.name} — quote request`,
+  interest: `${site.name} — module interest`,
+};
+
+const action = `https://formsubmit.co/${site.email}`;
+const nextUrl = new URL("/thank-you", site.url).href;
+---
+
+<form
+  name={name}
+  method="POST"
+  action={action}
+  class="js-mail-form grid gap-4"
+  data-interest={isInterest ? "true" : undefined}
+>
+  <input type="hidden" name="_subject" value={subjects[name] ?? subjects.contact} />
+  <input type="hidden" name="_template" value="table" />
+  <input type="hidden" name="_captcha" value="false" />
+  <input type="hidden" name="_next" value={nextUrl} />
+  <input type="hidden" name="form" value={name} />
+  {product && <input type="hidden" name="product" value={product} />}
+
+  <p class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+    <label>
+      Leave empty
+      <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
+    </label>
+  </p>
+
+  {heading && <p class="text-base leading-[1.45]">{heading}</p>}
+
+  <label class="grid gap-1.5 text-base leading-[1.45]">
+    <span>Name</span>
+    <input type="text" name="name" required autocomplete="name" class="field" />
+  </label>
+
+  <label class="grid gap-1.5 text-base leading-[1.45]">
+    <span>Email</span>
+    <input type="email" name="email" required autocomplete="email" class="field" />
+  </label>
+
+  {
+    isInterest && skus.length > 0 && (
+      <label class="grid gap-1.5 text-base leading-[1.45]">
+        <span>Order code</span>
+        <select name="order-code" required class="field order-code">
+          {skus.map((sku, index) => (
+            <option value={sku.code} selected={index === 0}>
+              {sku.code}
+            </option>
+          ))}
+        </select>
+      </label>
+    )
+  }
+
+  {
+    isInterest && (
+      <label class="grid gap-1.5 text-base leading-[1.45]">
+        <span>Quantity</span>
+        <select name="quantity" required class="field">
+          <option value="1-5">1–5</option>
+          <option value="6-20">6–20</option>
+          <option value="21-100">21–100</option>
+          <option value="100+">100+</option>
+        </select>
+      </label>
+    )
+  }
+
+  <label class="grid gap-1.5 text-base leading-[1.45]">
+    <span>Message</span>
+    <textarea name="message" rows="5" required={!isInterest} class="field min-h-[8rem] resize-y" />
+  </label>
+
+  <button type="submit" class="btn-primary mt-1 justify-self-start">
+    {isInterest ? "Register interest" : "Send"}
+  </button>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("form.js-mail-form").forEach((form) => {
+    const next = form.querySelector<HTMLInputElement>("input[name='_next']");
+    if (next) next.value = `${window.location.origin}/thank-you`;
+  });
+</script>

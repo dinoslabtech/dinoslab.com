@@ -1,0 +1,187 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ContactForm from "@/components/ContactForm.astro";
+import ProductViewer from "@/components/ProductViewer.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const products = await getCollection("products");
+  return products
+    .filter((product) => product.id === "dnl-n6")
+    .map((product) => ({
+      params: { id: product.id },
+      props: { product },
+    }));
+}
+
+const { product } = Astro.props;
+
+const orderCodes = [
+  {
+    code: "DNL-N6-P2x64-F128",
+    sentence: "Two x16 PSRAM dice, 64 MB each, and one 128 MB octal NOR.",
+    psram: "128 MB",
+  },
+  {
+    code: "DNL-N6-P1x64-F128",
+    sentence: "One x16 PSRAM die, 64 MB, and one 128 MB octal NOR.",
+    psram: "64 MB",
+  },
+];
+
+const figures = [
+  { value: "STM32N657", label: "Cortex-M55 and Neural-ART" },
+  { value: orderCodes[0].psram, label: "x16 PSRAM", psram: true },
+  { value: "128 MB", label: "octal NOR" },
+  { value: "About 5–24 V", label: "from the Carrier" },
+  { value: "Gigabit PHY", label: "on the module" },
+  { value: "CSI-2", label: "two data lanes" },
+];
+
+const onModule = [
+  "the STM32N657 with 4.2 MB SRAM and no on-chip flash",
+  "x16 PSRAM and the octal NOR",
+  "the Gigabit PHY",
+  "3.3 V and 1.8 V made from the Carrier’s supply",
+];
+
+const onCarrier = [
+  "about 5–24 V in",
+  "magnetics, the jack, four MDI pairs, two LED nets, center-tap from the module’s 3.3 V",
+  "a CSI-2 connector",
+  "two USB high-speed ports, one with the USB-C CC pins",
+  "SWD, reset, and BOOT0",
+  "the rest of the I/O when the interconnect is accepted",
+];
+
+const notes = (await getCollection("blog"))
+  .filter((post) => post.data.tags.includes("n6") && post.id !== "systemctl-tutorial")
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+---
+
+<Layout title={product.data.title} description={product.data.summary}>
+  <article class="shell product-stack">
+    <header class="measure flex flex-col items-start gap-3">
+      <h1 class="title">DNL-N6</h1>
+      <p>{product.data.summary}</p>
+      <p class="text-muted">Not for sale yet.</p>
+      <a href="#interest" class="btn-primary mt-3">Register interest</a>
+      <fieldset class="mt-3 grid gap-1 border-0 p-0">
+        <legend class="sr-only">Order code</legend>
+        {
+          orderCodes.map((item, index) => (
+            <label class="flex min-h-11 items-center gap-3">
+              <input
+                type="radio"
+                name="order-code-pick"
+                value={item.code}
+                checked={index === 0}
+                data-sentence={item.sentence}
+                data-psram={item.psram}
+              />
+              <span class="order-code">{item.code}</span>
+            </label>
+          ))
+        }
+      </fieldset>
+      <p data-stuffing aria-live="polite">{orderCodes[0].sentence}</p>
+    </header>
+
+    <ProductViewer src="/models/dnl-n6.glb" />
+
+    <section class="figures" aria-label="Figures">
+      {
+        figures.map((item) => (
+          <div>
+            <p class="figure-value" data-psram-value={item.psram ? "yes" : undefined} aria-live={item.psram ? "polite" : undefined}>
+              {item.value}
+            </p>
+            <p class="figure-label">{item.label}</p>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class="place-split">
+      <div>
+        <h2 class="title">On the module</h2>
+        <ul class="stack-list">
+          {onModule.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="title">On the Carrier</h2>
+        <ul class="stack-list">
+          {onCarrier.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="measure">
+      <h2 class="title">Open.</h2>
+      <div class="mt-3 grid gap-1">
+        <p>Interconnect</p>
+        <p>Outline</p>
+      </div>
+    </section>
+
+    <section class="measure">
+      <h2 class="title">Notes.</h2>
+      <ul class="mt-3 grid gap-2">
+        {
+          notes.map((item) => (
+            <li>
+              <a class="text-accent-text underline underline-offset-[0.18em]" href={`/blog/${item.id}`}>
+                {item.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="interest" class="measure">
+      <h2 class="title">Register interest.</h2>
+      <p class="mt-2 text-base leading-[1.45] text-muted">This is not an order.</p>
+      <div class="panel-raised mt-6 p-5 sm:p-6">
+        <ContactForm
+          name="interest"
+          variant="interest"
+          product={product.data.shortName}
+          skus={orderCodes.map((item) => ({ code: item.code, title: item.code }))}
+        />
+      </div>
+    </section>
+  </article>
+</Layout>
+
+<script>
+  const sentence = document.querySelector("[data-stuffing]");
+  const psram = document.querySelector("[data-psram-value]");
+  const radios = [...document.querySelectorAll('input[name="order-code-pick"]')];
+  const select = document.querySelector('select[name="order-code"]');
+
+  function apply(radio: HTMLInputElement) {
+    if (!sentence || !psram) return;
+    sentence.textContent = radio.dataset.sentence ?? "";
+    psram.textContent = radio.dataset.psram ?? "";
+    for (const item of radios) {
+      if (item instanceof HTMLInputElement) item.checked = item === radio;
+    }
+    if (select instanceof HTMLSelectElement && select.value !== radio.value) {
+      select.value = radio.value;
+    }
+  }
+
+  for (const radio of radios) {
+    radio.addEventListener("change", () => {
+      if (radio instanceof HTMLInputElement && radio.checked) apply(radio);
+    });
+  }
+
+  select?.addEventListener("change", () => {
+    if (!(select instanceof HTMLSelectElement)) return;
+    const radio = radios.find((item) => item instanceof HTMLInputElement && item.value === select.value);
+    if (radio instanceof HTMLInputElement) apply(radio);
+  });
+</script>

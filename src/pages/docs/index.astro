@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageIntro from "@/components/PageIntro.astro";
+---
+
+<Layout
+  title="Docs"
+  description="Technical documentation for Dino’s Lab modules. Nothing published yet."
+>
+  <div class="shell section">
+    <PageIntro title="Docs">
+      Datasheets, pinouts, and bring-up notes will be published with the first module.
+    </PageIntro>
+
+    <p class="mt-10 max-w-xl text-sm leading-relaxed text-muted">
+      Nothing here yet. For the N6,{" "}
+      <a class="text-accent-text underline underline-offset-2" href="/products/dnl-n6#interest">register interest</a>
+      {" "}to get the documents when they exist. Notes on CSI-2, HexaSPI, and the
+      memories on the module are in the{" "}
+      <a class="text-accent-text underline underline-offset-2" href="/blog">blog</a>.
+    </p>
+  </div>
+</Layout>

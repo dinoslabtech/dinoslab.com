@@ -1,0 +1,14 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { site } from "@/data/site";
+---
+
+<Layout title="Sent" description="Message received." noindex>
+  <div class="shell section max-w-xl">
+    <h1 class="display">Received.</h1>
+    <p class="lead mt-4">
+      Reply will come from {site.email}.
+    </p>
+    <a href="/" class="btn-secondary mt-10">Home</a>
+  </div>
+</Layout>

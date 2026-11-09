@@ -1,0 +1,47 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { productStatusLabel, site } from "@/data/site";
+import { getCollection } from "astro:content";
+
+const products = (await getCollection("products")).filter(
+  (product) => product.data.kind === "som" && product.data.status === "coming_soon",
+);
+---
+
+<Layout>
+  <section class="border-b border-divider">
+    <div class="shell home-pad">
+      <div class="home-hero">
+        <div class="home-hero-copy">
+          <h1 class="home-wordmark-wrap">
+            <span class="sr-only">{site.name}</span>
+            <img src="/wordmark.svg" alt="" class="home-wordmark" />
+          </h1>
+          <p class="text-muted">{site.tagline}</p>
+        </div>
+        <img
+          src="/mark.svg"
+          alt="Dino’s Lab mark: a sauropod with PCB traces along its back"
+          class="hero-mark"
+          width="120"
+          height="120"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-divider">
+    <div class="shell home-pad">
+      <a href="/products/dnl-n6" class="group grid gap-2">
+        <h2 class="title group-hover:text-accent-text group-focus-visible:text-accent-text">DNL-N6</h2>
+        <p class="text-muted">Not for sale yet.</p>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="shell home-pad">
+      <a class="text-accent-text underline underline-offset-[0.18em]" href="/contact">{site.email}</a>
+    </div>
+  </section>
+</Layout>

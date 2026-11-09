@@ -1,0 +1,238 @@
+#!/usr/bin/env node
+/**
+ * Product journey Palette check.
+ *
+ * Seam: delivered product listing/detail/viewer CSS roles.
+ * Expected hex values are Signature Green literals from the identity spec,
+ * not values copied out of the product CSS under test.
+ *
+ * Resolution uses src/styles/palette.css only. Tailwind theme tokens in
+ * global.css do not count as the Palette source.
+ */
+
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { PALETTE as SPEC } from "./signature-green-palette.mjs";
+
+const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+const paletteCss = readFileSync(join(root, "src/styles/palette.css"), "utf8");
+const globalCss = readFileSync(join(root, "src/styles/global.css"), "utf8");
+
+function stripComments(css) {
+  return css.replace(/\/\*[\s\S]*?\*\//g, "");
+}
+
+function parseDecls(block) {
+  const decls = {};
+  for (const part of block.split(";")) {
+    const trimmed = part.trim();
+    if (!trimmed) continue;
+    const colon = trimmed.indexOf(":");
+    if (colon < 1) continue;
+    const prop = trimmed.slice(0, colon).trim();
+    const value = trimmed.slice(colon + 1).trim();
+    decls[prop] = value;
+  }
+  return decls;
+}
+
+function parseRules(css) {
+  const src = stripComments(css);
+  const rules = [];
+  const stack = [];
+  let i = 0;
+  let prelude = "";
+
+  while (i < src.length) {
+    const ch = src[i];
+    if (ch === "{") {
+      stack.push(prelude.trim());
+      prelude = "";
+      i += 1;
+      continue;
+    }
+    if (ch === "}") {
+      const selector = stack.pop() ?? "";
+      const body = prelude.trim();
+      prelude = "";
+      if (selector && !selector.startsWith("@") && body && !body.includes("{")) {
+        rules.push({ selector, decls: parseDecls(body) });
+      }
+      i += 1;
+      continue;
+    }
+    prelude += ch;
+    i += 1;
+  }
+  return rules;
+}
+
+function selectorParts(selector) {
+  return selector.split(",").map((s) => s.trim());
+}
+
+function parsePalette(css) {
+  const dark = {};
+  const light = {};
+  for (const rule of parseRules(css)) {
+    const parts = selectorParts(rule.selector);
+    const onRoot = parts.includes(":root");
+    const onDark = parts.includes('[data-theme="dark"]') || onRoot;
+    const onLight = parts.includes('[data-theme="light"]') || (onRoot && !parts.includes('[data-theme="dark"]'));
+    if (onDark) Object.assign(dark, rule.decls);
+    if (onLight) Object.assign(light, rule.decls);
+  }
+  if (!dark["--surface-canvas"] || !light["--accent-text"]) {
+    throw new Error("palette.css did not yield Signature Green role maps");
+  }
+  return { dark, light };
+}
+
+function hex(value) {
+  const match = String(value).trim().match(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/);
+  if (!match) return null;
+  let h = match[1].toLowerCase();
+  if (h.length === 3) h = h.split("").map((c) => c + c).join("");
+  return `#${h.toUpperCase()}`;
+}
+
+function resolveVar(name, theme, seen = new Set()) {
+  if (seen.has(name)) return null;
+  seen.add(name);
+  const raw = theme[name];
+  if (!raw) return null;
+  const asHex = hex(raw);
+  if (asHex) return asHex;
+  const ref = raw.match(/^var\((--[\w-]+)\)\s*$/);
+  if (ref) return resolveVar(ref[1], theme, seen);
+  return null;
+}
+
+function colorIn(value, theme) {
+  if (!value) return null;
+  const asHex = hex(value);
+  if (asHex) return asHex;
+  const refs = [...value.matchAll(/var\((--[\w-]+)\)/g)].map((m) => m[1]);
+  if (refs.length === 0) return null;
+  return resolveVar(refs[0], theme);
+}
+
+function selectorMatches(ruleSelector, target) {
+  return ruleSelector
+    .split(",")
+    .map((s) => s.trim())
+    .some((s) => s === target);
+}
+
+function declsFor(rules, selector) {
+  const out = {};
+  for (const rule of rules) {
+    if (selectorMatches(rule.selector, selector)) Object.assign(out, rule.decls);
+  }
+  return out;
+}
+
+function firstColor(selector, prop, theme) {
+  for (const rule of rules) {
+    if (!selectorMatches(rule.selector, selector)) continue;
+    const actual = colorIn(rule.decls[prop], theme);
+    if (actual) return actual;
+  }
+  return colorIn(declsFor(rules, selector)[prop], theme);
+}
+
+const palette = parsePalette(paletteCss);
+const rules = parseRules(globalCss);
+let failed = 0;
+
+function check(label, actual, expected) {
+  if (actual === expected) {
+    console.log(`  ok  ${label} → ${actual}`);
+    return;
+  }
+  failed += 1;
+  console.log(`  FAIL ${label}\n       got ${actual}\n       expected ${expected}`);
+}
+
+function checkColor(selector, prop, themeName, expected) {
+  const actual = firstColor(selector, prop, palette[themeName]);
+  check(`${selector} ${prop} [${themeName}]`, actual, expected);
+}
+
+console.log("figures");
+for (const theme of ["dark", "light"]) {
+  const s = SPEC[theme];
+  checkColor(".figures", "border-top", theme, s.divider);
+  checkColor(".figure-value", "color", theme, s.text);
+  checkColor(".figure-label", "color", theme, s.muted);
+}
+
+console.log("viewer canvas / empty");
+for (const theme of ["dark", "light"]) {
+  const s = SPEC[theme];
+  checkColor(".viewer-stage", "background", theme, s.canvas);
+  checkColor(".viewer-canvas", "background", theme, s.canvas);
+  checkColor(".viewer-canvas", "--poster-color", theme, s.canvas);
+  checkColor(".viewer-empty", "color", theme, s.muted);
+}
+
+const ALIASES = [
+  "--color-void",
+  "--color-paper",
+  "--color-panel",
+  "--color-raised",
+  "--color-line",
+  "--color-lab",
+  "--color-ink",
+  "--color-muted",
+  "--color-highlight",
+];
+const PRODUCT_SELECTORS = [".figure", ".viewer-"];
+
+console.log("no compatibility aliases on product selectors");
+{
+  const hits = [];
+  for (const rule of rules) {
+    if (!PRODUCT_SELECTORS.some((prefix) => rule.selector.includes(prefix))) continue;
+    const blob = Object.values(rule.decls).join(" ");
+    for (const alias of ALIASES) {
+      if (blob.includes(alias)) hits.push(`${rule.selector} ${alias}`);
+    }
+  }
+  check("product CSS alias leftovers", hits.length === 0 ? "none" : hits.join("; "), "none");
+}
+
+const listing = readFileSync(join(root, "src/pages/products/index.astro"), "utf8");
+const product = readFileSync(join(root, "src/content/products/dnl-n6.md"), "utf8");
+const detail = readFileSync(join(root, "src/pages/products/[id].astro"), "utf8");
+const viewer = readFileSync(join(root, "src/components/ProductViewer.astro"), "utf8");
+const mark = readFileSync(join(root, "public/mark.svg"), "utf8");
+const wordmark = readFileSync(join(root, "public/wordmark.svg"), "utf8");
+
+console.log("product journey markup");
+check(
+  "listing is the module row",
+  listing.includes("DNL-N6") && listing.includes("STM32N657 module. Not for sale yet.") && !listing.includes("DevKit") ? "yes" : "no",
+  "yes",
+);
+check("listing has no ProductCard", listing.includes("ProductCard") ? "yes" : "no", "no");
+check(
+  "order codes are radios",
+  detail.includes('type="radio"') && detail.includes("DNL-N6-P2x64-F128") && detail.includes("DNL-N6-P1x64-F128") ? "yes" : "no",
+  "yes",
+);
+check("detail has no SKU tabs or FMC", detail.includes("sku-tab") || detail.includes("FMC") ? "yes" : "no", "no");
+check("viewer has no second model", viewer.includes("viewer-tab") || viewer.includes("DevKit") ? "yes" : "no", "no");
+check("viewer empty copy", viewer.includes("CAD in progress.") ? "yes" : "no", "yes");
+check("viewer camera-controls", viewer.includes("camera-controls") ? "yes" : "no", "yes");
+check("viewer canvas class", viewer.includes('class="viewer-canvas"') ? "yes" : "no", "yes");
+check("viewer raised chrome", viewer.includes("panel-raised") ? "yes" : "no", "yes");
+check("Mark is Brand green", mark.includes('fill="#2D9282"') ? "#2D9282" : "missing", "#2D9282");
+check("Wordmark is Brand green", wordmark.includes("#2D9282") ? "#2D9282" : "missing", "#2D9282");
+
+if (failed > 0) {
+  console.error(`\n${failed} check(s) failed`);
+  process.exit(1);
+}
+console.log("\nall checks passed");

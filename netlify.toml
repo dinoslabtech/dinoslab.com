@@ -1,0 +1,42 @@
+# Production builds from `main`. Branch deploys (e.g. `dev`) are optional
+# and must be enabled in the Netlify UI:
+# Project configuration → Build & deploy → Branches and deploy contexts.
+#
+# Password-protecting non-production URLs is a Netlify plan setting, not
+# something this file can do on the free tier:
+# Project configuration → General → Visitor access.
+
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  PNPM_VERSION = "10"
+
+[dev]
+  command = "pnpm dev"
+  targetPort = 4321
+  framework = "#custom"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Phones open a contact only when the type is declared. nosniff above
+# blocks them from guessing it. Short cache so a number change shows up.
+[[headers]]
+  for = "/dinoslab.vcf"
+  [headers.values]
+    Content-Type = "text/vcard; charset=utf-8"
+    Cache-Control = "public, max-age=3600"
+
+# The DevKit has no product page. Old visits land on the module.
+[[redirects]]
+  from = "/products/dnl-n6-dk"
+  to = "/products/dnl-n6"
+  status = 301

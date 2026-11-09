@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Dino's Lab OG</title>
+    <!-- Signature Green: Logo in #2D9282 on canvas #121817. -->
+    <style>
+      @font-face {
+        font-family: "Inter Variable";
+        font-style: normal;
+        font-weight: 100 900;
+        font-display: block;
+        src: url("../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+          format("woff2-variations");
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #121817;
+        color: #edf2ef;
+        font-family: "Inter Variable", "Liberation Sans", sans-serif;
+      }
+
+      .bar {
+        height: 3px;
+        background: #2d9282;
+      }
+
+      .card {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        box-sizing: border-box;
+        height: 627px;
+        padding: 0 96px;
+      }
+
+      .logo {
+        width: 420px;
+        height: 420px;
+        flex-shrink: 0;
+      }
+
+      p {
+        margin: 0;
+        font-size: 36px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
+        line-height: 1.25;
+        color: #b2beb8;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar"></div>
+    <div class="card">
+      <img class="logo" src="../public/logo.svg" alt="" />
+      <p>DNL-N6 · STM32N657X0</p>
+    </div>
+  </body>
+</html>

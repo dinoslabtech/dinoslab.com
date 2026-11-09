@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { site } from "@/data/site";
+---
+
+<Layout
+  title="About"
+  description="Dino's Lab designs modules in Ladispoli. Acme Systems builds them."
+>
+  <div class="shell section">
+    <h1 class="title">About</h1>
+
+    <div class="mt-10 grid gap-8 lg:grid-cols-12">
+      <div class="space-y-5 text-[17px] leading-relaxed text-muted lg:col-span-7">
+        <p>
+          Dino’s Lab designs solder-down modules in Ladispoli. The first board is the DNL-N6, an STM32N6 SoM
+          for a carrier you design.
+        </p>
+        <p>
+          <a class="text-accent-text underline underline-offset-2" href={site.acme.url}>
+            {site.acme.name}
+          </a>
+          {" "}
+          builds the modules: SMT pick-and-place, vapour-phase reflow, through-hole completion, and test.
+        </p>
+      </div>
+
+      <dl class="h-fit divide-y divide-divider border-y border-divider lg:col-span-5">
+        <div class="grid grid-cols-[7rem_1fr] gap-4 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Location</dt>
+          <dd>{site.location}</dd>
+        </div>
+        <div class="grid grid-cols-[7rem_1fr] gap-4 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Acme Systems</dt>
+          <dd>
+            <a class="text-accent-text underline underline-offset-2" href={site.acme.url}>{site.acme.name}</a>
+          </dd>
+        </div>
+        <div class="grid grid-cols-[7rem_1fr] gap-4 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">GitHub</dt>
+          <dd>
+            <a class="text-accent-text underline underline-offset-2" href={site.github}>{site.githubHandle}</a>
+          </dd>
+        </div>
+        <div class="grid grid-cols-[7rem_1fr] gap-4 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Email</dt>
+          <dd>
+            <a class="text-accent-text underline underline-offset-2" href={`mailto:${site.email}`}>{site.email}</a>
+          </dd>
+        </div>
+        <div class="grid grid-cols-[7rem_1fr] gap-4 py-4 text-sm">
+          <dt class="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Telegram</dt>
+          <dd>
+            <a class="text-accent-text underline underline-offset-2" href={site.telegram}>{site.telegramHandle}</a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</Layout>

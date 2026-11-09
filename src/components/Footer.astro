@@ -1,0 +1,42 @@
+---
+import { site, nav } from "@/data/site";
+import ContactLinks from "@/components/ContactLinks.astro";
+const year = new Date().getFullYear();
+const [taglineBefore, taglineAfter] = site.tagline.split(site.acme.name);
+---
+
+<footer class="mt-auto border-t border-divider bg-canvas text-base leading-[1.45]">
+  <div class="shell grid gap-8 py-12 sm:gap-10 sm:py-16 md:grid-cols-12">
+    <div class="md:col-span-5">
+      <div class="brand-lockup">
+        <img src="/mark.svg" alt="" width="44" height="44" class="brand-mark" />
+        <img src="/wordmark.svg" alt={site.name} class="brand-wordmark" />
+      </div>
+    </div>
+
+    <div class="md:col-span-3">
+      <p class="text-muted">Site</p>
+      <ul class="mt-4 space-y-0 text-muted">
+        {nav.map((item) => (
+          <li>
+            <a class="inline-flex min-h-11 items-center hover:text-ink" href="/contact">Contact</a>
+          </li>
+        ))}
+        <li>
+          <a class="inline-flex min-h-11 items-center hover:text-ink" href="/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="md:col-span-4">
+      <p class="mb-3 text-muted">Contact</p>
+      <ContactLinks github compact />
+    </div>
+  </div>
+  <div class="border-t border-divider">
+    <div class="shell flex flex-col gap-2 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] text-muted sm:flex-row sm:justify-between">
+      <p>© {year} {site.legalName}</p>
+      <p>{site.location}</p>
+    </div>
+  </div>
+</footer>
