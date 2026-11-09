@@ -35,15 +35,9 @@ pnpm preview
 
 ## Git
 
-| Branch | Role |
-|--------|------|
-| `main` | Production. Netlify publishes this to dinoslab.com. |
-| `dev` | Integration. Work and test here. Run it locally with `pnpm dev`. |
-| `feat/…` | Short-lived branches off `dev`. |
+`main` is the only long-lived branch. Netlify publishes it to dinoslab.com. Short-lived `feat/…` branches start from `main`.
 
-Do not push experiments to `main`.
-
-Version lives in `package.json`. Site releases are tagged `vX.Y.Z` on `main` only. Do not tag `dev`.
+Version lives in `package.json`. Site releases are tagged `vX.Y.Z` on `main`.
 
 ## Netlify
 

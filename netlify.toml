@@ -1,6 +1,4 @@
-# Production builds from `main`. Branch deploys (e.g. `dev`) are optional
-# and must be enabled in the Netlify UI:
-# Project configuration → Build & deploy → Branches and deploy contexts.
+# Production builds from `main`.
 #
 # Password-protecting non-production URLs is a Netlify plan setting, not
 # something this file can do on the free tier:
