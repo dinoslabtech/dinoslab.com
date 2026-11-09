@@ -55,27 +55,36 @@ const nextUrl = new URL("/thank-you", site.url).href;
     </label>
   </p>
 
-  {heading && <p class="text-base leading-[1.45]">{heading}</p>}
+  {heading && <p class="text-sm font-medium">{heading}</p>}
 
-  <label class="grid gap-1.5 text-base leading-[1.45]">
-    <span>Name</span>
+  <label class="grid gap-1.5 text-[13px]">
+    <span class="font-medium">Name</span>
     <input type="text" name="name" required autocomplete="name" class="field" />
   </label>
 
-  <label class="grid gap-1.5 text-base leading-[1.45]">
-    <span>Email</span>
+  <label class="grid gap-1.5 text-[13px]">
+    <span class="font-medium">Email</span>
     <input type="email" name="email" required autocomplete="email" class="field" />
   </label>
 
   {
+    isInterest && (
+      <label class="grid gap-1.5 text-[13px]">
+        <span class="font-medium">Interest</span>
+        <select name="intent" required class="field js-intent">
+          <option value="som" selected>DNL-N6 SoM</option>
+        </select>
+      </label>
+    )
+  }
+
+  {
     isInterest && skus.length > 0 && (
-      <label class="grid gap-1.5 text-base leading-[1.45]">
-        <span>Order code</span>
-        <select name="order-code" required class="field order-code">
-          {skus.map((sku, index) => (
-            <option value={sku.code} selected={index === 0}>
-              {sku.code}
-            </option>
+      <label class="js-som-only grid gap-1.5 text-[13px]">
+        <span class="font-medium">Order code</span>
+        <select name="sku" class="field js-sku">
+          {skus.map((sku) => (
+            <option value={sku.code}>{sku.title}</option>
           ))}
         </select>
       </label>
@@ -84,9 +93,9 @@ const nextUrl = new URL("/thank-you", site.url).href;
 
   {
     isInterest && (
-      <label class="grid gap-1.5 text-base leading-[1.45]">
-        <span>Quantity</span>
-        <select name="quantity" required class="field">
+      <label class="js-som-only grid gap-1.5 text-[13px]">
+        <span class="font-medium">Quantity</span>
+        <select name="quantity" class="field">
           <option value="1-5">1–5</option>
           <option value="6-20">6–20</option>
           <option value="21-100">21–100</option>
@@ -96,8 +105,8 @@ const nextUrl = new URL("/thank-you", site.url).href;
     )
   }
 
-  <label class="grid gap-1.5 text-base leading-[1.45]">
-    <span>Message</span>
+  <label class="grid gap-1.5 text-[13px]">
+    <span class="font-medium">Message</span>
     <textarea name="message" rows="5" required={!isInterest} class="field min-h-[8rem] resize-y" />
   </label>
 
@@ -110,5 +119,27 @@ const nextUrl = new URL("/thank-you", site.url).href;
   document.querySelectorAll<HTMLFormElement>("form.js-mail-form").forEach((form) => {
     const next = form.querySelector<HTMLInputElement>("input[name='_next']");
     if (next) next.value = `${window.location.origin}/thank-you`;
+
+    const intent = form.querySelector<HTMLSelectElement>(".js-intent");
+    const somFields = form.querySelectorAll<HTMLElement>(".js-som-only");
+    const sku = form.querySelector<HTMLSelectElement>(".js-sku");
+
+    function syncSom() {
+      const show = intent?.value === "som";
+      somFields.forEach((field) => {
+        field.classList.toggle("hidden", !show);
+        field.querySelectorAll("select").forEach((select) => {
+          select.required = Boolean(show);
+        });
+      });
+    }
+
+    intent?.addEventListener("change", syncSom);
+    syncSom();
+
+    window.addEventListener("dnl-sku", ((event: CustomEvent<string>) => {
+      if (!sku || !event.detail) return;
+      sku.value = event.detail;
+    }) as EventListener);
   });
 </script>

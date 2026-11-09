@@ -160,12 +160,75 @@ function checkColor(selector, prop, themeName, expected) {
   check(`${selector} ${prop} [${themeName}]`, actual, expected);
 }
 
-console.log("figures");
+console.log("facts grid / cells");
 for (const theme of ["dark", "light"]) {
   const s = SPEC[theme];
-  checkColor(".figures", "border-top", theme, s.divider);
-  checkColor(".figure-value", "color", theme, s.text);
-  checkColor(".figure-label", "color", theme, s.muted);
+  checkColor(".facts-grid", "background", theme, s.divider);
+  checkColor(".facts-grid", "border-top", theme, s.divider);
+  checkColor(".facts-grid", "border-bottom", theme, s.divider);
+  checkColor(".facts-cell", "background", theme, s.panel);
+  checkColor(".facts-value", "color", theme, s.text);
+  checkColor(".facts-label", "color", theme, s.muted);
+}
+
+console.log("spec table");
+for (const theme of ["dark", "light"]) {
+  const s = SPEC[theme];
+  checkColor(".spec-table", "border-top", theme, s.divider);
+  checkColor(".spec-table th", "border-bottom", theme, s.divider);
+  checkColor(".spec-table td", "border-bottom", theme, s.divider);
+  checkColor(".spec-table tr", "border-bottom", theme, s.divider);
+  checkColor(".spec-table th", "color", theme, s.muted);
+  checkColor(".spec-table td", "color", theme, s.text);
+}
+
+function selectedCue(selector) {
+  const decls = declsFor(rules, selector);
+  const weight = Number.parseInt(decls["font-weight"] ?? "", 10);
+  const decoration = decls["text-decoration"] ?? "";
+  const underlined = /\bunderline\b/.test(decoration);
+  return (Number.isFinite(weight) && weight >= 500) || underlined;
+}
+
+console.log("order-code columns");
+for (const theme of ["dark", "light"]) {
+  const s = SPEC[theme];
+  checkColor(".compare-table thead th", "border-top", theme, s.divider);
+  checkColor(".compare-table thead th", "border-bottom", theme, s.divider);
+  checkColor(".compare-table th", "border-bottom", theme, s.divider);
+  checkColor(".compare-table td", "border-bottom", theme, s.divider);
+  checkColor('.compare-table thead th:has([aria-pressed="true"])', "border-top-color", theme, s.accent);
+  checkColor('.compare-table th[scope="row"]', "color", theme, s.muted);
+  checkColor(".compare-table td", "color", theme, s.text);
+  checkColor(".compare-pick", "color", theme, s.muted);
+  checkColor(".compare-pick:hover", "color", theme, s.text);
+  checkColor('.compare-pick[aria-pressed="true"]', "color", theme, s.text);
+  checkColor(".compare-note", "color", theme, s.muted);
+}
+check(
+  '.compare-pick[aria-pressed="true"] non-color cue',
+  selectedCue('.compare-pick[aria-pressed="true"]') ? "present" : "missing",
+  "present",
+);
+
+console.log("viewer tabs");
+for (const tab of [".viewer-tab"]) {
+  for (const theme of ["dark", "light"]) {
+    const s = SPEC[theme];
+    checkColor(tab, "color", theme, s.muted);
+    checkColor(`${tab}:hover`, "color", theme, s.text);
+    checkColor(`${tab}[aria-selected="true"]`, "color", theme, s.text);
+    checkColor(`${tab}[aria-selected="true"]`, "background", theme, s.raised);
+    checkColor(`${tab}[aria-selected="true"]`, "border-color", theme, s.control);
+  }
+  check(
+    `${tab}[aria-selected="true"] non-color cue`,
+    selectedCue(`${tab}[aria-selected="true"]`) ? "present" : "missing",
+    "present",
+  );
+  const disabledOpacity = declsFor(rules, `${tab}:disabled`).opacity;
+  const faded = disabledOpacity !== undefined && Number.parseFloat(disabledOpacity) < 1;
+  check(`${tab}:disabled opacity cue`, faded ? "present" : "missing", "present");
 }
 
 console.log("viewer canvas / empty");
@@ -188,7 +251,7 @@ const ALIASES = [
   "--color-muted",
   "--color-highlight",
 ];
-const PRODUCT_SELECTORS = [".figure", ".viewer-"];
+const PRODUCT_SELECTORS = [".facts-", ".spec-table", ".compare-", ".viewer-"];
 
 console.log("no compatibility aliases on product selectors");
 {
@@ -212,19 +275,28 @@ const wordmark = readFileSync(join(root, "public/wordmark.svg"), "utf8");
 
 console.log("product journey markup");
 check(
-  "listing is the module row",
-  listing.includes("DNL-N6") && listing.includes("STM32N657 module. Not for sale yet.") && !listing.includes("DevKit") ? "yes" : "no",
+  "listing is blog-style rows",
+  listing.includes("ModuleRow") &&
+    listing.includes('kind === "som"') &&
+    product.includes("Industrial-control and on-site edge-AI module.") &&
+    !product.includes("Eval carrier for the DNL-N6.")
+    ? "yes"
+    : "no",
   "yes",
 );
 check("listing has no ProductCard", listing.includes("ProductCard") ? "yes" : "no", "no");
 check(
-  "order codes are radios",
-  detail.includes('type="radio"') && detail.includes("DNL-N6-P2x64-F128") && detail.includes("DNL-N6-P1x64-F128") ? "yes" : "no",
+  "order-code column exposes aria-pressed",
+  /compare-pick[\s\S]*aria-pressed/.test(detail) ? "yes" : "no",
   "yes",
 );
-check("detail has no SKU tabs or FMC", detail.includes("sku-tab") || detail.includes("FMC") ? "yes" : "no", "no");
-check("viewer has no second model", viewer.includes("viewer-tab") || viewer.includes("DevKit") ? "yes" : "no", "no");
-check("viewer empty copy", viewer.includes("CAD in progress.") ? "yes" : "no", "yes");
+check(
+  "order-code column is a button",
+  detail.includes('class="compare-pick"') && detail.includes('type="button"') ? "yes" : "no",
+  "yes",
+);
+check("viewer tabs expose aria-selected", /viewer-tab[\s\S]*aria-selected/.test(viewer) ? "yes" : "no", "yes");
+check("viewer empty copy", viewer.includes("CAD not exported yet") ? "yes" : "no", "yes");
 check("viewer camera-controls", viewer.includes("camera-controls") ? "yes" : "no", "yes");
 check("viewer canvas class", viewer.includes('class="viewer-canvas"') ? "yes" : "no", "yes");
 check("viewer raised chrome", viewer.includes("panel-raised") ? "yes" : "no", "yes");

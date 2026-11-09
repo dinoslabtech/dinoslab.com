@@ -60,36 +60,52 @@ A Visual Identity candidate that has not been chosen yet.
 The written part of the Brand: Voice, Tagline, and naming. Voice and Tagline are set; naming follows this glossary.
 _Avoid_: copy, tone as a separate system
 
-**Tagline**:
-The line under the Wordmark: “Electronic products.”
-_Avoid_: a second subtitle, slogan
-
 **Voice**:
-The way Dino's Lab writes: third person about the boards, “you” for the engineer designing a Carrier, in plain hardware English.
+The way Dino's Lab writes: third person about the modules, “you” for the engineer designing a carrier or evaluating a module, in plain hardware English.
 _Avoid_: company we, mission copy, metaphor, hedging
 
-## Catalog
+## Products
 
-**Product**:
-A module Dino's Lab offers on the public site. The DNL-N6 is the only Product.
-_Avoid_: DevKit, kit, eval board
+**Acme Systems**:
+The manufacturer and seller of the DNL-N6. Dino's Lab designs it.
+_Avoid_: the shop the customer pays, when you mean Dino's Lab
 
-**SoM**:
-A solder-down module the engineer places on a Carrier. The DNL-N6 is a SoM.
-_Avoid_: SOM, computer-on-module, single-board computer
+**Module**:
+An electronics assembly Dino's Lab designs. The customer designs the carrier it attaches to.
+_Avoid_: electronic product, DevKit, solder-down until the interconnect is picked
 
-**Carrier**:
-The board an engineer designs and solders a Product onto.
-_Avoid_: DevKit, baseboard, motherboard
+**Tagline**:
+“Electronic Products, built by Acme Systems.”
+_Avoid_: solder-down until the interconnect is picked, a Module name in the Tagline
 
-**Order code**:
-The name of one stuffing of a Product. The public page uses this name for the two DNL-N6 stuffings.
-_Avoid_: SKU, stock code
+**Electronic Products**:
+The category named by the Tagline. It is not a Module.
+_Avoid_: using it as the name of the DNL-N6
+
+**Brand presentation**:
+The first block on the homepage: the Logo, then the Tagline as two lines, “Electronic Products.” and “Built by Acme Systems.” It does not name a Module.
+_Avoid_: mission copy, a product hero
 
 **Interest**:
-A request to hear when a Product can be ordered. It is not an order.
-_Avoid_: waitlist, lead, quote, preorder
+A request to hear when a Module can be ordered from Acme Systems. It is not an order.
+_Avoid_: checkout, add to cart, a quote
 
-**Open**:
-A hardware choice the DNL-N6 spec has not accepted. The public page names it as open and leaves the lab candidates off.
-_Avoid_: TBD, coming soon, roadmap
+**Products**:
+The list of Modules under the Brand presentation. The nav label is Products.
+_Avoid_: catalog, shop
+
+**DNL-N6**:
+The first Module. The STM32N657X0 system-on-module specified in the DNL-N6 repository: industrial control and on-site edge AI, coming soon. The interconnect family and the outline are still open.
+_Avoid_: DNL-N6 DevKit, DNL-N6-32/64, DNL-N6-32/64-R, electronic product, a published outline
+
+**Order code**:
+The stuffing recipe Acme catalogs: `DNL-N6-P{k}x{m}-F{n}`. The stock codes are `DNL-N6-P2x64-F128` and `DNL-N6-P1x64-F128`.
+_Avoid_: DNL-N6-32/64, -R, Mbit in the code
+
+**Default SKU**:
+`DNL-N6-P2x64-F128`: two 64 MB PSRAM dice and one 128 MB octal NOR.
+_Avoid_: bare DNL-N6 as a second recipe
+
+**DNL-N6 DevKit**:
+Dino's Lab's evaluation carrier for the DNL-N6.
+_Avoid_: product page, a carrier the customer designs

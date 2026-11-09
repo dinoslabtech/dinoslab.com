@@ -6,15 +6,11 @@ import { getCollection } from "astro:content";
 const products = (await getCollection("products")).filter((product) => product.data.kind === "som");
 ---
 
-<Layout title="Products" description="STM32N657 module. Not for sale yet.">
+<Layout title="Products" description="DNL-N6, an STM32N657X0 module.">
   <div class="shell section">
     <h1 class="title">Products</h1>
-    <a
-      href="/products/dnl-n6"
-      class="group mt-8 flex flex-col items-start gap-1 border-b border-divider pb-6 sm:flex-row sm:items-baseline sm:gap-6"
-    >
-      <h2 class="title shrink-0 group-hover:text-accent-text group-focus-visible:text-accent-text">DNL-N6</h2>
-      <p class="min-w-0 sm:flex-1">STM32N657 module. Not for sale yet.</p>
-    </a>
+    <div class="mt-8 grid gap-6">
+      {products.map((product) => <ModuleRow product={product} />)}
+    </div>
   </div>
 </Layout>

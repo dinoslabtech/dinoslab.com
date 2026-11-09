@@ -8,40 +8,42 @@ const products = (await getCollection("products")).filter(
 );
 ---
 
-<Layout>
+<Layout description={site.description}>
   <section class="border-b border-divider">
-    <div class="shell home-pad">
-      <div class="home-hero">
-        <div class="home-hero-copy">
-          <h1 class="home-wordmark-wrap">
-            <span class="sr-only">{site.name}</span>
-            <img src="/wordmark.svg" alt="" class="home-wordmark" />
-          </h1>
-          <p class="text-muted">{site.tagline}</p>
-        </div>
-        <img
-          src="/mark.svg"
-          alt="Dino’s Lab mark: a sauropod with PCB traces along its back"
-          class="hero-mark"
-          width="120"
-          height="120"
-        />
+    <div class="shell section-hero">
+      <div class="grid items-center gap-12 lg:grid-cols-[minmax(0,32rem)_auto] lg:gap-16">
+        <h1 class="min-w-0">
+          <img src="/logo.svg" alt={site.name} class="hero-logo" />
+        </h1>
+        <p class="display">
+          <span class="block whitespace-nowrap">Electronic Products.</span>
+          <span class="block whitespace-nowrap">
+            Built by <a class="text-accent-text underline underline-offset-2" href={site.acme.url}>{site.acme.name}</a>.
+          </span>
+        </p>
       </div>
     </div>
   </section>
 
-  <section class="border-b border-divider">
-    <div class="shell home-pad">
-      <a href="/products/dnl-n6" class="group grid gap-2">
-        <h2 class="title group-hover:text-accent-text group-focus-visible:text-accent-text">DNL-N6</h2>
-        <p class="text-muted">Not for sale yet.</p>
-      </a>
-    </div>
-  </section>
-
-  <section>
-    <div class="shell home-pad">
-      <a class="text-accent-text underline underline-offset-[0.18em]" href="/contact">{site.email}</a>
-    </div>
-  </section>
+  {
+    products.length > 0 && (
+      <section>
+        <div class="shell pb-16 pt-10 sm:pb-20 sm:pt-12">
+          <h2 class="title">{productStatusLabel.coming_soon}</h2>
+          <div class:list={["mt-8 grid gap-6", products.length > 1 ? "sm:grid-cols-2" : "max-w-xl"]}>
+            {products.map((product) => {
+              const device = product.data.chip.split(" · ")[0].replace(/H3Q$/, "");
+              return (
+                <a href={`/products/${product.id}`} class="panel group block h-full p-6 sm:p-8">
+                  <h3 class="text-2xl font-medium tracking-tight group-hover:text-accent-text">{product.data.title}</h3>
+                  <p class="mt-2 text-muted">{product.data.summary}</p>
+                  <p class="mt-4 font-mono text-sm text-muted">{device}</p>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    )
+  }
 </Layout>

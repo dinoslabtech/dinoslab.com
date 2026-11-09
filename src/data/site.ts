@@ -3,10 +3,8 @@ export const site = {
   legalName: "Dino's Lab",
   url: "https://dinoslab.com",
   description:
-    "Electronic products from Dino's Lab. The first module is the DNL-N6, an STM32N657 SoM.",
-  /** Visible on Home only. The document title omits the period. */
-  tagline: "Electronic products.",
-  homeTitle: "Dino's Lab · Electronic products",
+    "Electronic Products, built by Acme Systems. First module: DNL-N6, an STM32N657X0 module.",
+  tagline: "Electronic Products, built by Acme Systems.",
   email: "info@dinoslab.com",
   telegram: "https://t.me/dinoslab",
   telegramHandle: "@dinoslab",
@@ -24,3 +22,17 @@ export const nav = [
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "About" },
 ] as const;
+
+/**
+ * Order code: DNL-N6-P{k}x{m}-F{n}
+ * - k: PSRAM die count
+ * - m: megabytes per PSRAM die
+ * - n: megabytes of the one NOR die
+ * Stock: DNL-N6-P2x64-F128 (default), DNL-N6-P1x64-F128
+ */
+
+export const productStatusLabel = {
+  coming_soon: "Coming soon",
+  available: "Available",
+  discontinued: "Discontinued",
+} as const;
